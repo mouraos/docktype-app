@@ -1,258 +1,856 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full bg-slate-950">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de Prescrições Pediátricas - RFOFOS 2026</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f1f5f9; color: #0f172a; padding: 20px; }
-    .card { max-width: 850px; margin: 0 auto; background: #ffffff; border-radius: 10px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; margin-bottom: 20px; }
-    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-    label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; color: #475569; }
-    input, select, textarea { width: 100%; padding: 10px; border: 1fr solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; background-color: #fff; }
-    input:focus, select:focus, textarea:focus { outline: 2px solid #2563eb; border-color: transparent; }
-    textarea { height: 380px; font-family: "Courier New", Courier, monospace; line-height: 1.5; resize: vertical; margin-top: 10px; }
-    .btn-container { display: flex; justify-content: flex-end; margin-top: 12px; }
-    button { background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    button:hover { background-color: #1d4ed8; }
-    .toast { display: none; position: fixed; bottom: 20px; right: 20px; background: #10b981; color: white; padding: 12px 20px; border-radius: 6px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctype - Tech-Medical Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-code { font-family: 'JetBrains Mono', monospace; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-full flex flex-col antialiased">
 
-  <div class="card">
-    <h1>Guia de Prescrições Pediátricas (RFOFOS 2026)</h1>
-    
-    <div class="form-grid">
-      <div>
-        <label for="weight">Peso do Paciente (kg):</label>
-        <input type="number" id="weight" value="10" min="1" step="0.1" oninput="generatePrescription()">
-      </div>
-      <div>
-        <label for="trigger">Gatilho / Patologia:</label>
-        <select id="trigger" onchange="generatePrescription()">
-          <option value="/ASMA">/ASMA - Crise de Asma / Broncoespasmo</option>
-          <option value="/CRUPE">/CRUPE - Crupe / Estridor</option>
-          <option value="/BVA">/BVA - Bronquiolite Viral Aguda</option>
-          <option value="/FEBRE_DOR">/FEBRE_DOR - Analgésicos e Antitérmicos</option>
-          <option value="/GEA">/GEA - Gastroenterite Aguda</option>
-          <option value="/ANEMIA">/ANEMIA - Suplementação e Reposição de Ferro</option>
-          <option value="/VERMIOSE">/VERMIOSE - Antiparasitários</option>
-          <option value="/ESCABIOSE">/ESCABIOSE - Escabiose / Pediculose</option>
-          <option value="/INFLUENZA">/INFLUENZA - Oseltamivir</option>
-          <option value="/CONSTIPACAO">/CONSTIPACAO - Constipação Intestinal</option>
-          <option value="/CONVULSAO_EMERGENCIA">/CONVULSAO_EMERGENCIA - Anticonvulsivantes EV/IN</option>
-          <option value="/ANAFILAXIA">/ANAFILAXIA - Manejo de Anafilaxia</option>
-          <option value="/SIALORREIA">/SIALORREIA - Manejo de Sialorréia</option>
-        </select>
-      </div>
+    <!-- SCREEN 1: LOGIN MINIMALISTA -->
+    <div id="screen-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-5">
+            <div class="text-center space-y-1.5">
+                <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center mx-auto text-cyan-400">
+                    <i class="fa-solid fa-wave-square text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight text-white">Doctype<span class="text-cyan-400">.ai</span></h2>
+                <p class="text-xs text-slate-400">Workspace Clínico & Automação Pediátrica</p>
+            </div>
+
+            <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl text-xs space-y-1 text-slate-300">
+                <p class="font-semibold text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal"></i> Acesso Teste:</p>
+                <p class="text-slate-400">Login: <span class="text-white font-mono">Admin</span> | Senha: <span class="text-white font-mono">Admin</span></p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">E-mail ou Usuário</label>
+                    <input type="text" id="login-email" required placeholder="Admin" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Senha</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Perfil Médico</label>
+                    <select id="login-role" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
+                        <option value="Interno de Medicina">Interno de Medicina</option>
+                        <option value="Residente Médico">Residente Médico</option>
+                        <option value="Médico Generalista">Médico Generalista</option>
+                        <option value="Pediatra">Pediatra</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg shadow-lg shadow-cyan-500/10 transition text-sm mt-2">
+                    Acessar Plataforma
+                </button>
+            </form>
+        </div>
     </div>
 
-    <label for="output">Prescrição Gerada:</label>
-    <textarea id="output" readonly></textarea>
+    <!-- SCREEN 2: WORKSPACE PRINCIPAL -->
+    <div id="screen-app" class="hidden flex-1 flex flex-col">
 
-    <div class="btn-container">
-      <button onclick="copyToClipboard()">Copiar Prescrição</button>
+        <!-- Top Header Responsive -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-20">
+            <div class="max-w-7xl mx-auto px-3 py-2.5 flex flex-wrap justify-between items-center gap-2">
+                <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-wave-square text-xs"></i>
+                    </div>
+                    <span class="font-bold text-base tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
+                </div>
+
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <div id="trial-badge" class="bg-slate-950 border border-slate-800 text-slate-300 text-[10px] sm:text-xs px-2 py-1 rounded-lg flex items-center gap-1 whitespace-nowrap">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span id="trial-days-text">30d restantes</span>
+                    </div>
+
+                    <button onclick="openUpgradeModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-lg transition flex items-center gap-1 whitespace-nowrap">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Pro (R$ 9,99/mês)
+                    </button>
+
+                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-1.5 py-1">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="bg-slate-950 border-b border-slate-800 sticky top-[53px] z-10">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-4 text-xs font-semibold overflow-x-auto">
+                <button onclick="switchTab('tab-notes')" class="tab-btn py-2.5 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2 whitespace-nowrap" id="btn-notes">
+                    <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas & Gatilhos
+                </button>
+                <button onclick="switchTab('tab-prescriptions')" class="tab-btn py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-prescriptions">
+                    <i class="fa-solid fa-bolt text-amber-400"></i> Gerador & Calculadora Pediátrica
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Workspace -->
+        <main class="max-w-7xl mx-auto px-4 py-4 flex-1 w-full space-y-4">
+
+            <!-- TAB 1: BLOCO DE NOTAS & GATILHOS -->
+            <section id="tab-notes" class="space-y-4">
+                <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <i class="fa-solid fa-terminal text-cyan-400"></i>
+                        <span class="font-semibold text-slate-200">Gatilhos Rápidos:</span>
+                        <span class="text-[11px] hidden sm:inline">Digite o comando + Espaço</span>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="insertTrigger('/ef')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/EF <span class="text-slate-500 font-sans text-[9px]">(Exame Físico)</span></button>
+                        <button onclick="insertTrigger('/an')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/AN <span class="text-slate-500 font-sans text-[9px]">(Anamnese)</span></button>
+                        <button onclick="insertTrigger('/hd')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/HD <span class="text-slate-500 font-sans text-[9px]">(Hipótese)</span></button>
+                        <button onclick="insertTrigger('/sua')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/SUA <span class="text-slate-500 font-sans text-[9px]">(Ginecologia)</span></button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Sidebar List -->
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anotações</span>
+                            <button onclick="createNewNote()" class="text-xs bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 px-2 py-1 rounded border border-cyan-500/30 font-semibold">
+                                + Nova
+                            </button>
+                        </div>
+                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar..." class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500">
+                        <div id="notes-list" class="space-y-1.5 max-h-[300px] md:max-h-[450px] overflow-y-auto"></div>
+                    </div>
+
+                    <!-- Editor Workspace -->
+                    <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título da Nota..." class="bg-transparent text-base font-bold text-white outline-none w-full">
+                            <span id="save-status" class="text-[10px] text-slate-500 font-mono ml-2">Salvo</span>
+                        </div>
+                        
+                        <textarea id="note-content" oninput="handleTyping(this)" rows="14" placeholder="Comece a escrever ou digite um gatilho como /EF, /SUA, /ASMA seguido de espaço..." class="bg-transparent text-xs text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
+                        
+                        <div class="flex justify-between items-center border-t border-slate-800 pt-3 text-xs">
+                            <button onclick="copyCurrentNote()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-copy text-cyan-400"></i> Copiar Nota
+                            </button>
+                            <button onclick="deleteCurrentNote()" class="text-red-400 hover:text-red-300 text-xs">
+                                <i class="fa-solid fa-trash"></i> Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: GERADOR & CALCULADORA DE PRESCRIÇÕES (RFOFOS 2026 + SUA) -->
+            <section id="tab-prescriptions" class="hidden space-y-4">
+                <!-- Gerador Integrado Dinâmico -->
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div>
+                            <h2 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-calculator text-cyan-400"></i> Calculadora & Gerador de Prescrições (RFOFOS 2026)
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5">Selecione o gatilho, insira o peso e obtenha o cálculo exato de doses pediátricas e adultas.</p>
+                        </div>
+                        <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-mono px-2.5 py-1 rounded-lg">Base RFOFOS 2026</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Peso do Paciente (kg):</label>
+                            <input type="number" id="calc-weight" value="10" min="0.5" step="0.1" oninput="calculatePrescription()" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Gatilho / Patologia:</label>
+                            <select id="calc-trigger" onchange="calculatePrescription()" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
+                                <optgroup label="Ginecologia e Adulto">
+                                    <option value="/SUA">/SUA - Sangramento Uterino Anormal</option>
+                                </optgroup>
+                                <optgroup label="Pediatria - Emergência e Respiratório (RFOFOS 2026)">
+                                    <option value="/ASMA">/ASMA - Crise de Asma / Broncoespasmo</option>
+                                    <option value="/CRUPE">/CRUPE - Crupe / Estridor Infantil</option>
+                                    <option value="/BVA">/BVA - Bronquiolite Viral Aguda</option>
+                                    <option value="/ANAFILAXIA">/ANAFILAXIA - Anafilaxia Aguda</option>
+                                    <option value="/CONVULSAO_EMERGENCIA">/CONVULSAO_EMERGENCIA - Crise Convulsiva Aguda</option>
+                                    <option value="/HAS_EMERGENCIA">/HAS_EMERGENCIA - Emergência Hipertensiva</option>
+                                </optgroup>
+                                <optgroup label="Pediatria - Ambulatório e Sintomáticos (RFOFOS 2026)">
+                                    <option value="/FEBRE_DOR">/FEBRE_DOR - Analgésicos e Antitérmicos</option>
+                                    <option value="/GEA">/GEA - Gastroenterite Aguda / Rehidratação</option>
+                                    <option value="/ANEMIA">/ANEMIA - Suplementação e Reposição de Ferro</option>
+                                    <option value="/VERMIOSE">/VERMIOSE - Antiparasitários</option>
+                                    <option value="/ESCABIOSE">/ESCABIOSE - Escabiose / Pediculose</option>
+                                    <option value="/INFLUENZA">/INFLUENZA - Síndrome Gripal / Oseltamivir</option>
+                                    <option value="/CONSTIPACAO">/CONSTIPACAO - Constipação Intestinal</option>
+                                    <option value="/SIALORREIA">/SIALORREIA - Controle de Sialorréia</option>
+                                    <option value="/APENDICITE_PO">/APENDICITE_PO - Pós-Operatório Apendicite</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Prescrição Gerada:</label>
+                        <textarea id="calc-output" readonly rows="10" class="w-full p-3.5 bg-slate-950 border border-slate-800 rounded-lg text-xs font-code text-cyan-300 leading-relaxed outline-none"></textarea>
+                    </div>
+
+                    <div class="flex flex-wrap justify-end gap-2">
+                        <button onclick="copyGeneratedPrescription()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-semibold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-copy text-cyan-400"></i> Copiar Prescrição
+                        </button>
+                        <button onclick="sendPrescriptionToNote()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-import"></i> Enviar para o Bloco de Notas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Banco Geral de Prescrições (GitHub) -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-sm font-bold text-white">Banco Adicional de Prescrições</h2>
+                            <span id="prescriptions-count" class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-mono px-2 py-0.5 rounded">Carregando...</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-0.5">Sincronizado automaticamente com prescricoes.txt</p>
+                    </div>
+                    <input type="text" id="search-prescriptions" onkeyup="renderLimit=30; renderPrescriptions();" placeholder="Pesquisar patologia ou medicação..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-full sm:w-72">
+                </div>
+
+                <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </section>
+        </main>
     </div>
-  </div>
 
-  <div id="toast" class="toast">Prescrição copiada com sucesso!</div>
+    <!-- MODAL 1: AVISO POPUP DE TEMPO RESTANTE DO TESTE -->
+    <div id="modal-trial-notice" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 text-center">
+            <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center mx-auto text-cyan-400 text-xl">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+                <h3 class="text-base font-bold text-white">Período de Teste Grátis Ativo</h3>
+                <p class="text-xs text-slate-400 mt-1">Acesso liberado a todas as ferramentas, calculadoras e prescrições Pro durante os 30 dias de teste.</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-center">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">Tempo Restante de Teste:</span>
+                <span id="modal-trial-time" class="text-xs font-bold text-cyan-400 font-mono">30 dias, 0 horas e 0 minutos</span>
+            </div>
+            <button onclick="closeTrialModal()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition">
+                Acessar Workspace
+            </button>
+        </div>
+    </div>
 
-  <script>
-    function generatePrescription() {
-      const weight = parseFloat(document.getElementById('weight').value) || 0;
-      const trigger = document.getElementById('trigger').value;
-      const output = document.getElementById('output');
+    <!-- MODAL 2: ASSINATURA PRO (R$ 9,99/mês) -->
+    <div id="modal-pro" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-crown text-amber-400 text-xl"></i>
+                    <h3 class="text-lg font-bold text-white">Doctype<span class="text-cyan-400"> Pro</span></h3>
+                </div>
+                <button onclick="closeUpgradeModal()" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
 
-      if (weight <= 0) {
-        output.value = "Por favor, insira um peso válido maior que 0 kg.";
-        return;
-      }
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Acesso ilimitado ao banco corporativo de prescrições automáticas, calculadora dinâmica com protocolos RFOFOS 2026 e sincronização contínua.
+            </p>
 
-      let text = "";
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center">
+                <span class="text-3xl font-extrabold text-white">R$ 9,99</span>
+                <span class="text-xs text-slate-400">/ mês</span>
+                <p class="text-[10px] text-cyan-400 mt-1">Cancele quando quiser. Sem fidelidade.</p>
+            </div>
 
-      switch (trigger) {
-        case "/ASMA":
-          const salbutamolJatos = Math.max(2, Math.min(10, Math.round(weight / 3)));
-          const atroventGotas = weight < 10 ? 10 : (weight <= 20 ? 20 : 40);
-          const prednisolonaML = (weight / 3).toFixed(1);
-          text = `USO INALATÓRIO E VIA ORAL\n\n` +
-                 `1. SALBUTAMOL SPRAY 100 MCG/JATO ---------------- 1 FRASCO\n` +
-                 `   * Administrar ${salbutamolJatos} jatos via espaçador a cada 20 minutos na 1ª hora.\n\n` +
-                 `2. BROMETO DE IPRATRÓPIO (ATROVENT) 0,25 MG/ML ----- 1 FRASCO\n` +
-                 `   * Nebulizar ${atroventGotas} gotas diluídas em 2 mL de SF 0,9% a cada 20 minutos na 1ª hora.\n\n` +
-                 `3. PREDNISOLONA SOLUÇÃO ORAL 3 MG/ML ------------- 1 FRASCO\n` +
-                 `   * Tomar ${prednisolonaML} mL (1 mg/kg/dia), VO, 1x ao dia pela manhã, por 5 dias.`;
-          break;
+            <button onclick="simulateProPayment()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-lg text-sm shadow-lg shadow-cyan-500/10">
+                Ativar Assinatura Pro
+            </button>
+        </div>
+    </div>
 
-        case "/CRUPE":
-          const dexaMinMG = (weight * 0.15).toFixed(1);
-          const dexaMaxMG = Math.min(16, (weight * 0.6)).toFixed(1);
-          const adrenalinaML = Math.min(5, (weight / 2)).toFixed(1);
-          text = `USO ORAL, ENDOVENOSO E INALATÓRIO\n\n` +
-                 `1. DEXAMETASONA SOLUÇÃO ORAL 0,1 MG/ML OU INJETÁVEL 4 MG/ML\n` +
-                 `   * Administrar ${dexaMinMG} mg a ${dexaMaxMG} mg (0,15 a 0,6 mg/kg - máx 16mg), VO, EV ou IM, em dose única.\n\n` +
-                 `2. ADRENALINA 1 MG/ML (1:1000)\n` +
-                 `   * Nebulizar ${adrenalinaML} mL (0,5 mL/kg - máximo de 5 mL) pura ou diluída em igual volume de SF 0,9%, em dose única.`;
-          break;
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notif" class="fixed bottom-5 right-5 bg-emerald-500 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-lg shadow-xl hidden z-50 flex items-center gap-2">
+        <i class="fa-solid fa-check-circle"></i> <span id="toast-msg">Ação realizada com sucesso!</span>
+    </div>
 
-        case "/BVA":
-          text = `USO NASAL E INALATÓRIO\n\n` +
-                 `1. SOLUÇÃO SALINA 0,9%\n` +
-                 `   * Realizar lavagem nasal abundante com seringa antes das mamadas e do sono.\n\n` +
-                 `2. SOLUÇÃO SALINA HIPERTÔNICA 3%\n` +
-                 `   * Nebulizar 4 mL (preparo: 1,5 mL de NaCl 20% + 8,5 mL de Água Destilada) de 6/6h ou 8/8h.`;
-          break;
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        let currentUser = null;
+        let notes = [];
+        let activeNoteId = null;
+        let prescriptionsData = [];
+        let renderLimit = 30;
 
-        case "/FEBRE_DOR":
-          const dipironaMinGts = Math.min(40, Math.round(weight * 0.8));
-          const dipironaMaxGts = Math.min(40, Math.round(weight * 1.0));
-          const paracetamolGts = Math.min(40, Math.round(weight * 1.0));
-          const ibuprofenoGts = Math.min(40, Math.round(weight * 2.0));
-          text = `USO ORAL\n\n` +
-                 `1. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n` +
-                 `   * Tomar ${dipironaMinGts} a ${dipironaMaxGts} gotas (15 a 25 mg/kg/dose), VO, de 6/6h se dor ou febre (máx 40 gotas).\n\n` +
-                 `2. PARACETAMOL GOTAS 200 MG/ML --------------------- 1 FRASCO\n` +
-                 `   * Tomar ${paracetamolGts} gotas (10 a 15 mg/kg/dose), VO, de 6/6h se dor ou febre (máx 40 gotas).\n\n` +
-                 `3. IBUPROFENO GOTAS 50 MG/ML ----------------------- 1 FRASCO\n` +
-                 `   * Tomar ${ibuprofenoGts} gotas (5 a 10 mg/kg/dose), VO, de 6/6h ou 8/8h se dor ou febre (máx 40 gotas).`;
-          break;
+        const baseTriggers = {
+            '/ef': "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas.",
+            '/an': "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos em uso: \n- Alergias: ",
+            '/hd': "HIPÓTESE DIAGNÓSTICA:\n1. \n\nCONDUTA:\n1. ",
+            '/pres': "PRESCRIÇÃO DE PLANTÃO:\n1. Dieta livre.\n2. Soro Fisiológico 0.9% 500ml IV de 8/8h.\n3. Dipirona 1g IV de 6/6h se dor ou febre.\n4. Ondansetrona 8mg IV de 8/8h se náuseas.\n5. Monitorização contínua de Sinais Vitais."
+        };
 
-        case "/GEA":
-          let ondansetronaText = "";
-          if (weight < 15) {
-            const ondMG = (weight * 0.2).toFixed(1);
-            const ondML = (weight * 0.2 / 0.8).toFixed(1);
-            ondansetronaText = `Tomar ${ondML} mL (${ondMG} mg), VO, de 8/8h se vômitos.`;
-          } else if (weight <= 30) {
-            ondansetronaText = `Tomar 5 mL (4 mg), VO, de 8/8h se vômitos.`;
-          } else {
-            ondansetronaText = `Tomar 10 mL (8 mg), VO, de 8/8h se vômitos.`;
-          }
-          const sroVol = weight < 10 ? "50 a 100 mL" : "100 a 200 mL";
-          const racecadotrilaMG = (weight * 1.5).toFixed(1);
-          text = `USO ORAL\n\n` +
-                 `1. ONDANSETRONA SOLUÇÃO ORAL 0,8 MG/ML ------------- 1 FRASCO\n` +
-                 `   * ${ondansetronaText}\n\n` +
-                 `2. SORO DE REIDRATAÇÃO ORAL (SRO) ------------------ 5 ENVELOPES\n` +
-                 `   * Diluir 1 envelope em 1 litro de água filtrada. Oferecer ${sroVol}, VO, após cada evacuação diarreica ou vômito.\n\n` +
-                 `3. ZINCO SOLUÇÃO 4 MG/ML --------------------------- 1 FRASCO\n` +
-                 `   * Tomar 2,5 mL (se < 6 meses) OU 5 mL (se > 6 meses), VO, 1x ao dia por 10 a 14 dias.\n\n` +
-                 `4. RACECADOTRILA (TIORFAN) SACHÊ\n` +
-                 `   * Tomar ${racecadotrilaMG} mg por dose (1,5 mg/kg), VO, de 8/8h até cessar a diarreia.`;
-          break;
+        // MOTOR DE CÁLCULO DE PRESCRIÇÕES (RFOFOS 2026 + SUA)
+        function getCalculatedPrescription(trigger, weight) {
+            let text = "";
+            const w = parseFloat(weight) || 0;
 
-        case "/ANEMIA":
-          const feTratMin = Math.round(weight * 3 / 1.25);
-          const feTratMax = Math.round(weight * 6 / 1.25);
-          const feProfRNT = Math.round(weight * 1 / 1.25);
-          const feProfRNPT = Math.round(weight * 2 / 1.25);
-          text = `USO ORAL\n\n` +
-                 `1. SULFATO FERROSO GOTAS (25 MG FE ELEMENTAR/ML = 1,25 MG/GOTA)\n` +
-                 `   * TRATAMENTO: Tomar ${feTratMin} a ${feTratMax} gotas/dia (3 a 6 mg/kg/dia), VO, 1x ao dia antes das refeições por 6 meses.\n` +
-                 `   * PROFILAXIA (RNT sem fator de risco): Tomar ${feProfRNT} gotas/dia (1 mg/kg/dia), VO, do 180º dia ao 24º mês.\n` +
-                 `   * PROFILAXIA (Prematuro / < 2500g): Tomar ${feProfRNPT} gotas/dia (2 mg/kg/dia), VO, do 30º dia de vida até 1 ano.`;
-          break;
+            switch (trigger) {
+                case "/SUA":
+                    text = `USO ORAL\n\n` +
+                           `1. NAPROXENO 550MG ---------------------------- 1 CAIXA\n` +
+                           `   TOMAR 1 COMPRIMIDO DE 12H/12H POR 5 DIAS\n\n` +
+                           `2. ÁCIDO TRANEXÂMICO 250MG ------------------- 2 CAIXAS\n` +
+                           `   TOMAR 2 COMPRIMIDOS DE 12H/12H POR 3 DIAS`;
+                    break;
 
-        case "/VERMIOSE":
-          const annitaML = Math.min(15, (weight * 0.375)).toFixed(1);
-          const secnidazolML = (weight * 1.0).toFixed(1);
-          text = `USO ORAL\n\n` +
-                 `1. ALBENDAZOL SUSPENSÃO 400 MG/10 ML --------------- 1 FRASCO\n` +
-                 `   * Tomar 10 mL (400 mg), VO, 1x ao dia por 3 a 5 dias (para maiores de 2 anos).\n\n` +
-                 `2. NITAZOXANIDA (ANNITA) SUSPENSÃO 20 MG/ML -------- 1 FRASCO\n` +
-                 `   * Tomar ${annitaML} mL (7,5 mg/kg/dose), VO, de 12/12h por 3 dias (máx 15 mL/dose).\n\n` +
-                 `3. SECNIDAZOL SUSPENSÃO 30 MG/ML -------------------- 1 FRASCO\n` +
-                 `   * Tomar ${secnidazolML} mL (30 mg/kg), VO, em dose única.`;
-          break;
+                case "/ASMA":
+                    const salbutamolJatos = Math.max(2, Math.min(10, Math.round(w / 3)));
+                    const atroventGotas = w < 10 ? 10 : (w <= 20 ? 20 : 40);
+                    const prednisolonaML = (w / 3).toFixed(1);
+                    text = `USO INALATÓRIO E VIA ORAL\n\n` +
+                           `1. SALBUTAMOL SPRAY 100 MCG/JATO ---------------- 1 FRASCO\n` +
+                           `   * Administrar ${salbutamolJatos} jatos via espaçador a cada 20 minutos na 1ª hora[span_0](start_span)[span_0](end_span).\n\n` +
+                           `2. BROMETO DE IPRATRÓPIO (ATROVENT) 0,25 MG/ML ----- 1 FRASCO\n` +
+                           `   * Nebulizar ${atroventGotas} gotas diluídas em 2 mL de SF 0,9% a cada 20 minutos na 1ª hora[span_1](start_span)[span_1](end_span).\n\n` +
+                           `3. PREDNISOLONA SOLUÇÃO ORAL 3 MG/ML ------------- 1 FRASCO\n` +
+                           `   * Tomar ${prednisolonaML} mL (1 mg/kg/dia), VO, 1x ao dia pela manhã, por 5 dias[span_2](start_span)[span_2](end_span).`;
+                    break;
 
-        case "/ESCABIOSE":
-          const ivermectinaCp = ((weight * 200) / 6000).toFixed(1);
-          text = `USO TÓPICO E ORAL\n\n` +
-                 `1. PERMETRINA LOÇÃO 5% ----------------------------- 1 FRASCO\n` +
-                 `   * Aplicar em todo o corpo à noite, deixar agir por 8 a 14 horas e lavar pela manhã. Repetir após 7 e 14 dias (contraindicado em < 2 meses).\n\n` +
-                 `2. IVERMECTINA 6 MG COMPRIMIDOS -------------------- 1 CAIXA\n` +
-                 `   * Tomar ${ivermectinaCp} comprimido(s) (200 mcg/kg), VO, em dose única (apenas para > 5 anos e > 15 kg).`;
-          break;
+                case "/CRUPE":
+                    const dexaMin = (w * 0.15).toFixed(1);
+                    const dexaMax = Math.min(16, (w * 0.6)).toFixed(1);
+                    const adrNeb = Math.min(5, (w / 2)).toFixed(1);
+                    text = `USO ORAL, ENDOVENOSO E INALATÓRIO\n\n` +
+                           `1. DEXAMETASONA SOLUÇÃO ORAL 0,1 MG/ML OU INJETÁVEL 4 MG/ML\n` +
+                           `   * Administrar ${dexaMin} mg a ${dexaMax} mg (0,15 a 0,6 mg/kg - máx 16 mg), VO, EV ou IM, em dose única[span_3](start_span)[span_3](end_span).\n\n` +
+                           `2. ADRENALINA 1 MG/ML (1:1000)\n` +
+                           `   * Nebulizar ${adrNeb} mL (0,5 mL/kg - máx 5 mL) pura ou diluída em SF 0,9%, em dose única[span_4](start_span)[span_4](end_span).`;
+                    break;
 
-        case "/INFLUENZA":
-          let oseltamivirDose = "";
-          if (weight <= 15) oseltamivirDose = "30 mg (2 mL)";
-          else if (weight <= 23) oseltamivirDose = "45 mg (3 mL)";
-          else if (weight <= 40) oseltamivirDose = "60 mg (4 mL)";
-          else oseltamivirDose = "75 mg (5 mL)";
-          
-          text = `USO ORAL\n\n` +
-                 `1. OSELTAMIVIR (TAMIFLU) SUSPENSÃO 15 MG/ML -------- 1 FRASCO\n` +
-                 `   * Crianças > 1 ano: Tomar ${oseltamivirDose}, VO, de 12/12h por 5 dias.\n` +
-                 `   * Crianças < 1 ano: Tomar ${(weight * 3).toFixed(1)} mg (${(weight * 0.2).toFixed(1)} mL), VO, de 12/12h por 5 dias.`;
-          break;
+                case "/BVA":
+                    text = `USO NASAL E INALATÓRIO\n\n` +
+                           `1. SOLUÇÃO SALINA 0,9%\n` +
+                           `   * Realizar lavagem nasal abundante com seringa antes das mamadas e do sono[span_5](start_span)[span_5](end_span).\n\n` +
+                           `2. SOLUÇÃO SALINA HIPERTÔNICA 3%\n` +
+                           `   * Nebulizar 4 mL (preparo: 1,5 mL de NaCl 20% + 8,5 mL de Água Destilada) de 6/6h ou 8/8h[span_6](start_span)[span_6](end_span).`;
+                    break;
 
-        case "/CONSTIPACAO":
-          const pegMin = Math.min(17, (weight * 0.4)).toFixed(1);
-          const pegMax = Math.min(17, (weight * 1.0)).toFixed(1);
-          const pegDes = Math.min(100, (weight * 1.25)).toFixed(1);
-          const lactuloseMin = Math.min(60, (weight * 1.0)).toFixed(1);
-          const lactuloseMax = Math.min(60, (weight * 3.0)).toFixed(1);
-          text = `USO ORAL\n\n` +
-                 `1. POLIETILENOGLICOL 4000 (PEGLAX / MUVINLAX) SACHÊ\n` +
-                 `   * MANUTENÇÃO: Tomar ${pegMin} g a ${pegMax} g/dia diluídos em água, VO, 1x ao dia (máx 17 g/dia).\n` +
-                 `   * DESIMPACTAÇÃO: Tomar ${pegDes} g/dia diluídos em água, VO, por 3 a 6 dias (máx 100 g/dia).\n\n` +
-                 `2. LACTULOSE XAROPE 667 MG/ML ---------------------- 1 FRASCO\n` +
-                 `   * Tomar ${lactuloseMin} mL a ${lactuloseMax} mL/dia, VO, pela manhã em dose única (máx 60 mL/dia).`;
-          break;
+                case "/FEBRE_DOR":
+                    const dipMin = Math.min(40, Math.round(w * 0.8));
+                    const dipMax = Math.min(40, Math.round(w * 1.0));
+                    const paraGts = Math.min(40, Math.round(w * 1.0));
+                    const ibuGts = Math.min(40, Math.round(w * 2.0));
+                    text = `USO ORAL\n\n` +
+                           `1. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n` +
+                           `   * Tomar ${dipMin} a ${dipMax} gotas (15 a 25 mg/kg/dose), VO, de 6/6h se dor ou febre (máx 40 gotas)[span_7](start_span)[span_7](end_span).\n\n` +
+                           `2. PARACETAMOL GOTAS 200 MG/ML --------------------- 1 FRASCO\n` +
+                           `   * Tomar ${paraGts} gotas (10 a 15 mg/kg/dose), VO, de 6/6h se dor ou febre (máx 40 gotas)[span_8](start_span)[span_8](end_span).\n\n` +
+                           `3. IBUPROFENO GOTAS 50 MG/ML ----------------------- 1 FRASCO\n` +
+                           `   * Tomar ${ibuGts} gotas (5 a 10 mg/kg/dose), VO, de 6/6h ou 8/8h se dor ou febre (máx 40 gotas)[span_9](start_span)[span_9](end_span).`;
+                    break;
 
-        case "/CONVULSAO_EMERGENCIA":
-          const mdaEV = (weight * 0.2).toFixed(1);
-          const mdaIN = Math.min(1.5, (weight * 0.05)).toFixed(2);
-          text = `USO ENDOVENOSO OU INTRANASAL\n\n` +
-                 `1. MIDAZOLAM 5 MG/ML\n` +
-                 `   * EV: Administrar ${mdaEV} mL da diluição (1 mL + 4 mL AD = 1 mg/mL), EV lento (0,2 mg/kg).\n` +
-                 `   * INTRANASAL: Administrar ${mdaIN} mL da solução PURA (5 mg/mL), dividido em ambas as narinas (0,2 a 0,3 mg/kg, máx 7,5 mg).\n\n` +
-                 `2. FENOBARBITAL INJ 100 MG/ML\n` +
-                 `   * Administrar ${(weight * 2).toFixed(1)} mL da diluição (1 mL + 9 mL AD = 10 mg/mL), EV, em 10 minutos (ataque de 20 mg/kg).\n\n` +
-                 `3. FENITOÍNA (HIDANTAL) INJ 50 MG/ML\n` +
-                 `   * Administrar ${(weight * 2).toFixed(1)} mL da diluição (1 mL + 4 mL SF 0,9% = 10 mg/mL), EV, em 20 a 30 minutos (ataque de 20 mg/kg).`;
-          break;
+                case "/GEA":
+                    let ondText = "";
+                    if (w < 15) {
+                        const ondML = (w * 0.2 / 0.8).toFixed(1);
+                        ondText = `Tomar ${ondML} mL (${(w * 0.2).toFixed(1)} mg), VO, de 8/8h se vômitos[span_10](start_span)[span_10](end_span).`;
+                    } else if (w <= 30) {
+                        ondText = `Tomar 5 mL (4 mg), VO, de 8/8h se vômitos[span_11](start_span)[span_11](end_span).`;
+                    } else {
+                        ondText = `Tomar 10 mL (8 mg), VO, de 8/8h se vômitos[span_12](start_span)[span_12](end_span).`;
+                    }
+                    const sroVol = w < 10 ? "50 a 100 mL" : "100 a 200 mL";
+                    text = `USO ORAL\n\n` +
+                           `1. ONDANSETRONA SOLUÇÃO ORAL 0,8 MG/ML ------------- 1 FRASCO\n` +
+                           `   * ${ondText}\n\n` +
+                           `2. SORO DE REIDRATAÇÃO ORAL (SRO) ------------------ 5 ENVELOPES\n` +
+                           `   * Diluir 1 envelope em 1 L de água filtrada. Oferecer ${sroVol}, VO, após cada evacuação diarreica/vômito[span_13](start_span)[span_13](end_span).\n\n` +
+                           `3. SULFATO DE ZINCO 4 MG/ML ------------------------ 1 FRASCO\n` +
+                           `   * Tomar ${w < 8 ? '2.5' : '5'} mL, VO, 1x ao dia por 10 a 14 dias[span_14](start_span)[span_14](end_span).\n\n` +
+                           `4. RACECADOTRILA (TIORFAN) SACHÊ\n` +
+                           `   * Tomar ${(w * 1.5).toFixed(1)} mg por dose (1,5 mg/kg), VO, de 8/8h até cessar a diarreia[span_15](start_span)[span_15](end_span).`;
+                    break;
 
-        case "/ANAFILAXIA":
-          const adrIM = Math.min(0.5, (weight * 0.01)).toFixed(2);
-          text = `USO INTRAMUSCULAR\n\n` +
-                 `1. ADRENALINA 1 MG/ML (1:1000)\n` +
-                 `   * Aplicar ${adrIM} mL (0,01 mg/kg/dose - máx 0,5 mL), IM, no músculo vasto lateral da coxa. Pode repetir a cada 5–15 min até 3x.`;
-          break;
+                case "/ANEMIA":
+                    const feTratMin = Math.round((w * 3) / 1.25);
+                    const feTratMax = Math.round((w * 6) / 1.25);
+                    const feProfRNT = Math.round((w * 1) / 1.25);
+                    const feProfRNPT = Math.round((w * 2) / 1.25);
+                    text = `USO ORAL\n\n` +
+                           `1. SULFATO FERROSO GOTAS (25 MG FE ELEMENTAR/ML = 1,25 MG/GOTA)\n` +
+                           `   * TRATAMENTO: Tomar ${feTratMin} a ${feTratMax} gotas/dia (3 a 6 mg/kg/dia), VO, 1x ao dia antes das refeições[span_16](start_span)[span_16](end_span).\n` +
+                           `   * PROFILAXIA (RNT sem risco): Tomar ${feProfRNT} gotas/dia (1 mg/kg/dia), VO, do 180º dia ao 24º mês[span_17](start_span)[span_17](end_span).\n` +
+                           `   * PROFILAXIA (Prematuro / < 2500g): Tomar ${feProfRNPT} gotas/dia (2 mg/kg/dia), VO, do 30º dia ao 12º mês[span_18](start_span)[span_18](end_span).`;
+                    break;
 
-        case "/SIALORREIA":
-          const escoGotas = weight < 15 ? 10 : (weight <= 30 ? 20 : 40);
-          text = `USO SUBLINGUAL E INALATÓRIO\n\n` +
-                 `1. ATROPINA COLÍRIO 1% ----------------------------- 1 FRASCO\n` +
-                 `   * Pingar 1 a 2 gotas via sublingual, de 4 a 6 vezes ao dia.\n\n` +
-                 `2. ESCOPOLAMINA GOTAS 10 MG/ML --------------------- 1 FRASCO\n` +
-                 `   * Nebulizar ${escoGotas} gotas diluídas em SF 0,9%, de 3 a 5 vezes ao dia.`;
-          break;
+                case "/VERMIOSE":
+                    const annitaML = Math.min(15, (w * 0.375)).toFixed(1);
+                    text = `USO ORAL\n\n` +
+                           `1. ALBENDAZOL SUSPENSÃO 400 MG/10 ML --------------- 1 FRASCO\n` +
+                           `   * Tomar 10 mL (400 mg), VO, 1x ao dia por 3 a 5 dias (para maiores de 2 anos)[span_19](start_span)[span_19](end_span).\n\n` +
+                           `2. NITAZOXANIDA (ANNITA) SUSPENSÃO 20 MG/ML -------- 1 FRASCO\n` +
+                           `   * Tomar ${annitaML} mL (7,5 mg/kg/dose), VO, de 12/12h por 3 dias (máx 15 mL/dose)[span_20](start_span)[span_20](end_span).\n\n` +
+                           `3. SECNIDAZOL SUSPENSÃO 30 MG/ML -------------------- 1 FRASCO\n` +
+                           `   * Tomar ${w.toFixed(1)} mL (30 mg/kg), VO, em dose única[span_21](start_span)[span_21](end_span).`;
+                    break;
 
-        default:
-          text = "Selecione um gatilho válido.";
-      }
+                case "/ESCABIOSE":
+                    const iverCp = ((w * 200) / 6000).toFixed(1);
+                    text = `USO TÓPICO E ORAL\n\n` +
+                           `1. PERMETRINA LOÇÃO 5% ----------------------------- 1 FRASCO\n` +
+                           `   * Aplicar em todo o corpo à noite, lavar após 8-14h. Repetir em 7 e 14 dias (contraindicado < 2 meses)[span_22](start_span)[span_22](end_span).\n\n` +
+                           `2. IVERMECTINA 6 MG COMPRIMIDOS -------------------- 1 CAIXA\n` +
+                           `   * Tomar ${iverCp} comprimido(s) (200 mcg/kg), VO, em dose única (para > 5 anos e > 15 kg)[span_23](start_span)[span_23](end_span).`;
+                    break;
 
-      output.value = text;
-    }
+                case "/INFLUENZA":
+                    let tamifluDose = "";
+                    if (w <= 15) tamifluDose = "30 mg (2 mL)";
+                    else if (w <= 23) tamifluDose = "45 mg (3 mL)";
+                    else if (w <= 40) tamifluDose = "60 mg (4 mL)";
+                    else tamifluDose = "75 mg (5 mL)";
+                    
+                    text = `USO ORAL\n\n` +
+                           `1. OSELTAMIVIR (TAMIFLU) SUSPENSÃO 15 MG/ML -------- 1 FRASCO\n` +
+                           `   * Crianças > 1 ano: Tomar ${tamifluDose}, VO, de 12/12h por 5 dias[span_24](start_span)[span_24](end_span).\n` +
+                           `   * Crianças < 1 ano: Tomar ${(w * 3).toFixed(1)} mg (${(w * 0.2).toFixed(1)} mL), VO, de 12/12h por 5 dias[span_25](start_span)[span_25](end_span).`;
+                    break;
 
-    function copyToClipboard() {
-      const output = document.getElementById('output');
-      output.select();
-      document.execCommand('copy');
-      
-      const toast = document.getElementById('toast');
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 2500);
-    }
+                case "/CONSTIPACAO":
+                    const pegMin = Math.min(17, (w * 0.4)).toFixed(1);
+                    const pegMax = Math.min(17, (w * 1.0)).toFixed(1);
+                    const pegDes = Math.min(100, (w * 1.25)).toFixed(1);
+                    const lactMin = Math.min(60, (w * 1.0)).toFixed(1);
+                    const lactMax = Math.min(60, (w * 3.0)).toFixed(1);
+                    text = `USO ORAL\n\n` +
+                           `1. POLIETILENOGLICOL 4000 (PEGLAX / MUVINLAX) SACHÊ\n` +
+                           `   * MANUTENÇÃO: Tomar ${pegMin} g a ${pegMax} g/dia diluídos em água, VO, 1x ao dia (máx 17 g)[span_26](start_span)[span_26](end_span).\n` +
+                           `   * DESIMPACTAÇÃO: Tomar ${pegDes} g/dia diluídos em água, VO, por 3 a 6 dias (máx 100 g)[span_27](start_span)[span_27](end_span).\n\n` +
+                           `2. LACTULOSE XAROPE 667 MG/ML ---------------------- 1 FRASCO\n` +
+                           `   * Tomar ${lactMin} mL a ${lactMax} mL/dia, VO, pela manhã em dose única (máx 60 mL)[span_28](start_span)[span_28](end_span).`;
+                    break;
 
-    // Inicializar na carga da página
-    window.onload = generatePrescription;
-  </script>
+                case "/CONVULSAO_EMERGENCIA":
+                    const mdaEV = (w * 0.2).toFixed(1);
+                    const mdaIN = Math.min(1.5, (w * 0.05)).toFixed(2);
+                    text = `USO ENDOVENOSO OU INTRANASAL\n\n` +
+                           `1. MIDAZOLAM 5 MG/ML\n` +
+                           `   * EV: Administrar ${mdaEV} mL da diluição (1 mL + 4 mL AD = 1 mg/mL), EV lento (0,2 mg/kg)[span_29](start_span)[span_29](end_span).\n` +
+                           `   * INTRANASAL: Administrar ${mdaIN} mL da solução PURA (5 mg/mL), em ambas as narinas (máx 7,5 mg)[span_30](start_span)[span_30](end_span).\n\n` +
+                           `2. FENOBARBITAL INJ 100 MG/ML\n` +
+                           `   * Administrar ${(w * 2).toFixed(1)} mL da diluição (1 mL + 9 mL AD = 10 mg/mL), EV, em 10 min (ataque 20 mg/kg)[span_31](start_span)[span_31](end_span).\n\n` +
+                           `3. FENITOÍNA INJ 50 MG/ML\n` +
+                           `   * Administrar ${(w * 2).toFixed(1)} mL da diluição (1 mL + 4 mL SF 0,9% = 10 mg/mL), EV, em 20-30 min (ataque 20 mg/kg)[span_32](start_span)[span_32](end_span).`;
+                    break;
+
+                case "/ANAFILAXIA":
+                    const adrIM = Math.min(0.5, (w * 0.01)).toFixed(2);
+                    text = `USO INTRAMUSCULAR\n\n` +
+                           `1. ADRENALINA 1 MG/ML (1:1000)\n` +
+                           `   * Aplicar ${adrIM} mL (0,01 mg/kg/dose - máx 0,5 mL), IM, no vasto lateral da coxa. Pode repetir a cada 5-15 min[span_33](start_span)[span_33](end_span).`;
+                    break;
+
+                case "/SIALORREIA":
+                    const escoGotas = w < 15 ? 10 : (w <= 30 ? 20 : 40);
+                    text = `USO SUBLINGUAL E INALATÓRIO\n\n` +
+                           `1. ATROPINA COLÍRIO 1%\n` +
+                           `   * Pingar 1 a 2 gotas via sublingual, de 4 a 6 vezes ao dia[span_34](start_span)[span_34](end_span).\n\n` +
+                           `2. ESCOPOLAMINA GOTAS 10 MG/ML\n` +
+                           `   * Nebulizar ${escoGotas} gotas diluídas em SF 0,9%, de 3 a 5 vezes ao dia[span_35](start_span)[span_35](end_span).`;
+                    break;
+
+                case "/HAS_EMERGENCIA":
+                    const nifComp = (w * 0.25 / 10).toFixed(2);
+                    const hidralML = (w * 0.1 / 20).toFixed(2);
+                    text = `USO ORAL E ENDOVENOSO\n\n` +
+                           `1. NIFEDIPINA COMPRIMIDOS 10 MG\n` +
+                           `   * Administrar ${nifComp} comprimido(s) (0,25 mg/kg/dose), VO, de 4/4h a 6/6h (máx 10 mg/dose)[span_36](start_span)[span_36](end_span).\n\n` +
+                           `2. HIDRALAZINA INJETÁVEL 20 MG/ML\n` +
+                           `   * Administrar ${hidralML} mL (0,1 a 0,2 mg/kg/dose), EV, de 4/4h a 6/6h (máx 20 mg/dose)[span_37](start_span)[span_37](end_span).`;
+                    break;
+
+                case "/APENDICITE_PO":
+                    const unasynML = (w * 150 / 250).toFixed(1);
+                    const clavulinML = (w / 4).toFixed(1);
+                    text = `USO ENDOVENOSO E VIA ORAL\n\n` +
+                           `1. AMPICILINA + SULBACTAM (UNASYN) INJ 250 MG/ML\n` +
+                           `   * Administrar ${unasynML} mL, EV, de 6/6h por 5 dias (Graus 3 e 4)[span_38](start_span)[span_38](end_span).\n\n` +
+                           `2. AMOXICILINA + CLAVULANATO (CLAVULIN BD) 400+57 MG/5 ML\n` +
+                           `   * Tomar ${clavulinML} mL, VO, de 12/12h até completar o 7º dia pós-operatório (alta precoce)[span_39](start_span)[span_39](end_span).`;
+                    break;
+
+                default:
+                    text = baseTriggers[trigger] || "";
+            }
+            return text;
+        }
+
+        function calculatePrescription() {
+            const weight = document.getElementById('calc-weight').value;
+            const trigger = document.getElementById('calc-trigger').value;
+            const outputArea = document.getElementById('calc-output');
+            outputArea.value = getCalculatedPrescription(trigger, weight);
+        }
+
+        function copyGeneratedPrescription() {
+            const text = document.getElementById('calc-output').value;
+            navigator.clipboard.writeText(text);
+            showToast("Prescrição copiada para a área de transferência!");
+        }
+
+        function sendPrescriptionToNote() {
+            const trigger = document.getElementById('calc-trigger').value;
+            const text = document.getElementById('calc-output').value;
+            if (!activeNoteId) createNewNote();
+            const note = notes.find(n => n.id === activeNoteId);
+            if (note) {
+                note.content += (note.content ? "\n\n" : "") + `--- PRESCRIÇÃO: ${trigger} ---\n` + text;
+                saveNotesToStorage();
+                selectNote(activeNoteId);
+                switchTab('tab-notes');
+                showToast("Prescrição enviada para a nota ativa!");
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notif');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => { toast.classList.add('hidden'); }, 2500);
+        }
+
+        // CARREGA E ESTRUTURA PRESCRIÇÕES EXTERNAS DO GITHUB
+        async function loadPrescriptionsFromGithub() {
+            const countBadge = document.getElementById('prescriptions-count');
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/mouraos/docktype-app/main/prescricoes.txt');
+                if (!response.ok) throw new Error('Não foi possível ler o arquivo prescricoes.txt');
+                const rawText = await response.text();
+                
+                prescriptionsData = parsePrescriptionsText(rawText);
+                if (countBadge) countBadge.innerText = `${prescriptionsData.length} prescrições no banco`;
+                renderPrescriptions();
+            } catch (error) {
+                console.error("Erro ao carregar prescrições:", error);
+                if (countBadge) countBadge.innerText = "Modo Local";
+                prescriptionsData = [
+                    { title: "Pneumonia Adquirida na Comunidade (PAC)", category: "Infectologia", content: "1. Amoxicilina + Clavulanato 875mg/125mg --- 1 cp VO de 12/12h por 7 dias.\n2. Azitromicina 500mg --- 1 cp VO 1x ao dia por 5 dias." },
+                    { title: "Infecção Urinária (ITU) Baixa", category: "Infectologia", content: "1. Nitrofurantoína 100mg --- 1 cp VO de 6/6h por 5 dias.\n2. Pyridium 200mg --- 1 cp VO de 8/8h por 2 dias." }
+                ];
+                renderPrescriptions();
+            }
+        }
+
+        function parsePrescriptionsText(text) {
+            const items = [];
+            const rawBlocks = text.split(/(?:={3,}|-{3,})/);
+            
+            let currentTitle = "";
+            let currentCategory = "Geral / Amb.";
+
+            for (let block of rawBlocks) {
+                const cleanBlock = block.trim();
+                if (!cleanBlock) continue;
+
+                const lines = cleanBlock.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+                if (lines.length === 0) continue;
+
+                if (lines.length === 1 && lines[0].length < 80) {
+                    currentTitle = lines[0].replace(/^[=\-#\s]+|[=\-#\s]+$/g, '');
+                    continue;
+                }
+
+                let title = currentTitle || lines[0].replace(/^[=\-#\s]+|[=\-#\s]+$/g, '');
+                let contentLines = currentTitle ? lines : lines.slice(1);
+
+                if (contentLines.length > 0) {
+                    items.push({
+                        title: title || "Prescrição Médica",
+                        category: currentCategory,
+                        content: contentLines.join('\n')
+                    });
+                }
+                currentTitle = "";
+            }
+            return items;
+        }
+
+        function checkSession() {
+            const savedUser = localStorage.getItem('doctype_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                if (!currentUser.createdAt || isNaN(currentUser.createdAt)) {
+                    currentUser.createdAt = Date.now();
+                    localStorage.setItem('doctype_user', JSON.stringify(currentUser));
+                }
+                showApp();
+            } else {
+                document.getElementById('screen-login').classList.remove('hidden');
+                document.getElementById('screen-app').classList.add('hidden');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('login-email').value.trim();
+            const passInput = document.getElementById('login-pass').value.trim();
+
+            if (emailInput.toLowerCase() === 'admin' && passInput.toLowerCase() === 'admin') {
+                currentUser = {
+                    name: "Administrador",
+                    email: "admin@doctype.ai",
+                    role: "Médico Generalista",
+                    createdAt: Date.now() - (1000 * 60 * 60 * 2),
+                    isPro: false
+                };
+            } else {
+                currentUser = {
+                    name: "Usuário Doctype",
+                    email: emailInput,
+                    role: document.getElementById('login-role').value,
+                    createdAt: Date.now(),
+                    isPro: false
+                };
+            }
+
+            localStorage.setItem('doctype_user', JSON.stringify(currentUser));
+            showApp();
+            openTrialModal();
+        }
+
+        function calculateTrialTime() {
+            if (!currentUser || !currentUser.createdAt) {
+                return { isPro: false, text: "30 dias, 0 horas e 0 minutos", badge: "30d restantes" };
+            }
+            if (currentUser.isPro) {
+                return { isPro: true, text: "Plano Pro Ativo", badge: "Pro Ativo" };
+            }
+
+            const trialDurationMs = 30 * 24 * 60 * 60 * 1000;
+            const elapsedMs = Date.now() - currentUser.createdAt;
+            const remainingMs = Math.max(0, trialDurationMs - elapsedMs);
+
+            const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            return {
+                isPro: false,
+                text: `${days} dias, ${hours} horas e ${minutes} minutos`,
+                badge: `${days}d ${hours}h restantes`
+            };
+        }
+
+        function openTrialModal() {
+            const timeData = calculateTrialTime();
+            if (!timeData.isPro) {
+                document.getElementById('modal-trial-time').innerText = timeData.text;
+                document.getElementById('modal-trial-notice').classList.remove('hidden');
+            }
+        }
+
+        function closeTrialModal() {
+            document.getElementById('modal-trial-notice').classList.add('hidden');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('doctype_user');
+            location.reload();
+        }
+
+        function showApp() {
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-app').classList.remove('hidden');
+            
+            const timeData = calculateTrialTime();
+            document.getElementById('trial-days-text').innerText = timeData.badge;
+            
+            loadNotes();
+            calculatePrescription();
+            loadPrescriptionsFromGithub();
+        }
+
+        function handleTyping(textarea) {
+            let val = textarea.value;
+            const triggersList = ["/SUA", "/ASMA", "/CRUPE", "/BVA", "/FEBRE_DOR", "/GEA", "/ANEMIA", "/VERMIOSE", "/ESCABIOSE", "/INFLUENZA", "/CONSTIPACAO", "/CONVULSAO_EMERGENCIA", "/ANAFILAXIA", "/SIALORREIA", "/HAS_EMERGENCIA", "/APENDICITE_PO", "/ef", "/an", "/hd", "/pres"];
+            
+            for (let code of triggersList) {
+                const codeLower = code.toLowerCase();
+                if (val.toLowerCase().endsWith(codeLower + ' ') || val.toLowerCase().endsWith(codeLower + '\n')) {
+                    const weight = document.getElementById('calc-weight').value || 10;
+                    const expandedText = getCalculatedPrescription(code.toUpperCase(), weight) || baseTriggers[codeLower];
+                    if (expandedText) {
+                        const cutIndex = val.length - code.length - 1;
+                        textarea.value = val.slice(0, cutIndex) + `\n--- ${code.toUpperCase()} ---\n` + expandedText + '\n';
+                    }
+                    break;
+                }
+            }
+            autoSaveNote();
+        }
+
+        function insertTrigger(code) {
+            const textarea = document.getElementById('note-content');
+            const weight = document.getElementById('calc-weight').value || 10;
+            const expandedText = getCalculatedPrescription(code.toUpperCase(), weight) || baseTriggers[code.toLowerCase()];
+            textarea.value += (textarea.value ? "\n\n" : "") + expandedText;
+            autoSaveNote();
+        }
+
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('doctype_notes');
+            notes = savedNotes ? JSON.parse(savedNotes) : [{ id: Date.now(), title: "Evolução Leito 02", content: baseTriggers['/ef'] }];
+            if (notes.length > 0) selectNote(notes[0].id);
+            renderNotesList();
+        }
+
+        function saveNotesToStorage() { localStorage.setItem('doctype_notes', JSON.stringify(notes)); }
+
+        function renderNotesList() {
+            const query = document.getElementById('search-notes').value.toLowerCase();
+            const container = document.getElementById('notes-list');
+            const filtered = notes.filter(n => n.title.toLowerCase().includes(query) || n.content.toLowerCase().includes(query));
+
+            container.innerHTML = filtered.map(n => `
+                <div onclick="selectNote(${n.id})" class="p-2 rounded border text-left cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:bg-slate-800'}">
+                    <h4 class="font-bold text-xs truncate">${n.title || 'Sem título'}</h4>
+                </div>
+            `).join('');
+        }
+
+        function selectNote(id) {
+            activeNoteId = id;
+            const note = notes.find(n => n.id === id);
+            if (note) {
+                document.getElementById('note-title').value = note.title;
+                document.getElementById('note-content').value = note.content;
+            }
+            renderNotesList();
+        }
+
+        function createNewNote() {
+            const newNote = { id: Date.now(), title: "Nova Anotação", content: "" };
+            notes.unshift(newNote);
+            saveNotesToStorage();
+            selectNote(newNote.id);
+        }
+
+        function autoSaveNote() {
+            if (!activeNoteId) return;
+            const note = notes.find(n => n.id === activeNoteId);
+            if (note) {
+                note.title = document.getElementById('note-title').value;
+                note.content = document.getElementById('note-content').value;
+                saveNotesToStorage();
+                renderNotesList();
+            }
+        }
+
+        function deleteCurrentNote() {
+            notes = notes.filter(n => n.id !== activeNoteId);
+            saveNotesToStorage();
+            if (notes.length > 0) selectNote(notes[0].id); else createNewNote();
+        }
+
+        function copyCurrentNote() {
+            navigator.clipboard.writeText(document.getElementById('note-content').value);
+            showToast('Nota copiada para a área de transferência!');
+        }
+
+        function renderPrescriptions() {
+            const query = (document.getElementById('search-prescriptions')?.value || '').toLowerCase().trim();
+            const container = document.getElementById('prescriptions-list');
+
+            const filtered = prescriptionsData.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.content.toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full bg-slate-900 border border-slate-800 p-8 rounded-xl text-center text-slate-500 text-xs">Nenhuma prescrição encontrada para "${query}".</div>`;
+                return;
+            }
+
+            const visible = filtered.slice(0, renderLimit);
+
+            container.innerHTML = visible.map((p) => `
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-bold px-2 py-0.5 rounded">${p.category}</span>
+                            <button onclick="copyText('${encodeURIComponent(p.content)}')" class="text-slate-400 hover:text-cyan-400 text-xs">
+                                <i class="fa-solid fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                        <h3 class="font-bold text-white text-xs mt-2 mb-2">${p.title}</h3>
+                        <pre class="bg-slate-950 p-3 rounded border border-slate-800 text-[11px] text-slate-300 font-code leading-relaxed whitespace-pre-wrap max-h-52 overflow-y-auto">${p.content}</pre>
+                    </div>
+                    <button onclick="pasteToNoteText('${encodeURIComponent(p.title)}', '${encodeURIComponent(p.content)}')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold py-2 rounded transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-arrow-right-to-city"></i> Enviar para o Bloco de Notas
+                    </button>
+                </div>
+            `).join('');
+
+            if (filtered.length > renderLimit) {
+                container.innerHTML += `
+                    <div class="col-span-full text-center py-2">
+                        <button onclick="renderLimit += 30; renderPrescriptions();" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-cyan-400 text-xs px-4 py-2 rounded-lg font-semibold">
+                            Carregar mais (${filtered.length - renderLimit} restantes)
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function copyText(encoded) {
+            navigator.clipboard.writeText(decodeURIComponent(encoded));
+            showToast('Prescrição copiada!');
+        }
+
+        function pasteToNoteText(encodedTitle, encodedContent) {
+            if (!activeNoteId) createNewNote();
+            const note = notes.find(n => n.id === activeNoteId);
+            if (note) {
+                note.content += (note.content ? "\n\n" : "") + `--- PRESCRIÇÃO: ${decodeURIComponent(encodedTitle)} ---\n` + decodeURIComponent(encodedContent);
+                saveNotesToStorage();
+                selectNote(activeNoteId);
+                switchTab('tab-notes');
+                showToast("Prescrição inserida na nota!");
+            }
+        }
+
+        function openUpgradeModal() { document.getElementById('modal-pro').classList.remove('hidden'); }
+        function closeUpgradeModal() { document.getElementById('modal-pro').classList.add('hidden'); }
+
+        function simulateProPayment() {
+            currentUser.isPro = true;
+            localStorage.setItem('doctype_user', JSON.stringify(currentUser));
+            document.getElementById('trial-days-text').innerText = "Pro Ativo";
+            closeUpgradeModal();
+            showToast('Plano Pro ativado com sucesso!');
+        }
+
+        function switchTab(tabId) {
+            ['tab-notes', 'tab-prescriptions'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById('btn-' + id.split('-')[1]).classList.replace('border-cyan-400', 'border-transparent');
+                document.getElementById('btn-' + id.split('-')[1]).classList.replace('text-cyan-400', 'text-slate-400');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId.split('-')[1]);
+            activeBtn.classList.replace('border-transparent', 'border-cyan-400');
+            activeBtn.classList.replace('text-slate-400', 'text-cyan-400');
+        }
+
+        checkSession();
+    </script>
 </body>
 </html>
