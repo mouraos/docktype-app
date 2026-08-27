@@ -28,11 +28,7 @@
                 <h2 class="text-2xl font-bold tracking-tight text-white">Doctype<span class="text-cyan-400">.ai</span></h2>
                 <p class="text-xs text-slate-400">Workspace Clínico de Alta Performance</p>
             </div>
-            <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl text-xs space-y-1 text-slate-300">
-                <p class="font-semibold text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal"></i> Acesso Teste:</p>
-                <p class="text-slate-400">Login: <span class="text-white font-mono">Admin</span> | Senha: <span class="text-white font-mono">Admin</span></p>
-            </div>
-            <form onsubmit="handleLogin(event)" class="space-y-3">
+            <form onsubmit="handleLogin(event)" class="space-y-3 pt-2">
                 <input type="text" id="login-email" required placeholder="Usuário (Admin)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
                 <input type="password" id="login-pass" required placeholder="Senha (Admin)" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
                 <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg shadow-lg shadow-cyan-500/10 transition text-sm mt-2">
@@ -45,246 +41,240 @@
     <!-- WORKSPACE PRINCIPAL -->
     <div id="screen-app" class="hidden flex-1 flex flex-col">
 
-        <!-- Top Header -->
+        <!-- Header -->
         <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-20">
-            <div class="max-w-7xl mx-auto px-4 py-2.5 flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <div class="w-7 h-7 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
-                        <i class="fa-solid fa-wave-square text-xs"></i>
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-wave-square text-sm"></i>
                     </div>
-                    <span class="font-bold text-base tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
+                    <span class="font-bold text-lg tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
                 </div>
-                <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-2 py-1">
+                <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-3 py-1.5 bg-slate-950 rounded-lg border border-slate-800 transition">
                     <i class="fa-solid fa-power-off"></i> Sair
                 </button>
             </div>
         </header>
 
-        <!-- Abas de Navegação -->
-        <nav class="bg-slate-950 border-b border-slate-800 sticky top-[53px] z-10">
-            <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-xs font-semibold overflow-x-auto">
+        <!-- Navegação de Abas -->
+        <nav class="bg-slate-950 border-b border-slate-800 sticky top-[61px] z-10 shadow-md">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-sm font-bold overflow-x-auto">
                 <button onclick="switchTab('tab-notes')" class="tab-btn py-3 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2 whitespace-nowrap" id="btn-notes">
                     <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas & Evolução
                 </button>
                 <button onclick="switchTab('tab-calc')" class="tab-btn py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-calc">
-                    <i class="fa-solid fa-calculator"></i> Calculadora Pediátrica Avançada
+                    <i class="fa-solid fa-calculator"></i> Calculadora Pediátrica
                 </button>
                 <button onclick="switchTab('tab-diseases')" class="tab-btn py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-diseases">
-                    <i class="fa-solid fa-notes-medical"></i> Prescrições Prontas
+                    <i class="fa-solid fa-notes-medical"></i> Prescrições por Doença
                 </button>
             </div>
         </nav>
 
-        <!-- Conteúdo Principal -->
+        <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
 
-            <!-- ABA 1: BLOCO DE NOTAS E GATILHOS -->
+            <!-- ============================================== -->
+            <!-- ABA 1: BLOCO DE NOTAS & EVOLUÇÃO -->
+            <!-- ============================================== -->
             <section id="tab-notes" class="space-y-4">
                 <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs">
                     <div class="flex items-center gap-2 text-slate-400">
                         <i class="fa-solid fa-terminal text-cyan-400"></i>
-                        <span class="font-semibold text-slate-200">Gatilhos Rápidos:</span>
+                        <span class="font-semibold text-slate-200">Gatilhos:</span>
                     </div>
-                    <div id="quick-triggers-bar" class="flex flex-wrap gap-1.5"></div>
+                    <div id="quick-triggers-bar" class="flex flex-wrap gap-2"></div>
                     <button onclick="openTriggerModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-lg font-bold text-xs transition">
-                        <i class="fa-solid fa-gear"></i> Personalizar Gatilhos
+                        <i class="fa-solid fa-gear"></i> Novo Gatilho
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Sidebar de Notas -->
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-4">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anotações</span>
-                            <button onclick="createNewNote()" class="text-xs bg-cyan-500 text-slate-950 px-2.5 py-1 rounded font-bold hover:bg-cyan-400">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Histórico</span>
+                            <button onclick="createNewNote()" class="text-xs bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold hover:bg-cyan-400 shadow-lg shadow-cyan-500/20">
                                 + Nova
                             </button>
                         </div>
-                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar notas..." class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500">
-                        <div id="notes-list" class="space-y-1.5 max-h-[400px] overflow-y-auto"></div>
+                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar anotações..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-cyan-500">
+                        <div id="notes-list" class="space-y-2 max-h-[450px] overflow-y-auto pr-1"></div>
                     </div>
 
-                    <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col space-y-3">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                            <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título da Evolução/Nota..." class="bg-transparent text-base font-bold text-white outline-none w-full">
-                        </div>
-                        <textarea id="note-content" oninput="handleTyping(this)" rows="18" placeholder="Escreva a evolução ou anamnese aqui. Digite um gatilho (ex: /ef) seguido de espaço para expandir o texto automaticamente..." class="bg-transparent text-sm text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
-                        <div class="flex justify-between items-center border-t border-slate-800 pt-3 text-xs">
-                            <button onclick="copyCurrentNote()" class="bg-slate-950 border border-slate-800 text-slate-300 px-4 py-2 rounded-lg font-medium hover:bg-slate-800 transition flex items-center gap-2">
-                                <i class="fa-solid fa-copy text-cyan-400"></i> Copiar Texto
-                            </button>
-                            <button onclick="deleteCurrentNote()" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 transition">
+                    <!-- Área de Edição -->
+                    <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col space-y-4">
+                        <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título do Paciente ou Evolução..." class="bg-transparent text-lg font-bold text-white outline-none w-full border-b border-slate-800 pb-3">
+                        <textarea id="note-content" oninput="handleTyping(this)" rows="18" placeholder="Digite sua evolução ou anamnese aqui. Use gatilhos (ex: /ef) + espaço para expandir textos automaticamente..." class="bg-transparent text-sm text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
+                        <div class="flex justify-end gap-3 pt-4 border-t border-slate-800">
+                            <button onclick="deleteCurrentNote()" class="text-red-400 hover:bg-red-400/10 font-bold text-xs px-4 py-2.5 rounded-xl transition">
                                 <i class="fa-solid fa-trash"></i> Excluir
+                            </button>
+                            <button onclick="copyCurrentNote()" class="bg-cyan-500 text-slate-950 font-bold text-xs px-6 py-2.5 rounded-xl hover:bg-cyan-400 transition shadow-lg shadow-cyan-500/20">
+                                <i class="fa-solid fa-copy"></i> Copiar Evolução Completa
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ABA 2: CALCULADORA PEDIÁTRICA ULTRA-EXPANDIDA -->
+            <!-- ============================================== -->
+            <!-- ABA 2: CALCULADORA PEDIÁTRICA -->
+            <!-- ============================================== -->
             <section id="tab-calc" class="hidden space-y-6 max-w-4xl mx-auto">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-5">
+                <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
                     <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-calculator text-cyan-400"></i> Calculadora Pediátrica Avançada
+                        <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-cyan-400"></i> Calculadora Pediátrica de Doses
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">Insira o peso e selecione a medicação. O sistema fará o cálculo imediato de volume, gotas ou ampolas baseado em diretrizes e literaturas oficiais.</p>
+                        <p class="text-sm text-slate-400 mt-1.5">Insira o peso para obter volumes exatos de xaropes, ampolas, e gotas de acordo com diretrizes pediátricas estritas.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-inner">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 bg-slate-950 p-5 rounded-2xl border border-slate-800">
                         <div>
-                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Peso da Criança (kg):</label>
-                            <input type="number" id="ped-weight" value="15" min="0.5" step="0.1" oninput="calculatePediatricDrug()" class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-lg text-white focus:border-cyan-500 outline-none font-mono font-bold">
+                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Peso (kg):</label>
+                            <input type="number" id="ped-weight" value="10" min="0.5" step="0.1" oninput="calculatePediatricDrug()" class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-lg text-white focus:border-cyan-500 outline-none font-mono font-bold">
                         </div>
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Selecione o Fármaco:</label>
-                            <select id="ped-drug" onchange="calculatePediatricDrug()" class="w-full px-3 py-3 bg-slate-900 border border-slate-700 rounded-lg text-sm text-white focus:border-cyan-500 outline-none h-[52px]">
+                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Fármaco / Solução:</label>
+                            <select id="ped-drug" onchange="calculatePediatricDrug()" class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:border-cyan-500 outline-none h-[52px] font-semibold">
+                                <optgroup label="Antimicrobianos (Uso Oral)">
+                                    <option value="amoxicilina">Amoxicilina (250mg/5mL)</option>
+                                    <option value="clavulin">Amoxicilina + Clavulanato (250mg/5mL)</option>
+                                    <option value="azitromicina">Azitromicina (200mg/5mL)</option>
+                                    <option value="cefalexina">Cefalexina (250mg/5mL)</option>
+                                    <option value="bactrim">Sulfametoxazol + Trimetoprima (200+40mg/5mL)</option>
+                                </optgroup>
+                                <optgroup label="Antimicrobianos (Endovenoso / IM)">
+                                    <option value="ceftriaxona">Ceftriaxona (EV / IM)</option>
+                                    <option value="oxacilina">Oxacilina (EV)</option>
+                                    <option value="ampicilina">Ampicilina (EV - Frasco 1g p/ 200mg/mL)</option>
+                                </optgroup>
                                 <optgroup label="Analgésicos, Antitérmicos e AINEs">
                                     <option value="dipirona">Dipirona Gotas (500mg/mL)</option>
                                     <option value="paracetamol">Paracetamol Gotas (200mg/mL)</option>
-                                    <option value="ibuprofeno">Ibuprofeno Gotas (50mg/mL) ou (100mg/mL)</option>
+                                    <option value="ibuprofeno">Ibuprofeno Gotas (50mg/mL)</option>
                                     <option value="cetoprofeno">Cetoprofeno Gotas (20mg/mL)</option>
-                                    <option value="diclofenaco">Diclofenaco Gotas (15mg/mL)</option>
-                                    <option value="morfina">Morfina (EV - Ampola 10mg/mL)</option>
-                                    <option value="tramadol">Tramadol (EV - Ampola 50mg/mL)</option>
+                                    <option value="morfina">Morfina (EV)</option>
                                 </optgroup>
-                                <optgroup label="Antibióticos e Antimicrobianos (VO)">
-                                    <option value="amoxicilina">Amoxicilina (VO - 250mg/5mL)</option>
-                                    <option value="clavulin">Amoxicilina + Clavulanato (VO - 250mg/5mL ou 400mg/5mL)</option>
-                                    <option value="azitromicina">Azitromicina (VO - 200mg/5mL)</option>
-                                    <option value="cefalexina">Cefalexina (VO - 250mg/5mL)</option>
-                                    <option value="claritromicina">Claritromicina (VO - 250mg/5mL)</option>
-                                    <option value="clindamicina">Clindamicina (VO - 75mg/5mL)</option>
-                                    <option value="bactrim">Sulfametoxazol + Trimetoprima (VO - 200+40mg/5mL)</option>
-                                    <option value="nitrofurantoina">Nitrofurantoína (VO - 25mg/5mL)</option>
-                                </optgroup>
-                                <optgroup label="Antibióticos Injetáveis (EV / IM)">
-                                    <option value="ceftriaxona">Ceftriaxona (EV/IM)</option>
-                                    <option value="oxacilina">Oxacilina (EV)</option>
-                                    <option value="ampicilina">Ampicilina (EV)</option>
-                                    <option value="penicilina_benzatina">Penicilina Benzatina (IM)</option>
-                                    <option value="gentamicina">Gentamicina (EV/IM)</option>
-                                </optgroup>
-                                <optgroup label="Gastrointestinal (Náusea, Cólica, Refluxo)">
-                                    <option value="ondansetrona_vo">Ondansetrona (VO - 0,8mg/mL ou CP)</option>
-                                    <option value="ondansetrona_ev">Ondansetrona (EV - 2mg/mL)</option>
+                                <optgroup label="Gastrointestinal e Sintomáticos">
+                                    <option value="ondansetrona_vo">Ondansetrona (VO - 0,8mg/mL)</option>
+                                    <option value="ondansetrona_ev">Ondansetrona (EV)</option>
                                     <option value="bromoprida">Bromoprida Gotas (4mg/mL)</option>
                                     <option value="dimenidrinato">Dimenidrinato / Dramin Gotas (25mg/mL)</option>
                                     <option value="simeticona">Simeticona Gotas (75mg/mL)</option>
-                                    <option value="omeprazol">Omeprazol (VO - Cápsulas 10mg ou 20mg)</option>
-                                    <option value="domperidona">Domperidona Suspensão (1mg/mL)</option>
+                                    <option value="sro">Soro de Reidratação Oral (SRO)</option>
                                     <option value="lactulose">Lactulose Xarope (667mg/mL)</option>
-                                    <option value="peg4000">PEG 4000 (Pó p/ Solução)</option>
-                                </optgroup>
-                                <optgroup label="Antiparasitários (Vermífugos e Escabicidas)">
-                                    <option value="albendazol">Albendazol (VO - 400mg/10mL)</option>
-                                    <option value="nitazoxanida">Nitazoxanida / Annita (VO - 20mg/mL)</option>
-                                    <option value="ivermectina">Ivermectina (VO - Comprimido 6mg)</option>
-                                    <option value="secnidazol">Secnidazol Suspensão (30mg/mL)</option>
-                                    <option value="metronidazol">Metronidazol Suspensão (40mg/mL)</option>
+                                    <option value="peg4000">PEG 4000 (Laxante Osmótico - Pó)</option>
                                 </optgroup>
                                 <optgroup label="Corticoides e Anti-histamínicos">
-                                    <option value="dexclorfeniramina">Dexclorfeniramina (VO - 2mg/5mL)</option>
+                                    <option value="dexclorfeniramina">Dexclorfeniramina / Polaramine (VO)</option>
                                     <option value="desloratadina">Desloratadina Xarope (0,5mg/mL)</option>
-                                    <option value="loratadina">Loratadina Xarope (1mg/mL)</option>
-                                    <option value="cetirizina">Cetirizina Xarope (1mg/mL)</option>
-                                    <option value="hidroxizine">Hidroxizine Xarope (2mg/mL)</option>
+                                    <option value="hidroxizina">Hidroxizina Xarope (2mg/mL)</option>
                                     <option value="prednisolona">Prednisolona Solução Oral (3mg/mL)</option>
-                                    <option value="dexametasona">Dexametasona (VO / EV / IM)</option>
-                                    <option value="hidrocortisona">Hidrocortisona (EV - Asma/Anafilaxia)</option>
+                                    <option value="dexametasona">Dexametasona (VO / EV / IM - Crupe)</option>
+                                    <option value="hidrocortisona">Hidrocortisona (EV - Asma Aguda)</option>
                                 </optgroup>
                                 <optgroup label="Respiratório e Nebulizações">
                                     <option value="salbutamol">Salbutamol Spray (100mcg/jato)</option>
                                     <option value="atrovent">Brometo de Ipratrópio / Atrovent (Nebulização)</option>
-                                    <option value="adrenalina_crupe">Adrenalina Nebulizada (Crupe - 1mg/mL)</option>
-                                    <option value="adrenalina_im">Adrenalina IM (Anafilaxia - 1mg/mL)</option>
                                     <option value="sulfato_mg">Sulfato de Magnésio 50% (EV)</option>
+                                    <option value="adrenalina_nbz">Adrenalina Nebulizada (Crupe - 1mg/mL)</option>
+                                    <option value="adrenalina_im">Adrenalina Intramuscular (Anafilaxia - 1mg/mL)</option>
                                 </optgroup>
-                                <optgroup label="Anticonvulsivantes (Emergência)">
+                                <optgroup label="Crise Convulsiva e Neuro">
                                     <option value="midazolam_ev">Midazolam (EV Lento)</option>
                                     <option value="midazolam_in">Midazolam (Intranasal - 5mg/mL puros)</option>
-                                    <option value="fenobarbital">Fenobarbital (EV - Dose Ataque)</option>
-                                    <option value="fenitoina">Fenitoína (EV - Dose Ataque)</option>
-                                    <option value="diazepam">Diazepam (EV Lento - 5mg/mL)</option>
+                                    <option value="fenobarbital">Fenobarbital (EV - Ataque)</option>
+                                    <option value="fenitoina">Fenitoína (EV - Ataque)</option>
+                                    <option value="atropina">Atrovent Colírio 1% (Sialorreia SL)</option>
+                                    <option value="escopolamina">Escopolamina (Nebulização para Sialorreia)</option>
                                 </optgroup>
-                                <optgroup label="Suplementação e Vitaminas">
-                                    <option value="ferro_profilaxia">Sulfato Ferroso Gotas (Profilaxia)</option>
-                                    <option value="ferro_tratamento">Sulfato Ferroso Gotas (Tratamento)</option>
-                                    <option value="vitamina_d">Vitamina D3 (Profilaxia Básica)</option>
+                                <optgroup label="Outros / Específicos">
+                                    <option value="sulfato_ferroso">Sulfato Ferroso (Profilaxia e Tratamento)</option>
+                                    <option value="vitamina_d">Vitamina D3</option>
+                                    <option value="oseltamivir">Oseltamivir / Tamiflu (Suspensão)</option>
+                                    <option value="permetrina">Permetrina / Ivermectina (Escabiose)</option>
+                                    <option value="nifedipina">Nifedipina / Hidralazina (Emergência HAS)</option>
+                                    <option value="apendicite">Esquema Apendicite Pós-Op (Unasyn / Clavulin)</option>
                                 </optgroup>
                             </select>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900 border border-slate-700 p-5 rounded-xl space-y-3 relative overflow-hidden">
+                    <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl relative overflow-hidden shadow-md">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-500"></div>
-                        <span class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider block">Diretriz e Posologia Exata:</span>
-                        <div id="ped-result" class="text-sm md:text-base font-code text-slate-200 leading-relaxed whitespace-pre-wrap"></div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Diretriz Pediátrica e Posologia Calculada:</span>
+                        <div id="ped-result" class="text-sm md:text-base font-code text-cyan-300 leading-relaxed whitespace-pre-wrap"></div>
                     </div>
 
-                    <div class="flex justify-end gap-3">
-                        <button onclick="copyPedResult()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs font-bold px-4 py-3 rounded-xl hover:bg-slate-800 transition flex items-center gap-2 shadow-lg">
+                    <div class="flex flex-wrap justify-end gap-3 border-t border-slate-800 pt-5">
+                        <button onclick="copyPedResult()" class="bg-slate-950 border border-slate-800 text-slate-300 text-sm font-bold px-5 py-3 rounded-xl hover:bg-slate-800 transition flex items-center gap-2">
                             <i class="fa-solid fa-copy text-cyan-400"></i> Copiar
                         </button>
-                        <button onclick="sendPedResultToNote()" class="bg-cyan-500 text-slate-950 text-xs font-extrabold px-4 py-3 rounded-xl hover:bg-cyan-400 transition flex items-center gap-2 shadow-lg shadow-cyan-500/20">
+                        <button onclick="sendPedResultToNote()" class="bg-cyan-500 text-slate-950 text-sm font-extrabold px-6 py-3 rounded-xl hover:bg-cyan-400 transition flex items-center gap-2 shadow-lg shadow-cyan-500/20">
                             <i class="fa-solid fa-file-import"></i> Lançar na Evolução
                         </button>
                     </div>
                 </div>
             </section>
 
-            <!-- ABA 3: PRESCRIÇÕES PRONTAS POR DOENÇA -->
-            <section id="tab-diseases" class="hidden space-y-4 max-w-4xl mx-auto">
-                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-5">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <!-- ============================================== -->
+            <!-- ABA 3: PRESCRIÇÕES POR DOENÇA -->
+            <!-- ============================================== -->
+            <section id="tab-diseases" class="hidden space-y-6 max-w-5xl mx-auto">
+                <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl space-y-5">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
                         <div>
-                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                                <i class="fa-solid fa-notes-medical text-cyan-400"></i> Biblioteca de Prescrições (Guias Práticos)
+                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-notes-medical text-cyan-400"></i> Biblioteca de Prescrições por Doença
                             </h2>
-                            <p class="text-xs text-slate-400 mt-1">Busque protocolos completos de emergência, ambulatório e clínica médica.</p>
+                            <p class="text-sm text-slate-400 mt-1.5">Busque a patologia desejada para visualizar o protocolo de prescrição exato e estruturado.</p>
                         </div>
-                        <div class="relative w-full md:w-80">
-                            <i class="fa-solid fa-search absolute left-3 top-3 text-slate-500 text-sm"></i>
-                            <input type="text" id="search-disease" onkeyup="renderDiseases()" placeholder="Buscar (ex: Asma, OMA, Dengue, HAS)..." class="w-full pl-9 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none focus:border-cyan-500 font-medium transition">
+                        <div class="relative w-full md:w-96">
+                            <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-500"></i>
+                            <input type="text" id="search-disease" onkeyup="renderDiseases()" placeholder="Buscar doença (Ex: Asma, Anemia, ITU)..." class="w-full pl-11 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none focus:border-cyan-500 font-semibold shadow-inner">
                         </div>
                     </div>
                 </div>
-                <div id="diseases-container" class="space-y-5"></div>
+                
+                <div id="diseases-container" class="grid grid-cols-1 gap-5"></div>
             </section>
         </main>
     </div>
 
-    <!-- MODAL GATILHOS -->
+    <!-- MODAL DE GATILHOS -->
     <div id="modal-triggers" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 class="text-base font-bold text-white"><i class="fa-solid fa-sliders text-cyan-400 mr-2"></i> Customizar Gatilhos</h3>
-                <button onclick="closeTriggerModal()" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-sliders text-cyan-400"></i> Editor de Gatilhos</h3>
+                <button onclick="closeTriggerModal()" class="text-slate-500 hover:text-white transition p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <div class="space-y-3">
-                <div class="grid grid-cols-3 gap-2">
-                    <input type="text" id="new-trigger-code" placeholder="/sigla" class="px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white outline-none font-mono">
-                    <input type="text" id="new-trigger-label" placeholder="Nome Exibição" class="col-span-2 px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white outline-none">
+            <div class="space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                    <input type="text" id="new-trigger-code" placeholder="/sigla" class="px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none font-mono">
+                    <input type="text" id="new-trigger-label" placeholder="Nome Exibição (Ex: Conduta)" class="col-span-2 px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none">
                 </div>
-                <textarea id="new-trigger-content" rows="4" placeholder="Texto que será expandido..." class="w-full p-3 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-200 outline-none font-code"></textarea>
-                <button onclick="saveCustomTrigger()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2 rounded-lg text-xs transition">
-                    Salvar Gatilho
+                <textarea id="new-trigger-content" rows="4" placeholder="Texto longo que será inserido ao digitar o gatilho..." class="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 outline-none font-code"></textarea>
+                <button onclick="saveCustomTrigger()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg shadow-cyan-500/20">
+                    Salvar Gatilho Personalizado
                 </button>
             </div>
-            <div class="border-t border-slate-800 pt-3">
-                <span class="text-xs font-bold text-slate-400 block mb-2">Gatilhos Ativos:</span>
-                <div id="custom-triggers-list" class="space-y-2 max-h-40 overflow-y-auto pr-2"></div>
+            <div class="mt-6 border-t border-slate-800 pt-4">
+                <span class="text-xs font-bold text-slate-400 uppercase block mb-3">Gatilhos Salvos:</span>
+                <div id="custom-triggers-list" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div>
             </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-500 text-slate-950 font-bold text-xs px-5 py-3.5 rounded-xl shadow-2xl hidden z-50 flex items-center gap-2 transition-all">
-        <i class="fa-solid fa-check-circle text-base"></i> <span id="toast-text">Ação executada com sucesso!</span>
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-emerald-500 text-slate-950 font-extrabold text-sm px-6 py-3.5 rounded-2xl shadow-2xl hidden z-50 flex items-center gap-3 transition-opacity">
+        <i class="fa-solid fa-check-circle text-lg"></i> <span id="toast-text">Sucesso!</span>
     </div>
 
-    <!-- JAVASCRIPT PRINCIPAL -->
+    <!-- JAVASCRIPT DO SISTEMA -->
     <script>
-        // ESTADO GLOBAL DA APLICAÇÃO
+        // CONFIGURAÇÕES GERAIS
         let customTriggers = {
             '/ef': { label: 'Exame Físico', text: "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas." },
             '/an': { label: 'Anamnese', text: "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos: \n- Alergias: " },
@@ -293,7 +283,7 @@
         let notes = [];
         let activeNoteId = null;
 
-        // INICIALIZAÇÃO E LOGIN
+        // LOGIN E INTERFACE
         function handleLogin(e) {
             e.preventDefault();
             document.getElementById('screen-login').classList.add('hidden');
@@ -323,7 +313,7 @@
             setTimeout(() => { t.classList.add('hidden'); }, 2500);
         }
 
-        /* ================= ABA 1: NOTAS E GATILHOS ================= */
+        // ================= ABA 1: NOTAS E GATILHOS ================= 
         function loadTriggers() {
             const saved = localStorage.getItem('doctype_triggers');
             if (saved) customTriggers = JSON.parse(saved);
@@ -331,7 +321,7 @@
         }
         function renderQuickTriggersBar() {
             document.getElementById('quick-triggers-bar').innerHTML = Object.keys(customTriggers).map(code => `
-                <button onclick="insertTrigger('${code}')" class="bg-slate-950 border border-slate-800 text-cyan-300 font-mono px-3 py-1.5 rounded-lg text-xs hover:bg-slate-800 transition">
+                <button onclick="insertTrigger('${code}')" class="bg-slate-950 border border-slate-800 text-cyan-300 font-mono px-3 py-1.5 rounded-lg text-xs hover:bg-slate-800 transition shadow-sm">
                     ${code.toUpperCase()} <span class="text-slate-500 font-sans text-[10px] ml-1">(${customTriggers[code].label})</span>
                 </button>
             `).join('');
@@ -340,9 +330,9 @@
         function closeTriggerModal() { document.getElementById('modal-triggers').classList.add('hidden'); }
         function renderModalTriggersList() {
             document.getElementById('custom-triggers-list').innerHTML = Object.keys(customTriggers).map(code => `
-                <div class="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
-                    <div><span class="font-mono text-cyan-400 font-bold">${code}</span><span class="text-slate-400 ml-2">(${customTriggers[code].label})</span></div>
-                    <button onclick="deleteCustomTrigger('${code}')" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+                <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800 text-sm">
+                    <div><span class="font-mono text-cyan-400 font-bold">${code}</span><span class="text-slate-400 ml-2 text-xs">(${customTriggers[code].label})</span></div>
+                    <button onclick="deleteCustomTrigger('${code}')" class="text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
         }
@@ -351,11 +341,11 @@
             const label = document.getElementById('new-trigger-label').value.trim();
             const content = document.getElementById('new-trigger-content').value.trim();
             if (!code.startsWith('/')) code = '/' + code;
-            if (code.length < 2 || !label || !content) { alert("Preencha todos os campos."); return; }
+            if (code.length < 2 || !label || !content) { alert("Preencha todos os campos do gatilho."); return; }
             customTriggers[code] = { label, text: content };
             localStorage.setItem('doctype_triggers', JSON.stringify(customTriggers));
             document.getElementById('new-trigger-code').value = ''; document.getElementById('new-trigger-label').value = ''; document.getElementById('new-trigger-content').value = '';
-            renderQuickTriggersBar(); renderModalTriggersList(); showToast("Gatilho salvo e ativado!");
+            renderQuickTriggersBar(); renderModalTriggersList(); showToast("Gatilho ativo!");
         }
         function deleteCustomTrigger(code) {
             delete customTriggers[code]; localStorage.setItem('doctype_triggers', JSON.stringify(customTriggers));
@@ -371,8 +361,8 @@
         function renderNotesList() {
             const q = document.getElementById('search-notes').value.toLowerCase();
             document.getElementById('notes-list').innerHTML = notes.filter(n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q)).map(n => `
-                <div onclick="selectNote(${n.id})" class="p-3.5 rounded-lg border cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:bg-slate-800'}">
-                    <h4 class="font-bold text-xs truncate">${n.title || 'Sem título'}</h4>
+                <div onclick="selectNote(${n.id})" class="p-3.5 rounded-xl border cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-300 shadow-sm' : 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-800'}">
+                    <h4 class="font-bold text-sm truncate">${n.title || 'Sem título'}</h4>
                 </div>
             `).join('');
         }
@@ -381,13 +371,13 @@
             if (n) { document.getElementById('note-title').value = n.title; document.getElementById('note-content').value = n.content; }
             renderNotesList();
         }
-        function createNewNote() { const n = { id: Date.now(), title: "Nova Anotação", content: "" }; notes.unshift(n); saveNotes(); selectNote(n.id); }
+        function createNewNote() { const n = { id: Date.now(), title: "", content: "" }; notes.unshift(n); saveNotes(); selectNote(n.id); }
         function autoSaveNote() {
             if (!activeNoteId) return; const n = notes.find(x => x.id === activeNoteId);
             if (n) { n.title = document.getElementById('note-title').value; n.content = document.getElementById('note-content').value; saveNotes(); renderNotesList(); }
         }
         function deleteCurrentNote() { notes = notes.filter(n => n.id !== activeNoteId); saveNotes(); if (notes.length > 0) selectNote(notes[0].id); else createNewNote(); }
-        function copyCurrentNote() { navigator.clipboard.writeText(document.getElementById('note-content').value); showToast('Evolução copiada com sucesso!'); }
+        function copyCurrentNote() { navigator.clipboard.writeText(document.getElementById('note-content').value); showToast('Evolução copiada!'); }
         function handleTyping(ta) {
             let val = ta.value;
             for (let code in customTriggers) {
@@ -400,7 +390,7 @@
         }
         function insertTrigger(c) { if (customTriggers[c]) { const ta = document.getElementById('note-content'); ta.value += (ta.value ? "\n\n" : "") + customTriggers[c].text; autoSaveNote(); } }
 
-        /* ================= ABA 2: CALCULADORA PEDIÁTRICA MASSIVA ================= */
+        // ================= ABA 2: CALCULADORA PEDIÁTRICA 100% EXATA ================= 
         function calculatePediatricDrug() {
             const w = parseFloat(document.getElementById('ped-weight').value) || 0;
             const drug = document.getElementById('ped-drug').value;
@@ -408,208 +398,207 @@
             let t = "";
 
             switch (drug) {
-                /* AINES e Analgésicos */
-                case "dipirona": t = `[VO] Dipirona Gotas (500mg/mL)\nDiretriz: 15 a 25 mg/kg/dose (6/6h)\n\n• Tomar ${Math.min(40, Math.round(w*0.8))} a ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h (Máx 40 gotas/dose).`; break;
-                case "paracetamol": t = `[VO] Paracetamol Gotas (200mg/mL)\nDiretriz: 10 a 15 mg/kg/dose (6/6h)\n\n• Tomar ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h (Máx 40 gotas/dose).`; break;
-                case "ibuprofeno": t = `[VO] Ibuprofeno Gotas (50mg/mL ou 100mg/mL)\nDiretriz: 5 a 10 mg/kg/dose (6/6h ou 8/8h)\n\n• Se frasco 50mg/mL: Tomar ${Math.min(40, Math.round(w*2.0))} gotas, VO, de 6/6h.\n• Se frasco 100mg/mL: Tomar ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h.`; break;
-                case "cetoprofeno": t = `[VO] Cetoprofeno Gotas (20mg/mL)\nDiretriz: 1 mg/kg/dose (6/6h ou 8/8h)\n\n• Tomar ${Math.min(50, Math.round(w*1.0))} gotas, VO, de 6/6h.`; break;
-                case "diclofenaco": t = `[VO] Diclofenaco Resinato Gotas (15mg/mL)\nDiretriz: 1 gota/kg/dose (8/8h)\n\n• Tomar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
-                case "morfina": t = `[EV] Morfina (Ampola 10mg/mL)\nDiretriz: 0,05 a 0,1 mg/kg/dose\n\n• Administrar ${(w*0.05).toFixed(2)} mg a ${(w*0.1).toFixed(2)} mg, EV Lento.`; break;
-                case "tramadol": t = `[EV] Tramadol (Ampola 50mg/mL)\nDiretriz: 1 a 2 mg/kg/dose\n\n• Administrar ${(w*1).toFixed(1)} mg a ${(w*2).toFixed(1)} mg, EV, diluído em SF.`; break;
+                // Antimicrobianos VO
+                case "amoxicilina": t = `• Fármaco: Amoxicilina Suspensão (250 mg / 5 mL)\n• Diretriz: 20 a 100 mg/kg/dia (Regra Prática: Peso ÷ 3)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, Via Oral, de 8/8 horas. (Máx 3g/dia).`; break;
+                case "clavulin": t = `• Fármaco: Amoxicilina + Clavulanato Suspensão (250 mg / 5 mL)\n• Diretriz: 45 a 50 mg/kg/dia (Regra Prática: Peso ÷ 3)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, Via Oral, de 8/8 horas.`; break;
+                case "azitromicina": t = `• Fármaco: Azitromicina Suspensão (200 mg / 5 mL)\n• Diretriz: 10 mg/kg/dia em dose única (Regra Prática: Peso ÷ 4)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, Via Oral, 1 vez ao dia por 3 a 5 dias. (Máx 500mg/dia).`; break;
+                case "cefalexina": t = `• Fármaco: Cefalexina Suspensão (250 mg / 5 mL)\n• Diretriz: 25 a 100 mg/kg/dia (Regra Prática: Peso ÷ 4)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, Via Oral, de 6/6 horas. (Máx 4g/dia).`; break;
+                case "bactrim": t = `• Fármaco: Sulfametoxazol + Trimetoprima Suspensão (200+40 mg / 5 mL)\n• Diretriz: 8 a 12 mg/kg/dia de TMP (Regra Prática: Peso ÷ 2)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/2).toFixed(1)} mL, Via Oral, de 12/12 horas.`; break;
+                
+                // Antimicrobianos EV
+                case "ceftriaxona": t = `• Fármaco: Ceftriaxona Injetável\n• Diretriz: 50 a 100 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg a ${(w*100).toFixed(0)} mg, EV ou IM, em 1 ou 2 tomadas ao dia. (Máx 2g a 4g/dia).`; break;
+                case "oxacilina": t = `• Fármaco: Oxacilina Injetável\n• Diretriz: 100 a 200 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*150/4).toFixed(0)} mg por dose, EV, de 6/6 horas. (Máx 12g/dia).`; break;
+                case "ampicilina": t = `• Fármaco: Ampicilina Injetável (Diluição Frasco 1g em 5mL = 200 mg / mL)\n• Diretriz: 50 a 200 mg/kg/dia (Regra Prática: Peso ÷ 4)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL da diluição (200mg/mL), EV, de 6/6 horas. (Máx 8g/dia).`; break;
 
-                /* Antibióticos Orais */
-                case "amoxicilina": t = `[VO] Amoxicilina (250mg/5mL)\nDiretriz Padrão: 50 mg/kg/dia (8/8h) | Diretriz OMA/Alta: 90 mg/kg/dia (8/8h)\n\n• Dose Padrão: ${(w/3).toFixed(1)} mL, VO, de 8/8h.\n• Dose Alta: ${(w*0.6).toFixed(1)} mL, VO, de 8/8h.`; break;
-                case "clavulin": t = `[VO] Amoxicilina+Clavulanato (Baseado na Amox)\n\n• Frasco 250/5mL (Dose 50mg/kg/dia): ${(w/3).toFixed(1)} mL, VO, de 8/8h.\n• Frasco 400/5mL (Dose 70mg/kg/dia): ${(w*0.43).toFixed(1)} mL, VO, de 12/12h.`; break;
-                case "azitromicina": t = `[VO] Azitromicina (200mg/5mL)\nDiretriz: 10 mg/kg/dia (1x ao dia)\n\n• Tomar ${(w/4).toFixed(1)} mL, VO, 1 vez ao dia por 3 a 5 dias.`; break;
-                case "cefalexina": t = `[VO] Cefalexina (250mg/5mL)\nDiretriz: 50 a 100 mg/kg/dia (6/6h)\n\n• Tomar ${(w/4).toFixed(1)} mL a ${(w/2).toFixed(1)} mL, VO, de 6/6h por 7 dias.`; break;
-                case "claritromicina": t = `[VO] Claritromicina (250mg/5mL)\nDiretriz: 15 mg/kg/dia (divididos 12/12h)\n\n• Tomar ${(w*0.15).toFixed(1)} mL, VO, de 12/12 horas.`; break;
-                case "clindamicina": t = `[VO] Clindamicina (75mg/5mL = 15mg/mL)\nDiretriz: 30 a 40 mg/kg/dia (divididos 6/6h ou 8/8h)\n\n• Tomar ${(w*30/15/4).toFixed(1)} mL, VO, de 6/6 horas.`; break;
-                case "bactrim": t = `[VO] Sulfametoxazol+Trimetoprima (200+40mg/5mL)\nDiretriz: 8 a 12 mg/kg/dia de TMP (12/12h)\n\n• Tomar ${(w/2).toFixed(1)} mL, VO, de 12/12 horas.`; break;
-                case "nitrofurantoina": t = `[VO] Nitrofurantoína (25mg/5mL = 5mg/mL)\nDiretriz: 5 a 7 mg/kg/dia (divididos 6/6h)\n\n• Tomar ${(w*5/5/4).toFixed(1)} mL, VO, de 6/6 horas. (Tratamento ITU cistite).`; break;
+                // Analgésicos
+                case "dipirona": t = `• Fármaco: Dipirona Gotas (500 mg / mL)\n• Diretriz: 15 a 25 mg/kg/dose (Regra Prática: 0,8 a 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*0.8))} a ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre (Máx 40 gotas/dose).`; break;
+                case "paracetamol": t = `• Fármaco: Paracetamol Gotas (200 mg / mL)\n• Diretriz: 10 a 15 mg/kg/dose (Regra Prática: 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre (Máx 40 gotas/dose).`; break;
+                case "ibuprofeno": t = `• Fármaco: Ibuprofeno Gotas (50 mg / mL)\n• Diretriz: 5 a 10 mg/kg/dose (Regra Prática: 2 gotas/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*2.0))} gotas, VO, de 6/6h ou 8/8h se dor ou febre (Máx 600mg/dose = 40gts).`; break;
+                case "cetoprofeno": t = `• Fármaco: Cetoprofeno Gotas (20 mg / mL)\n• Diretriz: 1 mg/kg/dose (Regra Prática: 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(50, Math.round(w*1.0))} gotas, VO, de 6/6h ou 8/8h.`; break;
+                case "morfina": t = `• Fármaco: Morfina (Injetável)\n• Diretriz: 0,05 a 0,1 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.05).toFixed(2)} mg a ${(w*0.1).toFixed(2)} mg, EV Lento, a cada 2h a 4h se dor intensa.`; break;
 
-                /* Antibióticos Injetáveis */
-                case "ceftriaxona": t = `[EV/IM] Ceftriaxona\nDiretriz: 50 a 100 mg/kg/dia\n\n• Administrar ${(w*50).toFixed(0)} mg a ${(w*100).toFixed(0)} mg, EV ou IM/dia em 1 ou 2 tomadas (Máx 2g a 4g).`; break;
-                case "oxacilina": t = `[EV] Oxacilina\nDiretriz: 100 a 200 mg/kg/dia\n\n• Administrar ${(w*150/4).toFixed(0)} mg por dose, EV, de 6/6 horas.`; break;
-                case "ampicilina": t = `[EV] Ampicilina (Frasco 1g diluído p/ 200mg/mL)\nDiretriz: 100 a 200 mg/kg/dia\n\n• Administrar ${(w/4).toFixed(1)} mL da diluição (200mg/mL), EV, de 6/6 horas.`; break;
-                case "penicilina_benzatina": t = `[IM] Penicilina Benzatina (Benzetacil)\nDiretriz Faringite Estrepto:\n\n• < 27 kg: 600.000 UI, IM, dose única.\n• > 27 kg: 1.200.000 UI, IM, dose única.`; break;
-                case "gentamicina": t = `[EV/IM] Gentamicina\nDiretriz: 5 a 7,5 mg/kg/dia\n\n• Administrar ${(w*5).toFixed(1)} mg a ${(w*7.5).toFixed(1)} mg, EV, 1 vez ao dia.`; break;
+                // Gastrointestinais
+                case "ondansetrona_vo": t = `• Fármaco: Ondansetrona Solução Oral (0,8 mg / mL)\n• Diretriz: 0,2 mg/kg/dose (se < 15 kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nSe < 15 kg: Administrar ${(w*0.2/0.8).toFixed(1)} mL, VO, de 8/8h.\nSe 15-30 kg: 5,0 mL (4mg) VO.\nSe > 30 kg: 10,0 mL (8mg) VO.`; break;
+                case "ondansetrona_ev": t = `• Fármaco: Ondansetrona Injetável\n• Diretriz: 0,15 a 0,3 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.15).toFixed(1)} mg a ${(w*0.3).toFixed(1)} mg, EV, se vômitos.`; break;
+                case "bromoprida": t = `• Fármaco: Bromoprida Gotas (4 mg / mL)\n• Diretriz: 0,5 a 1 mg/kg/dia (Regra Prática: 1 gota/kg/dose)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
+                case "dimenidrinato": t = `• Fármaco: Dimenidrinato / Dramin Gotas (25 mg / mL)\n• Diretriz: 1 a 1,5 mg/kg/dose (Regra Prática: 1 gota/kg/dose)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 6/6h.`; break;
+                case "simeticona": t = `• Fármaco: Simeticona Gotas (75 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nCrianças < 2 anos: Administrar 5 gotas, VO, de 6/6h.\nCrianças > 2 anos: Administrar 10 gotas, VO, de 6/6h.`; break;
+                case "sro": t = `• Fármaco: Soro de Reidratação Oral (SRO) - Plano A\n\n[DOSE CALCULADA PARA ${w} KG]\nCrianças < 1 ano: Oferecer 50 a 100 mL após evacuação ou vômito.\nCrianças 1 a 10 anos: Oferecer 100 a 200 mL.`; break;
+                case "lactulose": t = `• Fármaco: Lactulose Xarope (667 mg / mL)\n• Diretriz Constipação: 1 a 3 mL/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.5).toFixed(1)} mL, VO, 1 vez ao dia (Máx 60 mL/dia).`; break;
+                case "peg4000": t = `• Fármaco: PEG 4000 / Peglax (Pó para Solução)\n• Diretriz Manutenção: 0,4 a 1 g/kg/dia\n• Diretriz Desimpactação: 1 a 1,5 g/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nManutenção: ${(w*0.7).toFixed(1)} g/dia diluídos em água (Máx 17g/dia).\nDesimpactação: ${(w*1.2).toFixed(1)} g/dia por 3 a 6 dias.`; break;
 
-                /* Gastrointestinais */
-                case "ondansetrona_vo": t = `[VO] Ondansetrona (Sol. 0,8mg/mL)\nDiretriz: 0,15 a 0,2 mg/kg/dose (8/8h)\n\n• Solução: ${w<15 ? (w*0.2/0.8).toFixed(1) : (w<=30 ? "5.0" : "10.0")} mL, VO, de 8/8h.\n• Comprimido ODT: Dar 4mg (se 15-30kg) ou 8mg (se >30kg).`; break;
-                case "ondansetrona_ev": t = `[EV] Ondansetrona (Ampola 2mg/mL)\nDiretriz: 0,15 a 0,3 mg/kg/dose\n\n• Administrar ${(w*0.15).toFixed(1)} mg a ${(w*0.3).toFixed(1)} mg, EV, de 8/8h.`; break;
-                case "bromoprida": t = `[VO] Bromoprida Gotas (4mg/mL)\n• Tomar ${Math.round(w*1.0)} gotas, VO, de 8/8h se náuseas.`; break;
-                case "dimenidrinato": t = `[VO] Dimenidrinato/Dramin Gotas (25mg/mL)\n• Tomar ${Math.round(w*1.0)} gotas, VO, de 6/6h.`; break;
-                case "simeticona": t = `[VO] Simeticona Gotas (75mg/mL)\n• Tomar ${w<2 ? 5 : 10} gotas, VO, de 6/6h se cólicas.`; break;
-                case "omeprazol": t = `[VO] Omeprazol (Cápsulas)\nDiretriz: 1 mg/kg/dia\n\n• Tomar ${(w*1).toFixed(0)} mg, VO, 1x ao dia (em jejum). Adaptar para cps 10 ou 20mg.`; break;
-                case "domperidona": t = `[VO] Domperidona Suspensão (1mg/mL)\nDiretriz: 0,2 a 0,4 mg/kg/dose (8/8h)\n\n• Tomar ${(w*0.3).toFixed(1)} mL, VO, de 8/8h (15 min antes das refeições).`; break;
-                case "lactulose": t = `[VO] Lactulose Xarope (667mg/mL)\n• Tomar ${(w*1.5).toFixed(1)} mL, VO, 1x ao dia.`; break;
-                case "peg4000": t = `[VO] PEG 4000 (Sem Sabor)\n• Manutenção: ${(w*0.7).toFixed(1)} g/dia.\n• Desimpactação: ${(w*1.2).toFixed(1)} g/dia por 3 a 6 dias.`; break;
+                // Corticoides / Alergia
+                case "dexclorfeniramina": t = `• Fármaco: Dexclorfeniramina / Polaramine (Solução 2 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n2 a 6 anos: Administrar 1,25 mL (ou 5 gotas), VO, de 6/6h.\n6 a 12 anos: Administrar 2,5 mL, VO, de 6/6h.`; break;
+                case "desloratadina": t = `• Fármaco: Desloratadina Xarope (0,5 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n6 a 11 meses: 2,0 mL (1mg), 1x/dia.\n1 a 5 anos: 2,5 mL (1,25mg), 1x/dia.\n6 a 11 anos: 5,0 mL (2,5mg), 1x/dia.`; break;
+                case "hidroxizina": t = `• Fármaco: Hidroxizina Xarope (2 mg / mL)\n• Diretriz: 2 mg/kg/dia (Regra Prática: Peso ÷ 4)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, VO, de 8/8 horas.`; break;
+                case "prednisolona": t = `• Fármaco: Prednisolona Solução Oral (3 mg / mL)\n• Diretriz Asma/Anti-inflamatório: 1 a 2 mg/kg/dia (Regra Prática: Peso ÷ 3)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, VO, 1 vez ao dia (pela manhã) por 3 a 5 dias. (Máx 60mg/dia).`; break;
+                case "dexametasona": t = `• Fármaco: Dexametasona (Solução 0,1 mg/mL ou Ampola 4 mg/mL)\n• Diretriz Crupe: 0,15 a 0,6 mg/kg em dose única\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.3).toFixed(1)} mg, VO, EV ou IM, em dose única (Máx 16mg/dose).`; break;
+                case "hidrocortisona": t = `• Fármaco: Hidrocortisona Injetável\n• Diretriz Asma Ataque: 10 mg/kg\n• Manutenção: 4 a 6 mg/kg/dose (6/6h)\n\n[DOSE CALCULADA PARA ${w} KG]\nAtaque: ${(w*10).toFixed(0)} mg, EV.\nManutenção: ${(w*5).toFixed(0)} mg, EV, de 6/6h.`; break;
 
-                /* Antiparasitários */
-                case "albendazol": t = `[VO] Albendazol (400mg/10mL)\nDiretriz Geral (> 2 anos):\n\n• Tomar 10 mL (400mg), VO, dose única (ou 1x ao dia por 3-5 dias para Giardia/Estrongiloidíase).`; break;
-                case "nitazoxanida": t = `[VO] Nitazoxanida / Annita (20mg/mL)\nDiretriz: 7,5 mg/kg/dose (12/12h)\n\n• Tomar ${(w*0.375).toFixed(1)} mL, VO, de 12/12 horas por 3 dias.`; break;
-                case "ivermectina": t = `[VO] Ivermectina (Comprimido 6mg)\nDiretriz: 200 mcg/kg (Dose Única). Apenas para > 15 kg e > 5 anos.\n\n• Tomar ${Math.max(0, Math.round(w*200/6000))} comprimido(s), VO, dose única. Repetir em 14 dias se Escabiose.`; break;
-                case "secnidazol": t = `[VO] Secnidazol Suspensão (30mg/mL)\nDiretriz: 30 mg/kg em dose única\n\n• Tomar ${(w*1.0).toFixed(1)} mL, VO, após o jantar em dose única.`; break;
-                case "metronidazol": t = `[VO] Metronidazol Suspensão (40mg/mL - Benzoilmetronidazol)\nDiretriz Giardíase: 15 a 20 mg/kg/dia (divididos 8/8h ou 12/12h)\n\n• Tomar ${(w*15/40/2).toFixed(1)} mL, VO, de 12/12 horas por 5 dias.`; break;
+                // Respiratório e Adrenalina
+                case "salbutamol": t = `• Fármaco: Salbutamol Spray / Aerolin (100 mcg / jato)\n• Diretriz Asma Aguda: 1 jato a cada 3 a 4 kg (Regra Prática: Peso ÷ 3)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.max(2, Math.min(10, Math.round(w/3)))} jatos via espaçador a cada 20 minutos na 1ª hora. (Mín 2, Máx 10).`; break;
+                case "atrovent": t = `• Fármaco: Brometo de Ipratrópio / Atrovent (Nebulização 0,25 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 10 kg: Nebulizar 10 gotas diluídas em 2 mL SF 0,9%.\n10 a 20 kg: Nebulizar 20 gotas diluídas em 2 mL SF.\n> 20 kg: Nebulizar 40 gotas diluídas em 2 mL SF.`; break;
+                case "sulfato_mg": t = `• Fármaco: Sulfato de Magnésio 50% Injetável\n• Diretriz Crise Grave Refratária: 25 a 75 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg, EV, infundidos em 20 minutos (Máx 2g).`; break;
+                case "adrenalina_nbz": t = `• Fármaco: Adrenalina (Ampola 1 mg / mL p/ Nebulização)\n• Diretriz Crupe Grave: 0,5 mL/kg de Adrenalina pura\n\n[DOSE CALCULADA PARA ${w} KG]\nNebulizar ${Math.min(5, (w/2)).toFixed(1)} mL da ampola pura (Máx 5mL).`; break;
+                case "adrenalina_im": t = `• Fármaco: Adrenalina (Ampola 1 mg / mL p/ Intramuscular)\n• Diretriz Anafilaxia: 0,01 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAplicar ${Math.min(0.5, (w*0.01)).toFixed(2)} mL, IM, no vasto lateral da coxa. Pode repetir a cada 5-15 min (Máx 0,5mL/dose).`; break;
 
-                /* Corticoides e Antialérgicos */
-                case "dexclorfeniramina": t = `[VO] Dexclorfeniramina/Polaramine (2mg/5mL)\n• 2 a 6 anos: 1,25 mL, VO, de 6/6h.\n• 6 a 12 anos: 2,5 mL, VO, de 6/6h.`; break;
-                case "desloratadina": t = `[VO] Desloratadina Xarope (0,5mg/mL)\n• 1 a 5 anos: 2,5 mL, VO, 1x ao dia.\n• 6 a 11 anos: 5,0 mL, VO, 1x ao dia.`; break;
-                case "loratadina": t = `[VO] Loratadina Xarope (1mg/mL)\n• Peso < 30 kg: 5 mL, VO, 1x ao dia.\n• Peso > 30 kg: 10 mL, VO, 1x ao dia.`; break;
-                case "cetirizina": t = `[VO] Cetirizina Xarope (1mg/mL)\n• 2 a 5 anos: 2,5 mL, VO, 1x ao dia.\n• > 6 anos: 5 a 10 mL, VO, 1x ao dia.`; break;
-                case "hidroxizine": t = `[VO] Hidroxizine Xarope (2mg/mL)\nDiretriz: 2 mg/kg/dia (divididos 8/8h)\n\n• Tomar ${(w/4).toFixed(1)} mL, VO, de 8/8 horas.`; break;
-                case "prednisolona": t = `[VO] Prednisolona (3mg/mL)\nDiretriz Padrão (Asma/Alergia): 1 a 2 mg/kg/dia\n\n• Tomar ${(w/3).toFixed(1)} mL, VO, 1x ao dia pela manhã por 3 a 5 dias.`; break;
-                case "dexametasona": t = `[VO/EV/IM] Dexametasona (0,1mg/mL oral ou Injetável)\nDiretriz Crupe: 0,15 a 0,6 mg/kg/dose\n\n• Administrar ${(w*0.3).toFixed(1)} mg, em dose única (Máx 16mg).`; break;
-                case "hidrocortisona": t = `[EV] Hidrocortisona (Emergência Asma)\n• Ataque: ${(w*10).toFixed(0)} mg, EV.\n• Manutenção: ${(w*5).toFixed(0)} mg, EV, de 6/6h.`; break;
+                // Anticonvulsivantes / Neuro
+                case "midazolam_ev": t = `• Fármaco: Midazolam Injetável (Diluir 1mL ampola + 4mL AD = 1 mg / mL)\n• Diretriz: 0,1 a 0,3 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.2).toFixed(1)} mL da diluição (1mg/mL), EV lento.`; break;
+                case "midazolam_in": t = `• Fármaco: Midazolam Injetável (Usar ampola pura 5 mg / mL via Intranasal)\n• Diretriz: 0,2 a 0,3 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(1.5, (w*0.05)).toFixed(2)} mL puros, fracionados entre as duas narinas (Máx 7,5mg).`; break;
+                case "fenobarbital": t = `• Fármaco: Fenobarbital Injetável (Diluir 1mL ampola + 9mL AD = 10 mg / mL)\n• Diretriz Ataque: 20 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição (10mg/mL), EV, infundidos em 10 minutos.`; break;
+                case "fenitoina": t = `• Fármaco: Fenitoína Injetável (Diluir 1mL ampola + 4mL SF 0.9% = 10 mg / mL)\n• Diretriz Ataque: 20 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição (10mg/mL), EV, infundidos em 20 minutos (Máx 50mg/min).`; break;
+                case "atropina": t = `• Fármaco: Atropina Colírio 1% (Manejo de Sialorreia)\n\n[DOSE CALCULADA PARA ${w} KG]\nPingar 1 a 2 gotas, Via Sublingual, de 4 a 6 vezes ao dia.`; break;
+                case "escopolamina": t = `• Fármaco: Escopolamina Gotas 10 mg/mL (Manejo Sialorreia via Nebulização)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 6 anos: Nebulizar 10 gotas diluídas em SF 0,9% (3 a 5x ao dia).\n6-12 anos: Nebulizar 20 gotas.\n> 12 anos: Nebulizar 40 gotas.`; break;
 
-                /* Respiratório e Emergência */
-                case "salbutamol": t = `[Inalatório] Salbutamol Spray (100mcg/jato)\nDiretriz Asma Aguda:\n\n• Administrar ${Math.max(2, Math.min(10, Math.round(w/3)))} jatos via espaçador a cada 20 minutos na 1ª hora.`; break;
-                case "atrovent": t = `[Nebulização] Brometo de Ipratrópio (0,25mg/mL)\n• Nebulizar ${w<10?10:(w<=20?20:40)} gotas diluídas em 2 mL de SF 0,9%.`; break;
-                case "adrenalina_crupe": t = `[Nebulização] Adrenalina (1mg/mL = 1:1000)\nDiretriz Crupe Grave: 0,5 mL/kg (Máx 5mL)\n\n• Nebulizar ${Math.min(5, (w/2)).toFixed(1)} mL puros.`; break;
-                case "adrenalina_im": t = `[IM] Adrenalina (1mg/mL = 1:1000)\nDiretriz Anafilaxia: 0,01 mg/kg (Máx 0,5mL)\n\n• Aplicar ${Math.min(0.5, (w*0.01)).toFixed(2)} mL, via Intramuscular (Vasto Lateral da Coxa).`; break;
-                case "sulfato_mg": t = `[EV] Sulfato de Magnésio 50%\nDiretriz Asma Refratária: 50 mg/kg\n\n• Administrar ${(w*50).toFixed(0)} mg, EV, infundidos em 20 min (Máx 2g).`; break;
+                // Suplementos e Outros
+                case "sulfato_ferroso": t = `• Fármaco: Sulfato Ferroso Profilático (Gotas 25mg Fe elementar/mL = 1,25mg Fe/gota)\n\n[DOSE CALCULADA PARA ${w} KG]\nProfilaxia (RNT): Tomar ${Math.round((w*1.0)/1.25)} gotas/dia (1 mg/kg/dia) do 180º ao 24º mês.\nProfilaxia (RNPT): Tomar ${Math.round((w*2.0)/1.25)} gotas/dia (2 mg/kg/dia).\nTratamento Anemia: Tomar ${Math.round((w*4.0)/1.25)} gotas/dia (3 a 6 mg/kg/dia) por 6 meses.`; break;
+                case "vitamina_d": t = `• Fármaco: Vitamina D3 Profilática\n\n[DOSE CALCULADA PARA ${w} KG]\nCrianças < 1 ano: 400 UI/dia.\nCrianças > 1 ano: 600 UI/dia.`; break;
+                case "oseltamivir": t = `• Fármaco: Oseltamivir / Tamiflu Suspensão (15 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 1 ano: Administrar ${(w*0.2).toFixed(1)} mL (${(w*3).toFixed(0)}mg), VO, de 12/12h por 5 dias.\n> 1 ano (≤ 15kg): 30 mg (2 mL), VO, de 12/12h por 5 dias.\n> 1 ano (15-23kg): 45 mg (3 mL), VO, de 12/12h por 5 dias.\n> 1 ano (23-40kg): 60 mg (4 mL), VO, de 12/12h por 5 dias.`; break;
+                case "permetrina": t = `• Fármaco: Permetrina Loção 5% e Ivermectina 6mg (Escabiose)\n\n[DOSE CALCULADA PARA ${w} KG]\nPermetrina: Aplicar no corpo à noite, retirar em 8-14h. Repetir 7 e 14 dias.\nIvermectina: Tomar ${Math.max(0, Math.round(w*200/6000))} comprimido(s), VO, dose única. (200 mcg/kg para >15kg e >5a).`; break;
+                case "nifedipina": t = `• Fármaco: Nifedipina / Hidralazina (Emergência HAS)\n\n[DOSE CALCULADA PARA ${w} KG]\nNifedipina: Administrar ${(w*0.25).toFixed(1)} mg/dose, VO, a cada 4-6h.\nHidralazina: Administrar ${(w*0.15).toFixed(1)} mg/dose, EV, a cada 4-6h.`; break;
+                case "apendicite": t = `• Fármaco: Unasyn EV e Clavulin VO (Apendicite PO)\n\n[DOSE CALCULADA PARA ${w} KG]\nInternado (Unasyn 250mg/mL): ${(w*150/250/4).toFixed(1)} mL, EV, de 6/6h.\nAlta (Clavulin VO): ${(w/4).toFixed(1)} mL, VO, de 12/12h.`; break;
 
-                /* Anticonvulsivantes */
-                case "midazolam_ev": t = `[EV] Midazolam (Diluir 1mL ampola + 4mL AD = 1mg/mL)\n• Administrar ${(w*0.2).toFixed(1)} mL da diluição, EV lento. (0,2 mg/kg)`; break;
-                case "midazolam_in": t = `[Intranasal] Midazolam (5mg/mL puros)\n• Administrar ${Math.min(1.5, (w*0.05)).toFixed(2)} mL puros, divididos entre as narinas. (Máx 7,5mg)`; break;
-                case "diazepam": t = `[EV] Diazepam (Ampola 5mg/mL)\nDiretriz: 0,1 a 0,3 mg/kg\n\n• Administrar ${(w*0.2/5).toFixed(2)} mL, EV extremamente lento. (Não diluir).`; break;
-                case "fenobarbital": t = `[EV] Fenobarbital (Diluir 1mL ampola + 9mL AD = 10mg/mL)\n• Ataque: ${(w*2.0).toFixed(1)} mL da diluição, EV, em 10 min. (20 mg/kg)`; break;
-                case "fenitoina": t = `[EV] Fenitoína (Diluir 1mL ampola + 4mL SF = 10mg/mL)\n• Ataque: ${(w*2.0).toFixed(1)} mL da diluição, EV, em 20 min. (20 mg/kg)`; break;
-
-                /* Suplementos */
-                case "ferro_profilaxia": t = `[VO] Sulfato Ferroso Gotas (25mg Fe elementar/mL = 1,25mg/gota)\n• RNT: Tomar ${Math.round((w*1.0)/1.25)} gotas/dia (1 mg/kg/dia).\n• RNPT: Tomar ${Math.round((w*2.0)/1.25)} gotas/dia (2 mg/kg/dia).`; break;
-                case "ferro_tratamento": t = `[VO] Sulfato Ferroso Gotas\n• Tomar ${Math.round((w*4.0)/1.25)} gotas/dia (Dose 4 mg/kg/dia), VO, antes das refeições por 6 meses.`; break;
-                case "vitamina_d": t = `[VO] Vitamina D3\n• < 1 ano: 400 UI/dia.\n• > 1 ano: 600 UI/dia.`; break;
-
-                default: t = "Selecione uma medicação válida.";
+                default: t = "Por favor, selecione um fármaco da lista.";
             }
             out.innerText = t;
         }
 
-        function copyPedResult() { navigator.clipboard.writeText(document.getElementById('ped-result').innerText); showToast("Cálculo copiado!"); }
+        function copyPedResult() { navigator.clipboard.writeText(document.getElementById('ped-result').innerText); showToast("Cálculo copiado com sucesso!"); }
         function sendPedResultToNote() {
             const txt = document.getElementById('ped-result').innerText;
             if (!activeNoteId) createNewNote();
             const n = notes.find(x => x.id === activeNoteId);
-            if (n) { n.content += (n.content ? "\n\n" : "") + "--- POSOLOGIA CALCULADA ---\n" + txt; saveNotes(); selectNote(activeNoteId); switchTab('tab-notes'); showToast("Cálculo exportado p/ nota!"); }
+            if (n) { n.content += (n.content ? "\n\n" : "") + "--- CÁLCULO PEDIÁTRICO EXATO ---\n" + txt; saveNotes(); selectNote(activeNoteId); switchTab('tab-notes'); showToast("Cálculo exportado para evolução!"); }
         }
 
-        /* ================= ABA 3: PRESCRIÇÕES PRONTAS ================= */
+        // ================= ABA 3: PRESCRIÇÕES POR DOENÇA ================= 
         const diseasesData = [
-            /* PEDIATRIA */
             {
-                disease: "OTITE MÉDIA AGUDA (OMA) - PEDIATRIA",
-                category: "Otorrinolaringologia",
-                prescription: "USO ORAL\n\n1. AMOXICILINA SUSP. 250 MG/5 ML ----------------- 2 FRASCOS\n   Tomar [Peso/3] mL (50mg/kg/dia), via oral, de 8/8h por 10 dias. \n   (Em casos graves/falha, usar Amoxicilina+Clavulanato 90mg/kg/dia)\n\n2. IBUPROFENO GOTAS 50 MG/ML --------------------- 1 FRASCO\n   Tomar [Peso x 2] gotas, via oral, de 8/8h se dor de ouvido ou febre.\n\nUSO NASAL\n\n3. SOLUÇÃO FISIOLÓGICA 0,9% ---------------------- 1 FRASCO\n   Lavar as narinas com seringa 3 a 4 vezes ao dia."
+                disease: "SANGRAMENTO UTERINO ANORMAL (SUA)",
+                prescription: "USO ORAL\n\n1. NAPROXENO 550MG -------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, de 12/12h por 5 dias.\n\n2. ÁCIDO TRANEXÂMICO 250MG ----------------------- 2 CAIXAS\n   Tomar 2 comprimidos (500mg), via oral, de 8/8h por 3 a 5 dias durante fluxo intenso."
             },
             {
-                disease: "DENGUE - HIDRATAÇÃO PEDIÁTRICA (GRUPO A)",
-                category: "Infectologia / Pediatria",
-                prescription: "USO ORAL\n\n1. SORO DE REIDRATAÇÃO ORAL (SRO) ---------------- 5 ENVELOPES\n   Diluir 1 envelope em 1 L de água. Oferecer 1/3 do volume total diário. \n   (Cálculo Volume Total: 50 a 100 mL/kg/dia. Para 15kg = ~1000 mL/dia total, sendo 330mL de SRO e o resto líquidos caseiros).\n\n2. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n   Tomar [Peso x 1] gotas, via oral, de 6/6h se febre ou dor. (EVITAR AINES)."
-            },
-            {
-                disease: "BRONQUIOLITE VIRAL AGUDA (BVA)",
-                category: "Pneumologia Pediátrica",
-                prescription: "USO NASAL / INALATÓRIO\n\n1. SOLUÇÃO SALINA 0,9% --------------------------- 1 FRASCO\n   Lavagem nasal abundante com seringa antes das mamadas e do sono.\n\n2. SOLUÇÃO SALINA HIPERTÔNICA 3% \n   Nebulizar 4 mL (1,5 mL NaCl 20% + 8,5 mL AD) de 6/6h se muita secreção e conforto hospitalar."
-            },
-            {
-                disease: "ASMA AGUDA (CRISE MODERADA/GRAVE)",
-                category: "Emergência Pediátrica",
-                prescription: "USO INALATÓRIO\n\n1. SALBUTAMOL SPRAY 100 MCG/JATO ------------------ 1 FRASCO\n   Aplicar [Peso/3] jatos (Mínimo 2, Máx 10) com espaçador a cada 20 min na 1ª hora.\n\n2. BROMETO DE IPRATRÓPIO (ATROVENT) 0,25 MG/ML ---- 1 FRASCO\n   Nebulizar 20 gotas (se 10-20kg) diluídas em 2 mL SF a cada 20 min na 1ª hora.\n\nUSO ORAL\n\n3. PREDNISOLONA SOLUÇÃO ORAL 3 MG/ML -------------- 1 FRASCO\n   Tomar [Peso/3] mL (1 mg/kg/dia), via oral, 1x ao dia pela manhã por 5 dias."
+                disease: "ASMA AGUDA / BRONCOESPASMO",
+                prescription: "USO INALATÓRIO E VIA ORAL\n\n1. SALBUTAMOL SPRAY 100 MCG/JATO ------------------ 1 FRASCO\n   Aplicar [Peso/3] jatos (Mín 2, Máx 10) com espaçador a cada 20 minutos na 1ª hora.\n\n2. BROMETO DE IPRATRÓPIO (ATROVENT) 0,25 MG/ML ---- 1 FRASCO\n   Nebulizar 20 gotas (se 10-20kg) diluídas em 2 mL de SF 0,9% a cada 20 min na 1ª hora.\n\n3. PREDNISOLONA SOLUÇÃO ORAL 3 MG/ML -------------- 1 FRASCO\n   Tomar [Peso/3] mL (1 mg/kg/dia), via oral, 1x ao dia pela manhã, por 5 dias."
             },
             {
                 disease: "CRUPE / LARINGOTRAQUEÍTE AGUDA",
-                category: "Emergência Pediátrica",
-                prescription: "USO ORAL / IM\n\n1. DEXAMETASONA SOL. ORAL 0,1 MG/ML OU AMPOLA 4 MG/ML\n   Administrar 0,15 a 0,6 mg/kg (dose média 0,3 mg/kg, máx 16 mg) em dose única.\n\nUSO INALATÓRIO (Se estridor em repouso)\n\n2. ADRENALINA AMPOLA 1 MG/ML (1:1000) -------------- 1 AMPOLA\n   Nebulizar 0,5 mL/kg (máx 5 mL) puras ou diluídas em SF 0,9%, em dose única."
+                prescription: "USO ORAL, ENDOVENOSO OU INALATÓRIO\n\n1. DEXAMETASONA SOL. ORAL 0,1 MG/ML OU AMPOLA 4 MG/ML\n   Administrar 0,15 a 0,6 mg/kg (dose média 0,3 mg/kg, máx 16 mg) em dose única.\n\n2. ADRENALINA AMPOLA 1 MG/ML (1:1000) -------------- 1 AMPOLA\n   Nebulizar 0,5 mL/kg (máx 5 mL) puras ou diluídas em SF 0,9%, em dose única (se estridor em repouso)."
             },
             {
-                disease: "GASTROENTERITE AGUDA (GEA) - DESIDRATAÇÃO LEVE",
-                category: "Gastroenterologia",
-                prescription: "USO ORAL\n\n1. ONDANSETRONA SOLUÇÃO ORAL 0,8 MG/ML ------------- 1 FRASCO\n   Tomar 0,2 mg/kg/dose, via oral, de 8/8h se vômitos.\n\n2. SORO DE REIDRATAÇÃO ORAL (SRO) ------------------ 5 ENVELOPES\n   Diluir 1 env. em 1 L de água. Oferecer 50 a 100 mL após cada evacuação líquida.\n\n3. ZINCO SOLUÇÃO ORAL 4 MG/ML ---------------------- 1 FRASCO\n   Tomar 5 mL (ou 2,5 mL se < 6 meses), via oral, 1x ao dia por 10 a 14 dias.\n\n4. RACECADOTRILA (TIORFAN) SACHÊ ------------------ 1 CAIXA\n   Tomar 1,5 mg/kg por dose, via oral, de 8/8h até cessar a diarreia."
+                disease: "BRONQUIOLITE VIRAL AGUDA (BVA)",
+                prescription: "USO NASAL E INALATÓRIO\n\n1. SOLUÇÃO SALINA 0,9% --------------------------- 1 FRASCO\n   Lavagem nasal abundante com seringa antes das mamadas e do sono.\n\n2. SOLUÇÃO SALINA HIPERTÔNICA 3% \n   Nebulizar 4 mL (Preparo: 1,5 mL NaCl 20% + 8,5 mL AD) de 6/6h a 8/8h."
             },
             {
-                disease: "IMPETIGO PEDIÁTRICO",
-                category: "Dermatologia / Infectologia",
-                prescription: "USO TÓPICO\n\n1. MUPIROCINA POMADA 2% -------------------------- 1 BISNAGA\n   Aplicar nas lesões, 3x ao dia por 5 a 7 dias (Remover crostas suavemente antes).\n\nUSO ORAL (Se lesões extensas)\n\n2. CEFALEXINA SUSPENSÃO 250 MG/5 ML ---------------- 1 FRASCO\n   Tomar 50 mg/kg/dia divididos de 6/6h por 7 dias."
+                disease: "GASTROENTERITE AGUDA (GEA)",
+                prescription: "USO ORAL\n\n1. ONDANSETRONA SOLUÇÃO ORAL 0,8 MG/ML ------------- 1 FRASCO\n   Tomar 0,2 mg/kg/dose, via oral, de 8/8h se vômitos.\n\n2. SORO DE REIDRATAÇÃO ORAL (SRO) ------------------ 5 ENVELOPES\n   Diluir 1 envelope em 1 L de água. Oferecer 50 a 100 mL após cada evacuação líquida/vômito.\n\n3. ZINCO SOLUÇÃO ORAL 4 MG/ML ---------------------- 1 FRASCO\n   Tomar 5 mL (ou 2,5 mL se < 6 meses), via oral, 1x ao dia por 10 a 14 dias.\n\n4. RACECADOTRILA (TIORFAN) SACHÊ ------------------ 1 CAIXA\n   Tomar 1,5 mg/kg por dose, via oral, de 8/8h até cessar a diarreia."
+            },
+            {
+                disease: "ANEMIA FERROPRIVA",
+                prescription: "USO ORAL\n\n1. SULFATO FERROSO GOTAS (25 MG FE ELEMENTAR/ML)\n   [TRATAMENTO]: Tomar 3 a 6 mg/kg/dia, via oral, fracionado 1x ao dia antes da refeição por 6 meses.\n   [PROFILAXIA]: Tomar 1 mg/kg/dia do 180º ao 24º mês (RNT sem risco)."
+            },
+            {
+                disease: "VERMIOSE / PARASITOSE INTESTINAL",
+                prescription: "USO ORAL\n\n1. ALBENDAZOL SUSPENSÃO 400 MG/10 ML --------------- 1 FRASCO\n   Tomar 10 mL (400 mg), via oral, 1x ao dia por 3 a 5 dias (Para maiores de 2 anos).\n\n2. NITAZOXANIDA (ANNITA) SUSP. 20 MG/ML ------------ 1 FRASCO\n   Tomar 7,5 mg/kg/dose, via oral, de 12/12h por 3 dias.\n\n3. SECNIDAZOL SUSPENSÃO 30 MG/ML ------------------- 1 FRASCO\n   Tomar 30 mg/kg, via oral, em dose única após jantar."
             },
             {
                 disease: "ESCABIOSE / PEDICULOSE",
-                category: "Dermatologia",
-                prescription: "USO TÓPICO\n\n1. PERMETRINA LOÇÃO 5% ----------------------------- 1 FRASCO\n   Aplicar no corpo todo à noite, deixar por 8 a 14h e lavar. Repetir em 7 e 14 dias.\n\nUSO ORAL\n\n2. IVERMECTINA 6 MG COMPRIMIDOS -------------------- 1 CAIXA\n   Tomar 200 mcg/kg, via oral, em dose única (apenas para > 5 anos e > 15 kg)."
+                prescription: "USO TÓPICO E ORAL\n\n1. PERMETRINA LOÇÃO 5% ----------------------------- 1 FRASCO\n   Aplicar no corpo todo à noite, deixar por 8 a 14h e lavar pela manhã. Repetir em 7 e 14 dias.\n\n2. IVERMECTINA 6 MG COMPRIMIDOS -------------------- 1 CAIXA\n   Tomar 200 mcg/kg, via oral, em dose única (apenas para > 5 anos e > 15 kg)."
+            },
+            {
+                disease: "INFECÇÃO DO TRATO URINÁRIO (ITU)",
+                prescription: "USO ORAL\n\n1. CEFALEXINA SUSPENSÃO 250 MG/5 ML ---------------- 2 FRASCOS\n   Tomar 50 a 100 mg/kg/dia, via oral, fracionado de 6/6h por 7 a 10 dias.\n\n2. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n   Tomar 15 a 25 mg/kg/dose, via oral, de 6/6h se dor ou febre."
+            },
+            {
+                disease: "INFLUENZA / SÍNDROME GRIPAL",
+                prescription: "USO ORAL\n\n1. OSELTAMIVIR (TAMIFLU) SUSP. 15 MG/ML ------------ 1 FRASCO\n   - < 1 ano: 3 mg/kg/dose de 12/12h por 5 dias.\n   - 1 a 15 kg: 30 mg (2 mL) de 12/12h por 5 dias.\n   - 15 a 23 kg: 45 mg (3 mL) de 12/12h por 5 dias.\n   - 23 a 40 kg: 60 mg (4 mL) de 12/12h por 5 dias."
+            },
+            {
+                disease: "CONSTIPAÇÃO INTESTINAL",
+                prescription: "USO ORAL\n\n1. PEG 4000 (MUVINLAX/PEGLAX) SACHÊ OU PÓ ---------- 1 LATA\n   - Desimpactação: 1 a 1,5 g/kg/dia diluídos em água por 3 a 6 dias.\n   - Manutenção: 0,4 a 1 g/kg/dia diluídos em água 1x ao dia (Máx 17g/dia).\n\n2. LACTULOSE XAROPE 667 MG/ML ---------------------- 1 FRASCO\n   Tomar 1 a 3 mL/kg/dia, via oral, pela manhã em dose única."
+            },
+            {
+                disease: "CRISE CONVULSIVA",
+                prescription: "USO ENDOVENOSO OU INTRANASAL\n\n1. MIDAZOLAM AMPOLA 5 MG/ML ------------------------ 1 AMPOLA\n   - Intranasal: 0,2 a 0,3 mg/kg da solução pura fracionado nas narinas (Máx 7,5mg).\n   - EV: 0,1 a 0,3 mg/kg (diluir 1mL ampola + 4mL AD = 1mg/mL), EV lento.\n\n2. FENOBARBITAL AMPOLA 100 MG/ML ------------------- 1 AMPOLA\n   Dose de Ataque: 20 mg/kg, EV, infundido em 10 minutos."
             },
             {
                 disease: "ANAFILAXIA AGUDA",
-                category: "Alergologia / Emergência",
-                prescription: "USO INTRAMUSCULAR (SALVA-VIDAS IMEDIATO)\n\n1. ADRENALINA AMPOLA 1 MG/ML (1:1000) -------------- 1 AMPOLA\n   Aplicar 0,01 mg/kg (máximo 0,5 mL adulto; 0,3 mL criança), IM, no vasto lateral da coxa. Pode repetir a cada 5-15 min.\n\nUSO ENDOVENOSO (SECUNDÁRIO)\n\n2. PROMETAZINA (FERNERGAN) 50 MG/2ML --------------- 1 AMPOLA\n   Administrar 0,5 mg/kg IM ou EV lento.\n3. HIDROCORTISONA 100 MG --------------------------- 1 AMPOLA\n   Administrar 5 a 10 mg/kg EV."
-            },
-
-            /* CLÍNICA MÉDICA / ADULTOS */
-            {
-                disease: "ENXAQUECA AGUDA (CRISE MODERADA A GRAVE) - ADULTO",
-                category: "Neurologia / Clínica Médica",
-                prescription: "USO ORAL\n\n1. SUMATRIPTANO 50 MG ------------------------------ 1 CAIXA\n   Tomar 1 comprimido, VO, no início da crise. Se não melhorar em 2h, pode repetir (Máx 200mg/dia).\n\n2. NAPROXENO 500 MG -------------------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 12/12h por 3 dias.\n\n3. METOCLOPRAMIDA (PLASIL) 10 MG ------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 8/8h se náuseas associadas à crise."
+                prescription: "USO INTRAMUSCULAR\n\n1. ADRENALINA AMPOLA 1 MG/ML (1:1000) -------------- 1 AMPOLA\n   Aplicar 0,01 mg/kg (máximo 0,5 mL), via Intramuscular (músculo vasto lateral da coxa). Pode repetir a cada 5-15 min se não houver resposta."
             },
             {
-                disease: "HIPERTENSÃO ARTERIAL SISTÊMICA (HAS) - INÍCIO TRATAMENTO ADULTO",
-                category: "Cardiologia / Clínica Médica",
-                prescription: "USO ORAL\n\n1. LOSARTANA POTÁSSICA 50 MG ----------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 12/12h de uso contínuo.\n\n2. HIDROCLOROTIAZIDA 25 MG ------------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, 1x ao dia pela manhã de uso contínuo.\n\n* Orientações: Redução de sódio, atividade física, retorno em 30 dias com MRPA."
+                disease: "SIALORREIA",
+                prescription: "USO SUBLINGUAL E INALATÓRIO\n\n1. ATROPINA COLÍRIO 1% ----------------------------- 1 FRASCO\n   Pingar 1 a 2 gotas via sublingual, 4 a 6 vezes ao dia.\n\n2. ESCOPOLAMINA GOTAS 10 MG/ML --------------------- 1 FRASCO\n   Nebulizar 10 a 40 gotas (dependendo do peso) diluídas em SF 0,9%, 3 a 5 vezes ao dia."
             },
             {
-                disease: "SANGRAMENTO UTERINO ANORMAL (SUA) - ADULTO",
-                category: "Ginecologia",
-                prescription: "USO ORAL\n\n1. NAPROXENO 550MG -------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, de 12/12h por 5 dias.\n\n2. ÁCIDO TRANEXÂMICO 250MG ----------------------- 2 CAIXAS\n   Tomar 2 comprimidos (500mg total), via oral, de 8/8h por 3 a 5 dias durante o fluxo intenso."
+                disease: "EMERGÊNCIA HIPERTENSIVA",
+                prescription: "USO ORAL E ENDOVENOSO\n\n1. NIFEDIPINA 10 MG COMPRIMIDOS -------------------- 1 CAIXA\n   Administrar 0,25 mg/kg/dose, VO, a cada 4 a 6 horas (Máximo 10 mg/dose).\n\n2. HIDRALAZINA INJETÁVEL 20 MG/ML ------------------ 1 AMPOLA\n   Administrar 0,1 a 0,2 mg/kg/dose, EV, a cada 4 a 6 horas (Máximo 20 mg/dose)."
             },
             {
-                disease: "DIABETES MELLITUS TIPO 2 (DM2) - INÍCIO",
-                category: "Endocrinologia",
-                prescription: "USO ORAL\n\n1. METFORMINA (GLIFAGE XR) 500 MG ------------------ 1 CAIXA\n   Tomar 1 comprimido, via oral, após o jantar. (Aumentar gradativamente conforme tolerância gastrointestinal).\n\n* Orientação: Dieta restrita em carboidratos simples, exercícios diários."
+                disease: "APENDICITE COMPLICADA (PÓS-OPERATÓRIO)",
+                prescription: "USO ENDOVENOSO E VIA ORAL\n\n1. AMPICILINA + SULBACTAM (UNASYN) 250 MG/ML ------- AMPOLAS\n   Administrar 100 a 200 mg/kg/dia, EV, fracionados de 6/6h por 5 dias.\n\n2. AMOXICILINA + CLAVULANATO 400+57 MG/5 ML -------- 1 FRASCO\n   Tomar [Peso/4] mL, VO, de 12/12h até completar o 7º dia pós-operatório (alta)."
             },
             {
-                disease: "INFECÇÃO DO TRATO URINÁRIO (ITU) CISTITE - ADULTO FEMININO",
-                category: "Nefrologia / Infectologia",
-                prescription: "USO ORAL\n\n1. FOSFOMICINA (MONURIL) 3G ------------------------ 1 ENVELOPE\n   Dissolver 1 envelope em água e tomar em dose única, de preferência à noite com bexiga vazia.\n   (OU Nitrofurantoína 100mg, 1cp 6/6h por 5 dias).\n\n2. FENAZOPIRIDINA (PYRIDIUM) 200 MG ---------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 8/8h por 2 dias se disúria."
+                disease: "OTITE MÉDIA AGUDA (OMA)",
+                prescription: "USO ORAL E NASAL\n\n1. AMOXICILINA SUSPENSÃO 250 MG/5 ML --------------- 2 FRASCOS\n   Tomar 50 mg/kg/dia, via oral, fracionado de 8/8h por 10 dias. \n   (Se falha: Amoxicilina+Clavulanato 90 mg/kg/dia).\n\n2. IBUPROFENO GOTAS 50 MG/ML --------------------- 1 FRASCO\n   Tomar 2 gotas/kg, via oral, de 8/8h se dor de ouvido ou febre.\n\n3. SOLUÇÃO FISIOLÓGICA 0,9% ---------------------- 1 FRASCO\n   Lavar narinas com seringa 3 a 4x ao dia."
             },
             {
-                disease: "PNEUMONIA ADQUIRIDA NA COMUNIDADE (PAC) - ADULTO HÍGIDO",
-                category: "Pneumologia / Infectologia",
-                prescription: "USO ORAL\n\n1. AMOXICILINA 500 MG + CLAVULANATO 125 MG --------- 1 CAIXA\n   Tomar 1 comprimido, via oral, de 8/8h por 7 dias.\n\n2. AZITROMICINA 500 MG ----------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, 1x ao dia por 3 a 5 dias (cobertura atípicos).\n\n3. DIPIRONA 1G ------------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, de 6/6h se febre."
+                disease: "DENGUE (GRUPO A)",
+                prescription: "USO ORAL\n\n1. SORO DE REIDRATAÇÃO ORAL (SRO) ---------------- 5 ENVELOPES\n   Diluir 1 envelope em 1 L de água. Oferecer 1/3 do volume hídrico diário.\n   (Cálculo Volume Diário Total: 50 a 100 mL/kg/dia).\n\n2. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n   Tomar 1 gota/kg, via oral, de 6/6h se febre ou dor. (NÃO USAR AINES)."
+            },
+            {
+                disease: "IMPETIGO",
+                prescription: "USO TÓPICO E ORAL\n\n1. MUPIROCINA POMADA 2% -------------------------- 1 BISNAGA\n   Aplicar nas lesões, 3x ao dia por 5 a 7 dias (Remover crostas suavemente antes com SF 0,9%).\n\n2. CEFALEXINA SUSPENSÃO 250 MG/5 ML ---------------- 1 FRASCO\n   Tomar 50 a 100 mg/kg/dia divididos de 6/6h por 7 dias (Se lesões extensas/bolhosas)."
+            },
+            {
+                disease: "ENXAQUECA AGUDA",
+                prescription: "USO ORAL\n\n1. SUMATRIPTANO 50 MG ------------------------------ 1 CAIXA\n   Tomar 1 comprimido, VO, no início da crise. Pode repetir em 2h se necessário (Máx 200mg/dia).\n\n2. NAPROXENO 500 MG -------------------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 12/12h por 3 a 5 dias.\n\n3. METOCLOPRAMIDA (PLASIL) 10 MG ------------------- 1 CAIXA\n   Tomar 1 comprimido, VO, de 8/8h se náuseas."
+            },
+            {
+                disease: "DIABETES MELLITUS TIPO 2 (DM2)",
+                prescription: "USO ORAL\n\n1. METFORMINA (GLIFAGE XR) 500 MG ------------------ 1 CAIXA\n   Tomar 1 comprimido, via oral, após o jantar de uso contínuo.\n\n* Orientações: Dieta restrita em carboidratos simples, exercícios físicos regulares, acompanhamento glicêmico."
             },
             {
                 disease: "DOENÇA DO REFLUXO / GASTRITE (DRGE)",
-                category: "Gastroenterologia Adulto",
-                prescription: "USO ORAL\n\n1. PANTOPRAZOL 40 MG ------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, 1x ao dia em jejum por 28 dias.\n\n2. DOMPERIDONA 10 MG ------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, 15 min antes de almoço e jantar se plenitude."
+                prescription: "USO ORAL\n\n1. PANTOPRAZOL 40 MG ------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, 1x ao dia em jejum (30 min antes do café) por 28 dias.\n\n2. DOMPERIDONA 10 MG ------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, 15 min antes do almoço e do jantar (Se plenitude gástrica)."
+            },
+            {
+                disease: "FARINGOAMIGDALITE ESTREPTOCÓCICA",
+                prescription: "USO ORAL / IM\n\n1. PENICILINA BENZATINA (BENZETACIL) --------------- 1 AMPOLA\n   - < 27 kg: 600.000 UI, IM, dose única.\n   - > 27 kg: 1.200.000 UI, IM, dose única.\n   (OU Amoxicilina 50 mg/kg/dia VO por 10 dias).\n\n2. IBUPROFENO GOTAS 50 MG/ML --------------------- 1 FRASCO\n   Tomar 2 gotas/kg/dose, via oral, de 6/6h se dor de garganta ou febre."
+            },
+            {
+                disease: "PNEUMONIA ADQUIRIDA NA COMUNIDADE (PAC)",
+                prescription: "USO ORAL\n\n1. AMOXICILINA SUSPENSÃO 250 MG/5 ML --------------- 2 FRASCOS\n   Tomar 50 mg/kg/dia, via oral, fracionado de 8/8h por 7 a 10 dias.\n   (Para adultos: Amoxicilina+Clavulanato 500/125mg 8/8h + Azitromicina 500mg 1x/dia).\n\n2. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n   Tomar 1 gota/kg/dose, via oral, de 6/6h se febre."
             }
         ];
 
         function renderDiseases() {
             const q = document.getElementById('search-disease').value.toLowerCase().trim();
-            const filtered = diseasesData.filter(d => d.disease.toLowerCase().includes(q) || d.category.toLowerCase().includes(q) || d.prescription.toLowerCase().includes(q));
+            const filtered = diseasesData.filter(d => d.disease.toLowerCase().includes(q) || d.prescription.toLowerCase().includes(q));
             
             const cont = document.getElementById('diseases-container');
-            if(filtered.length === 0) { cont.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">Nenhuma patologia encontrada para "${q}".</div>`; return; }
+            if(filtered.length === 0) { cont.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-2xl shadow-inner font-semibold">Nenhuma patologia encontrada para "${q}".</div>`; return; }
 
             cont.innerHTML = filtered.map(i => `
-                <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl shadow-xl transition-all">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-4 mb-4 gap-3">
+                <div class="bg-slate-900 border border-slate-700 p-6 sm:p-8 rounded-2xl shadow-xl transition-all hover:border-slate-600">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-5 mb-5 gap-4">
                         <div class="flex items-center gap-3">
-                            <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
-                            <h3 class="font-extrabold text-white text-base md:text-lg tracking-wide">${i.disease}</h3>
+                            <span class="w-3.5 h-3.5 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]"></span>
+                            <h3 class="font-extrabold text-white text-lg tracking-wide">${i.disease}</h3>
                         </div>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span class="bg-cyan-500/10 text-cyan-400 text-xs font-bold px-3 py-1.5 rounded-lg border border-cyan-500/20">${i.category}</span>
-                            <button onclick="copyDisease('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-slate-950 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition"><i class="fa-solid fa-copy text-cyan-400"></i> Copiar</button>
-                            <button onclick="sendDiseaseToNote('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 transition"><i class="fa-solid fa-file-import"></i> P/ Nota</button>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button onclick="copyDisease('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-slate-950 border border-slate-700 hover:bg-slate-800 text-slate-300 text-sm font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 transition"><i class="fa-solid fa-copy text-cyan-400"></i> Copiar</button>
+                            <button onclick="sendDiseaseToNote('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition"><i class="fa-solid fa-file-import"></i> Lançar na Evolução</button>
                         </div>
                     </div>
                     <pre class="bg-slate-950 p-5 rounded-xl border border-slate-800 text-sm text-slate-300 font-code leading-relaxed whitespace-pre-wrap">${i.prescription}</pre>
                 </div>
             `).join('');
         }
-        function copyDisease(dEnc, pEnc) { navigator.clipboard.writeText(`DIAGNÓSTICO: ${decodeURIComponent(dEnc)}\n\nPRESCRIÇÃO:\n${decodeURIComponent(pEnc)}`); showToast("Protocolo copiado com sucesso!"); }
+        function copyDisease(dEnc, pEnc) { navigator.clipboard.writeText(`DIAGNÓSTICO: ${decodeURIComponent(dEnc)}\n\nPRESCRIÇÃO:\n${decodeURIComponent(pEnc)}`); showToast("Protocolo copiado para área de transferência!"); }
         function sendDiseaseToNote(dEnc, pEnc) {
             if (!activeNoteId) createNewNote();
             const n = notes.find(x => x.id === activeNoteId);
-            if (n) { n.content += (n.content ? "\n\n" : "") + `--- PROTOCOLO: ${decodeURIComponent(dEnc)} ---\n` + decodeURIComponent(pEnc); saveNotes(); selectNote(activeNoteId); switchTab('tab-notes'); showToast("Protocolo adicionado à evolução!"); }
+            if (n) { n.content += (n.content ? "\n\n" : "") + `--- PRESCRIÇÃO: ${decodeURIComponent(dEnc)} ---\n` + decodeURIComponent(pEnc); saveNotes(); selectNote(activeNoteId); switchTab('tab-notes'); showToast("Protocolo de tratamento adicionado à evolução!"); }
         }
     </script>
 </body>
