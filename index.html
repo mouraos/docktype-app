@@ -28,13 +28,16 @@
                 <h2 class="text-2xl font-extrabold tracking-tight text-white mt-3">Doctype<span class="text-cyan-400">.ai</span></h2>
                 <p class="text-xs text-slate-400">Workspace Clínico de Alta Performance</p>
             </div>
-            <form onsubmit="handleLogin(event)" class="space-y-4 pt-2">
-                <div>
-                    <input type="text" id="login-email" required placeholder="Usuário ou E-mail" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none transition">
-                </div>
-                <div>
-                    <input type="password" id="login-pass" required placeholder="Senha" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none transition">
-                </div>
+            
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-xs space-y-2 text-slate-300">
+                <p class="font-bold text-cyan-400 mb-1"><i class="fa-solid fa-flask"></i> Acesso para Teste:</p>
+                <p>Usuário <span class="text-white font-mono font-bold bg-slate-800 px-1 rounded">gratis</span> = Conta Limitada</p>
+                <p>Usuário <span class="text-cyan-400 font-mono font-bold bg-slate-800 px-1 rounded">pro</span> = Acesso Total</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="text" id="login-email" required placeholder="Usuário (gratis ou pro)" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none transition">
+                <input type="password" id="login-pass" placeholder="Senha (qualquer)" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none transition">
                 <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold py-3.5 rounded-xl shadow-lg shadow-cyan-500/20 transition text-sm">
                     Acessar Plataforma
                 </button>
@@ -56,16 +59,13 @@
                 </div>
                 
                 <div class="flex items-center gap-3">
-                    <!-- Contador de Teste -->
-                    <div class="bg-amber-500/10 border border-amber-500/20 text-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2">
-                        <i class="fa-regular fa-clock"></i> Teste: <span id="trial-counter">7 dias</span>
+                    <div id="account-status" class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2">
+                        <!-- Status dinâmico via JS -->
                     </div>
-                    <!-- Botão PRO -->
-                    <button onclick="openProModal()" class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-4 py-1.5 rounded-lg text-xs font-extrabold shadow-lg shadow-cyan-500/20 transition flex items-center gap-2">
+                    <button id="btn-upgrade-header" onclick="openProModal()" class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white px-4 py-1.5 rounded-lg text-xs font-extrabold shadow-lg shadow-cyan-500/20 transition flex items-center gap-2">
                         <i class="fa-solid fa-bolt"></i> Assinar PRO
                     </button>
-                    <!-- Logout -->
-                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-3 py-1.5 bg-slate-950 rounded-lg border border-slate-800 transition ml-2">
+                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-3 py-1.5 bg-slate-950 rounded-lg border border-slate-800 transition">
                         <i class="fa-solid fa-power-off"></i>
                     </button>
                 </div>
@@ -76,13 +76,13 @@
         <nav class="bg-slate-950 border-b border-slate-800 sticky top-[61px] sm:top-[61px] z-10 shadow-md">
             <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-sm font-bold overflow-x-auto">
                 <button onclick="switchTab('tab-notes')" class="tab-btn py-3.5 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2 whitespace-nowrap" id="btn-notes">
-                    <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas & Evolução
+                    <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas
                 </button>
                 <button onclick="switchTab('tab-calc')" class="tab-btn py-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-calc">
-                    <i class="fa-solid fa-calculator"></i> Calculadora Pediátrica Exata
+                    <i class="fa-solid fa-calculator"></i> Calculadora Pediátrica <i id="lock-calc" class="fa-solid fa-lock text-[10px] text-slate-500"></i>
                 </button>
                 <button onclick="switchTab('tab-diseases')" class="tab-btn py-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-diseases">
-                    <i class="fa-solid fa-notes-medical"></i> Prescrições por Doença
+                    <i class="fa-solid fa-notes-medical"></i> Prescrições <i id="lock-pres" class="fa-solid fa-lock text-[10px] text-slate-500"></i>
                 </button>
             </div>
         </nav>
@@ -90,9 +90,7 @@
         <!-- Conteúdo Principal -->
         <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
 
-            <!-- ============================================== -->
             <!-- ABA 1: BLOCO DE NOTAS & EVOLUÇÃO -->
-            <!-- ============================================== -->
             <section id="tab-notes" class="space-y-5">
                 <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-sm">
                     <div class="flex items-center gap-2 text-slate-400">
@@ -108,50 +106,52 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-4 h-fit">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Histórico de Notas</span>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anotações</span>
                             <button onclick="createNewNote()" class="text-xs bg-cyan-500 text-slate-950 px-3 py-1.5 rounded-lg font-bold hover:bg-cyan-400 shadow-md shadow-cyan-500/20">
                                 + Nova
                             </button>
                         </div>
-                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar paciente/nota..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-cyan-500 transition">
+                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar nota..." class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-cyan-500 transition">
                         <div id="notes-list" class="space-y-2 max-h-[400px] overflow-y-auto pr-1"></div>
                     </div>
 
                     <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-5 rounded-2xl flex flex-col space-y-4 shadow-xl">
-                        <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título (Ex: João da Silva - Leito 4)..." class="bg-transparent text-lg font-extrabold text-white outline-none w-full border-b border-slate-800 pb-3">
-                        <textarea id="note-content" oninput="handleTyping(this)" rows="18" placeholder="Digite a evolução, anamnese ou receituário aqui.&#10;&#10;Dica: Digite um gatilho (ex: /ef) e aperte espaço para expandir o texto automaticamente..." class="bg-transparent text-sm text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
+                        <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título da Nota..." class="bg-transparent text-lg font-extrabold text-white outline-none w-full border-b border-slate-800 pb-3">
+                        <textarea id="note-content" oninput="handleTyping(this)" rows="18" placeholder="Digite sua evolução ou rascunho aqui..." class="bg-transparent text-sm text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
                         <div class="flex justify-end gap-3 pt-4 border-t border-slate-800">
                             <button onclick="deleteCurrentNote()" class="text-red-400 hover:bg-red-400/10 font-bold text-xs px-4 py-2.5 rounded-xl transition">
                                 <i class="fa-solid fa-trash"></i> Excluir
                             </button>
                             <button onclick="copyCurrentNote()" class="bg-cyan-500 text-slate-950 font-extrabold text-sm px-6 py-2.5 rounded-xl hover:bg-cyan-400 transition shadow-lg shadow-cyan-500/20">
-                                <i class="fa-solid fa-copy"></i> Copiar Evolução
+                                <i class="fa-solid fa-copy"></i> Copiar Texto
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ============================================== -->
             <!-- ABA 2: CALCULADORA PEDIÁTRICA -->
-            <!-- ============================================== -->
             <section id="tab-calc" class="hidden space-y-6 max-w-4xl mx-auto">
                 <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
                     <div>
                         <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
-                            <i class="fa-solid fa-calculator text-cyan-400"></i> Calculadora de Doses
+                            <i class="fa-solid fa-calculator text-cyan-400"></i> Calculadora Pediátrica Exata
                         </h2>
-                        <p class="text-sm text-slate-400 mt-2">Insira o peso e selecione o fármaco. O sistema fornece o cálculo exato em mL, gotas ou ampolas baseado no UpToDate e SBP.</p>
+                        <p class="text-sm text-slate-400 mt-2">Encontre a medicação pelo filtro, insira o peso e obtenha volumes exatos.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 bg-slate-950 p-5 rounded-2xl border border-slate-800 shadow-inner">
-                        <div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-5 bg-slate-950 p-5 rounded-2xl border border-slate-800 shadow-inner">
+                        <div class="sm:col-span-1">
                             <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Peso (kg):</label>
                             <input type="number" id="ped-weight" value="12" min="0.5" step="0.1" oninput="calculatePediatricDrug()" class="w-full px-4 py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-xl text-white focus:border-cyan-500 outline-none font-mono font-bold transition">
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Fármaco / Solução:</label>
-                            <select id="ped-drug" onchange="calculatePediatricDrug()" class="w-full px-4 py-3.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:border-cyan-500 outline-none font-semibold transition cursor-pointer">
+                        <div class="sm:col-span-3 space-y-3">
+                            <label class="block text-xs font-bold text-cyan-400 uppercase tracking-wider">Buscar / Selecionar Fármaco:</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-search absolute left-3 top-4 text-slate-500"></i>
+                                <input type="text" id="drug-search" onkeyup="filterDrugs()" placeholder="Ex: Amoxicilina, Dipirona, Ondansetrona..." class="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:border-cyan-500 outline-none font-semibold mb-2">
+                            </div>
+                            <select id="ped-drug" onchange="calculatePediatricDrug()" class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:border-cyan-500 outline-none h-[52px] font-semibold transition cursor-pointer">
                                 <optgroup label="Analgésicos, Antitérmicos e AINEs">
                                     <option value="dipirona">Dipirona Gotas (500mg/mL)</option>
                                     <option value="paracetamol">Paracetamol Gotas (200mg/mL)</option>
@@ -234,27 +234,24 @@
                         </div>
                     </div>
 
-                    <!-- Resultado -->
-                    <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl relative overflow-hidden shadow-lg">
+                    <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl relative overflow-hidden shadow-md">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-500"></div>
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Diretriz Pediátrica e Posologia Calculada:</span>
-                        <div id="ped-result" class="text-sm md:text-base font-code text-cyan-300 leading-relaxed whitespace-pre-wrap selection:bg-cyan-500/30"></div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Posologia Calculada:</span>
+                        <div id="ped-result" class="text-sm md:text-base font-code text-cyan-300 leading-relaxed whitespace-pre-wrap"></div>
                     </div>
 
                     <div class="flex flex-wrap justify-end gap-3 pt-2">
-                        <button onclick="copyPedResult()" class="bg-slate-950 border border-slate-700 text-slate-300 text-sm font-bold px-5 py-3.5 rounded-xl hover:bg-slate-800 hover:text-white transition flex items-center gap-2">
+                        <button onclick="copyPedResult()" class="bg-slate-950 border border-slate-700 text-slate-300 text-sm font-bold px-5 py-3 rounded-xl hover:bg-slate-800 hover:text-white transition flex items-center gap-2">
                             <i class="fa-solid fa-copy text-cyan-400"></i> Copiar
                         </button>
-                        <button onclick="sendPedResultToNote()" class="bg-cyan-500 text-slate-950 text-sm font-extrabold px-6 py-3.5 rounded-xl hover:bg-cyan-400 transition flex items-center gap-2 shadow-lg shadow-cyan-500/20">
+                        <button onclick="sendPedResultToNote()" class="bg-cyan-500 text-slate-950 text-sm font-extrabold px-6 py-3 rounded-xl hover:bg-cyan-400 transition flex items-center gap-2 shadow-lg shadow-cyan-500/20">
                             <i class="fa-solid fa-file-import"></i> Lançar na Evolução
                         </button>
                     </div>
                 </div>
             </section>
 
-            <!-- ============================================== -->
             <!-- ABA 3: PRESCRIÇÕES POR DOENÇA -->
-            <!-- ============================================== -->
             <section id="tab-diseases" class="hidden space-y-6 max-w-5xl mx-auto">
                 <div class="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
@@ -262,11 +259,11 @@
                             <h2 class="text-2xl font-extrabold text-white flex items-center gap-3">
                                 <i class="fa-solid fa-notes-medical text-cyan-400"></i> Guias e Prescrições
                             </h2>
-                            <p class="text-sm text-slate-400 mt-2">Busque a patologia desejada para visualizar o protocolo de prescrição completo, estruturado e pronto para uso.</p>
+                            <p class="text-sm text-slate-400 mt-2">Busque a patologia para visualizar o protocolo de prescrição completo.</p>
                         </div>
                         <div class="relative w-full md:w-96">
                             <i class="fa-solid fa-search absolute left-4 top-[14px] text-slate-500"></i>
-                            <input type="text" id="search-disease" onkeyup="renderDiseases()" placeholder="Buscar doença (Ex: Asma, OMA, ITU, HAS)..." class="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none focus:border-cyan-500 font-semibold shadow-inner transition">
+                            <input type="text" id="search-disease" onkeyup="renderDiseases()" placeholder="Buscar doença (Ex: Asma, OMA, ITU)..." class="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none focus:border-cyan-500 font-semibold shadow-inner transition">
                         </div>
                     </div>
                 </div>
@@ -276,12 +273,10 @@
         </main>
     </div>
 
-    <!-- ================= MODAIS ================= -->
-    
-    <!-- Modal Assinar PRO -->
-    <div id="modal-pro" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <!-- ================= MODAL: ASSINATURA PRO COM CHECKOUT ================= -->
+    <div id="modal-pro" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 shadow-2xl text-center space-y-6 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-cyan-500 to-blue-500"></div>
             <button onclick="closeProModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             
             <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto text-white shadow-lg shadow-cyan-500/30">
@@ -289,101 +284,118 @@
             </div>
             
             <div>
-                <h3 class="text-2xl font-extrabold text-white mb-2">Seja Doctype PRO</h3>
-                <p class="text-sm text-slate-400">Desbloqueie acesso ilimitado a todas as calculadoras, banco completo de prescrições e sincronização em nuvem.</p>
+                <h3 class="text-2xl font-extrabold text-white mb-2">Desbloqueie o PRO</h3>
+                <p class="text-sm text-slate-400">Acesso ilimitado à Calculadora Pediátrica, Gatilhos e Biblioteca de Prescrições.</p>
             </div>
             
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-left space-y-3">
-                <div class="flex items-center gap-3 text-sm text-slate-300"><i class="fa-solid fa-check text-cyan-400"></i> Mais de 500 drogas e cálculos</div>
-                <div class="flex items-center gap-3 text-sm text-slate-300"><i class="fa-solid fa-check text-cyan-400"></i> Protocolos de UTI e Emergência Adulto</div>
-                <div class="flex items-center gap-3 text-sm text-slate-300"><i class="fa-solid fa-check text-cyan-400"></i> Suporte VIP e atualizações semanais</div>
-            </div>
-            
-            <button onclick="alert('Redirecionando para o gateway de pagamento...')" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-cyan-500/30 transition text-sm">
-                Assinar por R$ 49,90/mês
-            </button>
+            <!-- Formulário Pronto para Integração (Webhook / Gateway) -->
+            <form id="checkout-form" onsubmit="processPayment(event)" class="space-y-3 text-left">
+                <input type="text" id="chk-name" required placeholder="Nome Completo" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none">
+                <input type="email" id="chk-email" required placeholder="E-mail" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" id="chk-phone" required placeholder="WhatsApp" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none">
+                    <input type="text" id="chk-doc" required placeholder="CRM / CPF" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white focus:border-cyan-500 outline-none">
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-extrabold py-4 rounded-xl shadow-lg shadow-cyan-500/30 transition text-sm mt-2 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-lock"></i> Assinar por R$ 9,99/mês
+                </button>
+            </form>
+            <p class="text-[10px] text-slate-500 text-center">Pagamento seguro. Cancele quando quiser.</p>
         </div>
     </div>
 
-    <!-- Modal Gatilhos -->
+    <!-- ================= MODAL: GATILHOS ================= -->
     <div id="modal-triggers" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-5">
-                <h3 class="text-lg font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-sliders text-cyan-400"></i> Editor de Gatilhos</h3>
-                <button onclick="closeTriggerModal()" class="text-slate-500 hover:text-white transition p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-solid fa-sliders text-cyan-400"></i> Editor de Gatilhos</h3>
+                <button onclick="closeTriggerModal()" class="text-slate-500 hover:text-white transition p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-4">
                 <div class="grid grid-cols-3 gap-3">
-                    <input type="text" id="new-trigger-code" placeholder="/sigla" class="px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none font-mono">
-                    <input type="text" id="new-trigger-label" placeholder="Nome Exibição (Ex: Conduta)" class="col-span-2 px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none">
+                    <input type="text" id="new-trigger-code" placeholder="/sigla" class="px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none font-mono">
+                    <input type="text" id="new-trigger-label" placeholder="Nome Exibição (Ex: Conduta)" class="col-span-2 px-3 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white outline-none">
                 </div>
                 <textarea id="new-trigger-content" rows="4" placeholder="Texto longo que será inserido ao digitar o gatilho..." class="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 outline-none font-code"></textarea>
-                <button onclick="saveCustomTrigger()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold py-3.5 rounded-xl transition shadow-lg shadow-cyan-500/20">
+                <button onclick="saveCustomTrigger()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg shadow-cyan-500/20">
                     Salvar Gatilho Personalizado
                 </button>
             </div>
-            <div class="mt-6 border-t border-slate-800 pt-5">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Gatilhos Salvos:</span>
+            <div class="mt-6 border-t border-slate-800 pt-4">
+                <span class="text-xs font-bold text-slate-400 uppercase block mb-3">Gatilhos Salvos:</span>
                 <div id="custom-triggers-list" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div>
             </div>
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-emerald-500 text-slate-950 font-extrabold text-sm px-6 py-4 rounded-2xl shadow-2xl hidden z-50 flex items-center gap-3 transition-opacity">
-        <i class="fa-solid fa-circle-check text-lg"></i> <span id="toast-text">Sucesso!</span>
+    <div id="toast" class="fixed bottom-6 right-6 bg-emerald-500 text-slate-950 font-extrabold text-sm px-6 py-3.5 rounded-2xl shadow-2xl hidden z-50 flex items-center gap-3 transition-opacity">
+        <i class="fa-solid fa-check-circle text-lg"></i> <span id="toast-text">Sucesso!</span>
     </div>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // --- 1. LÓGICA DE TRIAL (TESTE GRÁTIS) ---
-        function checkTrial() {
-            let trialStart = localStorage.getItem('doctype_trial_start');
-            if (!trialStart) {
-                trialStart = new Date().getTime();
-                localStorage.setItem('doctype_trial_start', trialStart);
-            }
-            const now = new Date().getTime();
-            const daysPassed = Math.floor((now - trialStart) / (1000 * 60 * 60 * 24));
-            const daysLeft = Math.max(0, 7 - daysPassed);
-            
-            document.getElementById('trial-counter').innerText = daysLeft + (daysLeft === 1 ? " dia" : " dias");
-            
-            if (daysLeft === 0) {
-                // Opcional: Bloquear acesso ou mostrar modal obrigatório
-                document.getElementById('trial-counter').innerText = "Expirado";
-                document.getElementById('trial-counter').parentElement.classList.replace('bg-amber-500/10', 'bg-red-500/10');
-                document.getElementById('trial-counter').parentElement.classList.replace('text-amber-400', 'text-red-400');
-                document.getElementById('trial-counter').parentElement.classList.replace('border-amber-500/20', 'border-red-500/20');
-            }
-        }
+        // ESTADO DO USUÁRIO
+        let currentUser = {
+            isPro: false
+        };
 
-        // --- 2. GESTÃO DE MODAIS ---
-        function openProModal() { document.getElementById('modal-pro').classList.remove('hidden'); }
-        function closeProModal() { document.getElementById('modal-pro').classList.add('hidden'); }
-
-        // --- 3. GESTÃO GERAL ---
+        // GATILHOS E NOTAS
         let customTriggers = {
-            '/ef': { label: 'Exame Físico Padrão', text: "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas." },
-            '/an': { label: 'Anamnese', text: "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos de Uso Contínuo: \n- Alergias: " },
+            '/ef': { label: 'Exame Físico', text: "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas." },
+            '/an': { label: 'Anamnese', text: "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos: \n- Alergias: " },
             '/hd': { label: 'Conduta', text: "HIPÓTESE DIAGNÓSTICA:\n1. \n\nCONDUTA:\n1. " }
         };
         let notes = [];
         let activeNoteId = null;
 
+        // ================= SISTEMA DE LOGIN E CONTROLE DE ACESSO =================
         function handleLogin(e) {
             e.preventDefault();
+            const user = document.getElementById('login-email').value.toLowerCase();
+            
+            if (user === 'pro') {
+                currentUser.isPro = true;
+            } else {
+                currentUser.isPro = false;
+            }
+
             document.getElementById('screen-login').classList.add('hidden');
             document.getElementById('screen-app').classList.remove('hidden');
-            checkTrial();
+            
+            updateUIBasedOnPlan();
             loadTriggers();
             loadNotes();
             calculatePediatricDrug();
             renderDiseases();
         }
+
         function handleLogout() { location.reload(); }
+
+        function updateUIBasedOnPlan() {
+            const statusBadge = document.getElementById('account-status');
+            const btnUpgrade = document.getElementById('btn-upgrade-header');
+            const locks = [document.getElementById('lock-calc'), document.getElementById('lock-pres')];
+
+            if (currentUser.isPro) {
+                statusBadge.innerHTML = `<i class="fa-solid fa-crown text-cyan-400"></i> <span class="text-cyan-400">Plano PRO</span>`;
+                btnUpgrade.classList.add('hidden');
+                locks.forEach(l => l.classList.add('hidden'));
+            } else {
+                statusBadge.innerHTML = `<span class="text-slate-400">Conta Grátis</span>`;
+                btnUpgrade.classList.remove('hidden');
+                locks.forEach(l => l.classList.remove('hidden'));
+            }
+        }
         
         function switchTab(tabId) {
+            // Controle de Acesso PRO
+            if (!currentUser.isPro && (tabId === 'tab-calc' || tabId === 'tab-diseases')) {
+                openProModal();
+                return;
+            }
+
             ['tab-notes', 'tab-calc', 'tab-diseases'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
                 document.getElementById('btn-' + id.split('-')[1]).classList.replace('border-cyan-400', 'border-transparent');
@@ -401,29 +413,87 @@
             setTimeout(() => { t.classList.add('hidden'); }, 3000);
         }
 
-        // --- ABA 1: NOTAS E GATILHOS ---
+        // ================= INTEGRAÇÃO DE PAGAMENTO (WEBHOOK) =================
+        function openProModal() { document.getElementById('modal-pro').classList.remove('hidden'); }
+        function closeProModal() { document.getElementById('modal-pro').classList.add('hidden'); }
+
+        function processPayment(e) {
+            e.preventDefault();
+            
+            // Dados coletados para integração
+            const payload = {
+                name: document.getElementById('chk-name').value,
+                email: document.getElementById('chk-email').value,
+                phone: document.getElementById('chk-phone').value,
+                document: document.getElementById('chk-doc').value,
+                plan: "PRO_MONTHLY",
+                amount: 9.99
+            };
+
+            /* 
+               COMO EXPORTAR PARA O SEU SISTEMA DE PAGAMENTO/AUTOMAÇÃO:
+               Descomente o bloco abaixo e substitua a URL pelo seu Webhook (ex: Make, Zapier, Asaas, Stripe).
+            */
+            
+            /*
+            fetch('https://seu-webhook-url.com/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Lógica pós confirmação de pagamento
+            })
+            .catch(error => console.error('Erro na integração:', error));
+            */
+
+            // Simulação de Sucesso para UX
+            alert("Integração ativada!\nDados enviados para o Gateway:\nNome: " + payload.name + "\nE-mail: " + payload.email + "\n\n(A conta foi promovida para PRO para fins de teste).");
+            
+            currentUser.isPro = true;
+            updateUIBasedOnPlan();
+            closeProModal();
+            showToast("Conta atualizada para PRO!");
+        }
+
+        // ================= ABA 1: NOTAS E GATILHOS ================= 
         function loadTriggers() {
             const saved = localStorage.getItem('doctype_triggers');
             if (saved) customTriggers = JSON.parse(saved);
             renderQuickTriggersBar();
         }
+        
         function renderQuickTriggersBar() {
-            document.getElementById('quick-triggers-bar').innerHTML = Object.keys(customTriggers).map(code => `
+            const bar = document.getElementById('quick-triggers-bar');
+            if (!currentUser.isPro) {
+                bar.innerHTML = `<span class="text-xs text-slate-500 font-semibold"><i class="fa-solid fa-lock"></i> Gatilhos customizáveis bloqueados no plano grátis.</span>`;
+                return;
+            }
+            
+            bar.innerHTML = Object.keys(customTriggers).map(code => `
                 <button onclick="insertTrigger('${code}')" class="bg-slate-950 border border-slate-800 text-cyan-300 font-mono px-3 py-1.5 rounded-lg text-xs hover:bg-slate-800 transition shadow-sm">
                     ${code.toUpperCase()} <span class="text-slate-500 font-sans text-[10px] ml-1">(${customTriggers[code].label})</span>
                 </button>
             `).join('');
         }
-        function openTriggerModal() { renderModalTriggersList(); document.getElementById('modal-triggers').classList.remove('hidden'); }
+
+        function openTriggerModal() { 
+            if(!currentUser.isPro) { openProModal(); return; }
+            renderModalTriggersList(); 
+            document.getElementById('modal-triggers').classList.remove('hidden'); 
+        }
         function closeTriggerModal() { document.getElementById('modal-triggers').classList.add('hidden'); }
+        
         function renderModalTriggersList() {
             document.getElementById('custom-triggers-list').innerHTML = Object.keys(customTriggers).map(code => `
                 <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800 text-sm">
                     <div><span class="font-mono text-cyan-400 font-bold">${code}</span><span class="text-slate-400 ml-2 text-xs">(${customTriggers[code].label})</span></div>
-                    <button onclick="deleteCustomTrigger('${code}')" class="text-red-400 hover:text-red-300 p-2 rounded hover:bg-red-500/10 transition"><i class="fa-solid fa-trash"></i></button>
+                    <button onclick="deleteCustomTrigger('${code}')" class="text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
                 </div>
             `).join('');
         }
+        
         function saveCustomTrigger() {
             let code = document.getElementById('new-trigger-code').value.trim().toLowerCase();
             const label = document.getElementById('new-trigger-label').value.trim();
@@ -439,9 +509,10 @@
             delete customTriggers[code]; localStorage.setItem('doctype_triggers', JSON.stringify(customTriggers));
             renderQuickTriggersBar(); renderModalTriggersList(); showToast("Gatilho removido.");
         }
+
         function loadNotes() {
             const s = localStorage.getItem('doctype_notes');
-            notes = s ? JSON.parse(s) : [{ id: Date.now(), title: "Evolução - Paciente Exemplo", content: "" }];
+            notes = s ? JSON.parse(s) : [{ id: Date.now(), title: "Evolução do Dia", content: "" }];
             if (notes.length > 0) selectNote(notes[0].id);
             renderNotesList();
         }
@@ -449,7 +520,7 @@
         function renderNotesList() {
             const q = document.getElementById('search-notes').value.toLowerCase();
             document.getElementById('notes-list').innerHTML = notes.filter(n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q)).map(n => `
-                <div onclick="selectNote(${n.id})" class="p-4 rounded-xl border cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-300 shadow-sm' : 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-800 hover:border-slate-700'}">
+                <div onclick="selectNote(${n.id})" class="p-3.5 rounded-xl border cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-300 shadow-sm' : 'bg-slate-950 border-slate-800 text-slate-400 hover:bg-slate-800'}">
                     <h4 class="font-bold text-sm truncate">${n.title || 'Sem título'}</h4>
                 </div>
             `).join('');
@@ -465,8 +536,14 @@
             if (n) { n.title = document.getElementById('note-title').value; n.content = document.getElementById('note-content').value; saveNotes(); renderNotesList(); }
         }
         function deleteCurrentNote() { notes = notes.filter(n => n.id !== activeNoteId); saveNotes(); if (notes.length > 0) selectNote(notes[0].id); else createNewNote(); }
-        function copyCurrentNote() { navigator.clipboard.writeText(document.getElementById('note-content').value); showToast('Evolução copiada para a área de transferência!'); }
+        function copyCurrentNote() { navigator.clipboard.writeText(document.getElementById('note-content').value); showToast('Evolução copiada!'); }
+        
         function handleTyping(ta) {
+            if (!currentUser.isPro) {
+                autoSaveNote();
+                return; // Gatilhos desativados para conta grátis
+            }
+
             let val = ta.value;
             for (let code in customTriggers) {
                 if (val.toLowerCase().endsWith(code.toLowerCase() + ' ') || val.toLowerCase().endsWith(code.toLowerCase() + '\n')) {
@@ -476,66 +553,92 @@
             }
             autoSaveNote();
         }
-        function insertTrigger(c) { if (customTriggers[c]) { const ta = document.getElementById('note-content'); ta.value += (ta.value ? "\n\n" : "") + customTriggers[c].text; autoSaveNote(); } }
+        function insertTrigger(c) { if (customTriggers[c] && currentUser.isPro) { const ta = document.getElementById('note-content'); ta.value += (ta.value ? "\n\n" : "") + customTriggers[c].text; autoSaveNote(); } }
 
-        // --- ABA 2: CALCULADORA PEDIÁTRICA --- 
+        // ================= ABA 2: CALCULADORA E FILTRO ================= 
+        
+        // Filtro de Busca da Calculadora Pediátrica
+        function filterDrugs() {
+            const search = document.getElementById('drug-search').value.toLowerCase();
+            const select = document.getElementById('ped-drug');
+            const optgroups = select.getElementsByTagName('optgroup');
+            let firstVisible = null;
+
+            for (let group of optgroups) {
+                let hasVisibleOption = false;
+                const options = group.getElementsByTagName('option');
+                for (let opt of options) {
+                    if (opt.text.toLowerCase().includes(search)) {
+                        opt.style.display = '';
+                        hasVisibleOption = true;
+                        if (!firstVisible) firstVisible = opt;
+                    } else {
+                        opt.style.display = 'none';
+                    }
+                }
+                group.style.display = hasVisibleOption ? '' : 'none';
+            }
+            
+            // Auto-seleciona a primeira opção visível para agilizar
+            if (firstVisible && search.length > 1) {
+                select.value = firstVisible.value;
+                calculatePediatricDrug();
+            }
+        }
+
         function calculatePediatricDrug() {
             const w = parseFloat(document.getElementById('ped-weight').value) || 0;
             const drug = document.getElementById('ped-drug').value;
             const out = document.getElementById('ped-result');
             let t = "";
 
-            /* ==============================================================================
-               LÓGICAS EXATAS DE CÁLCULO PEDIÁTRICO.
-               Se precisar adicionar mais drogas, basta criar um novo 'case' abaixo.
-            ============================================================================== */
             switch (drug) {
                 // AINES e Analgésicos
-                case "dipirona": t = `• Fármaco: Dipirona Gotas (500 mg / mL)\n• Diretriz: 15 a 25 mg/kg/dose (Regra: 0,8 a 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*0.8))} a ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre (Máx 40 gotas/dose).`; break;
-                case "paracetamol": t = `• Fármaco: Paracetamol Gotas (200 mg / mL)\n• Diretriz: 10 a 15 mg/kg/dose (Regra: 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre (Máx 40 gotas/dose).`; break;
-                case "ibuprofeno": t = `• Fármaco: Ibuprofeno Gotas (50 mg / mL ou 100 mg / mL)\n• Diretriz: 5 a 10 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nSe frasco 50mg/mL: ${Math.min(40, Math.round(w*2.0))} gotas, VO, de 6/6h ou 8/8h.\nSe frasco 100mg/mL: ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h ou 8/8h.`; break;
-                case "cetoprofeno": t = `• Fármaco: Cetoprofeno Gotas (20 mg / mL)\n• Diretriz: 1 mg/kg/dose (Regra: 1 gota/kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(50, Math.round(w*1.0))} gotas, VO, de 6/6h ou 8/8h.`; break;
-                case "diclofenaco": t = `• Fármaco: Diclofenaco Resinato Gotas (15 mg / mL)\n• Diretriz: 1 gota/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
-                case "morfina": t = `• Fármaco: Morfina Injetável\n• Diretriz: 0,05 a 0,1 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.05).toFixed(2)} mg a ${(w*0.1).toFixed(2)} mg, EV Lento.`; break;
-                case "tramadol": t = `• Fármaco: Tramadol Injetável\n• Diretriz: 1 a 2 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(1)} mg a ${(w*2.0).toFixed(1)} mg, EV diluído em SF.`; break;
+                case "dipirona": t = `• Fármaco: Dipirona Gotas (500 mg / mL)\n• Diretriz: 15 a 25 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*0.8))} a ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre (Máx 40 gts).`; break;
+                case "paracetamol": t = `• Fármaco: Paracetamol Gotas (200 mg / mL)\n• Diretriz: 10 a 15 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h se dor ou febre.`; break;
+                case "ibuprofeno": t = `• Fármaco: Ibuprofeno Gotas (50 mg / mL ou 100 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nFrasco 50mg/mL: ${Math.min(40, Math.round(w*2.0))} gotas, VO, de 6/6h.\nFrasco 100mg/mL: ${Math.min(40, Math.round(w*1.0))} gotas, VO, de 6/6h.`; break;
+                case "cetoprofeno": t = `• Fármaco: Cetoprofeno Gotas (20 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(50, Math.round(w*1.0))} gotas, VO, de 6/6h.`; break;
+                case "diclofenaco": t = `• Fármaco: Diclofenaco Resinato Gotas (15 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
+                case "morfina": t = `• Fármaco: Morfina Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.05).toFixed(2)} mg a ${(w*0.1).toFixed(2)} mg, EV Lento.`; break;
+                case "tramadol": t = `• Fármaco: Tramadol Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(1)} mg a ${(w*2.0).toFixed(1)} mg, EV diluído.`; break;
 
                 // Antibióticos Orais
-                case "amoxicilina": t = `• Fármaco: Amoxicilina (250 mg / 5 mL)\n• Diretriz Padrão: 50 mg/kg/dia | Diretriz Alta: 90 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nDose Padrão (50mg/kg): ${(w/3).toFixed(1)} mL, VO, de 8/8 horas.\nDose Alta (90mg/kg - OMA/Sinusite): ${(w*0.6).toFixed(1)} mL, VO, de 8/8 horas.`; break;
-                case "clavulin": t = `• Fármaco: Amoxicilina + Clavulanato (250 mg / 5 mL)\n• Diretriz: 50 mg/kg/dia (Baseado na Amoxicilina)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, VO, de 8/8 horas.`; break;
-                case "azitromicina": t = `• Fármaco: Azitromicina (200 mg / 5 mL)\n• Diretriz: 10 mg/kg/dia em dose única (Regra: Peso ÷ 4)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, VO, 1 vez ao dia por 3 a 5 dias.`; break;
-                case "cefalexina": t = `• Fármaco: Cefalexina (250 mg / 5 mL)\n• Diretriz: 50 a 100 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL a ${(w/2).toFixed(1)} mL, VO, de 6/6 horas.`; break;
-                case "cefadroxila": t = `• Fármaco: Cefadroxila (250 mg / 5 mL)\n• Diretriz: 30 a 50 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*30/250*5/2).toFixed(1)} mL a ${(w*50/250*5/2).toFixed(1)} mL, VO, de 12/12 horas.`; break;
-                case "claritromicina": t = `• Fármaco: Claritromicina (250 mg / 5 mL)\n• Diretriz: 15 mg/kg/dia (Dividido em 12/12h)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.15).toFixed(1)} mL, VO, de 12/12 horas.`; break;
-                case "clindamicina": t = `• Fármaco: Clindamicina (75 mg / 5 mL = 15 mg / mL)\n• Diretriz: 30 mg/kg/dia (Dividido em 6/6h)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*30/15/4).toFixed(1)} mL, VO, de 6/6 horas.`; break;
-                case "bactrim": t = `• Fármaco: Sulfametoxazol + Trimetoprima (200+40 mg / 5 mL)\n• Diretriz: 8 a 12 mg/kg/dia de TMP\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/2).toFixed(1)} mL, VO, de 12/12 horas.`; break;
-                case "nitrofurantoina": t = `• Fármaco: Nitrofurantoína (25 mg / 5 mL = 5 mg / mL)\n• Diretriz ITU: 5 a 7 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*5/5/4).toFixed(1)} mL, VO, de 6/6 horas.`; break;
+                case "amoxicilina": t = `• Fármaco: Amoxicilina (250 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nDose Padrão (50mg/kg): ${(w/3).toFixed(1)} mL, VO, de 8/8 horas.\nDose Alta (90mg/kg): ${(w*0.6).toFixed(1)} mL, VO, de 8/8 horas.`; break;
+                case "clavulin": t = `• Fármaco: Amoxicilina + Clavulanato (250 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, VO, de 8/8 horas.`; break;
+                case "azitromicina": t = `• Fármaco: Azitromicina (200 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, VO, 1 vez ao dia por 3 a 5 dias.`; break;
+                case "cefalexina": t = `• Fármaco: Cefalexina (250 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL a ${(w/2).toFixed(1)} mL, VO, de 6/6 horas.`; break;
+                case "cefadroxila": t = `• Fármaco: Cefadroxila (250 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*30/250*5/2).toFixed(1)} mL a ${(w*50/250*5/2).toFixed(1)} mL, VO, de 12/12 horas.`; break;
+                case "claritromicina": t = `• Fármaco: Claritromicina (250 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.15).toFixed(1)} mL, VO, de 12/12 horas.`; break;
+                case "clindamicina": t = `• Fármaco: Clindamicina (75 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*30/15/4).toFixed(1)} mL, VO, de 6/6 horas.`; break;
+                case "bactrim": t = `• Fármaco: Sulfametoxazol + Trimetoprima (200+40 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/2).toFixed(1)} mL, VO, de 12/12 horas.`; break;
+                case "nitrofurantoina": t = `• Fármaco: Nitrofurantoína (25 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*5/5/4).toFixed(1)} mL, VO, de 6/6 horas.`; break;
 
                 // Antibióticos EV
-                case "ceftriaxona": t = `• Fármaco: Ceftriaxona Injetável\n• Diretriz: 50 a 100 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg a ${(w*100).toFixed(0)} mg, EV ou IM, ao dia (Dividir em 1 ou 2 tomadas).`; break;
-                case "oxacilina": t = `• Fármaco: Oxacilina Injetável\n• Diretriz: 100 a 200 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*150/4).toFixed(0)} mg por dose, EV, de 6/6 horas.`; break;
-                case "ampicilina": t = `• Fármaco: Ampicilina Injetável (Frasco 1g diluído p/ 200 mg/mL)\n• Diretriz: 100 a 200 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL da diluição (200mg/mL), EV, de 6/6 horas.`; break;
+                case "ceftriaxona": t = `• Fármaco: Ceftriaxona Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg a ${(w*100).toFixed(0)} mg/dia, EV/IM, em 1 ou 2 tomadas.`; break;
+                case "oxacilina": t = `• Fármaco: Oxacilina Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*150/4).toFixed(0)} mg por dose, EV, de 6/6 horas.`; break;
+                case "ampicilina": t = `• Fármaco: Ampicilina Injetável (Frasco 1g diluído p/ 200 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL da diluição, EV, de 6/6 horas.`; break;
                 case "penicilina_benzatina": t = `• Fármaco: Penicilina Benzatina (Benzetacil) IM\n\n[DOSE CALCULADA PARA ${w} KG]\n< 27 kg: 600.000 UI, IM, dose única.\n> 27 kg: 1.200.000 UI, IM, dose única.`; break;
-                case "gentamicina": t = `• Fármaco: Gentamicina\n• Diretriz: 5 a 7,5 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*5).toFixed(1)} mg a ${(w*7.5).toFixed(1)} mg, EV, 1x ao dia.`; break;
-                case "amicacina": t = `• Fármaco: Amicacina\n• Diretriz: 15 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*15).toFixed(1)} mg, EV ou IM, 1x ao dia.`; break;
+                case "gentamicina": t = `• Fármaco: Gentamicina\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*5).toFixed(1)} mg a ${(w*7.5).toFixed(1)} mg, EV, 1x ao dia.`; break;
+                case "amicacina": t = `• Fármaco: Amicacina\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*15).toFixed(1)} mg, EV ou IM, 1x ao dia.`; break;
 
                 // Gastrointestinais e Sintomáticos
-                case "ondansetrona_vo": t = `• Fármaco: Ondansetrona Solução Oral (0,8 mg / mL)\n• Diretriz: 0,15 a 0,2 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nSe < 15 kg: ${(w*0.2/0.8).toFixed(1)} mL, VO, de 8/8h.\nSe 15-30 kg: 5,0 mL (4mg) VO, de 8/8h.\nSe > 30 kg: 10,0 mL (8mg) VO, de 8/8h.`; break;
-                case "ondansetrona_ev": t = `• Fármaco: Ondansetrona Injetável\n• Diretriz: 0,15 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.15).toFixed(1)} mg, EV, de 8/8h.`; break;
-                case "bromoprida": t = `• Fármaco: Bromoprida Gotas (4 mg / mL)\n• Diretriz: 1 gota/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
-                case "dimenidrinato": t = `• Fármaco: Dimenidrinato / Dramin Gotas (25 mg / mL)\n• Diretriz: 1 gota/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 6/6h.`; break;
-                case "simeticona": t = `• Fármaco: Simeticona Gotas (75 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${w<2 ? 5 : 10} gotas, VO, de 6/6h se cólicas.`; break;
-                case "omeprazol": t = `• Fármaco: Omeprazol Cápsulas\n• Diretriz: 1 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(0)} mg, VO, 1x ao dia (abrir cápsula e misturar em meio ácido se não engolir).`; break;
-                case "domperidona": t = `• Fármaco: Domperidona Suspensão (1 mg / mL)\n• Diretriz: 0,2 a 0,4 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.3).toFixed(1)} mL, VO, de 8/8h (15 min antes das refeições).`; break;
-                case "lactulose": t = `• Fármaco: Lactulose Xarope (667 mg / mL)\n• Diretriz: 1 a 3 mL/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.5).toFixed(1)} mL, VO, 1 vez ao dia.`; break;
+                case "ondansetrona_vo": t = `• Fármaco: Ondansetrona Solução Oral (0,8 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nSe < 15 kg: ${(w*0.2/0.8).toFixed(1)} mL, VO, de 8/8h.\nSe 15-30 kg: 5,0 mL (4mg) VO.\nSe > 30 kg: 10,0 mL (8mg) VO.`; break;
+                case "ondansetrona_ev": t = `• Fármaco: Ondansetrona Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.15).toFixed(1)} mg, EV, de 8/8h.`; break;
+                case "bromoprida": t = `• Fármaco: Bromoprida Gotas (4 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 8/8h.`; break;
+                case "dimenidrinato": t = `• Fármaco: Dimenidrinato / Dramin Gotas (25 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.round(w*1.0)} gotas, VO, de 6/6h.`; break;
+                case "simeticona": t = `• Fármaco: Simeticona Gotas (75 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${w<2 ? 5 : 10} gotas, VO, de 6/6h.`; break;
+                case "omeprazol": t = `• Fármaco: Omeprazol Cápsulas\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(0)} mg, VO, 1x ao dia em jejum.`; break;
+                case "domperidona": t = `• Fármaco: Domperidona Suspensão (1 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.3).toFixed(1)} mL, VO, de 8/8h (15 min antes das refeições).`; break;
+                case "lactulose": t = `• Fármaco: Lactulose Xarope (667 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.5).toFixed(1)} mL, VO, 1 vez ao dia.`; break;
                 case "peg4000": t = `• Fármaco: PEG 4000 (Pó para Solução)\n\n[DOSE CALCULADA PARA ${w} KG]\nManutenção: ${(w*0.7).toFixed(1)} g/dia diluídos em água.\nDesimpactação: ${(w*1.2).toFixed(1)} g/dia por 3 a 6 dias.`; break;
                 case "sro": t = `• Fármaco: Soro de Reidratação Oral (SRO)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 1 ano: 50 a 100 mL após evacuação/vômito.\n1 a 10 anos: 100 a 200 mL.`; break;
 
                 // Antiparasitários
-                case "albendazol": t = `• Fármaco: Albendazol Suspensão (400 mg / 10 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nCrianças > 2 anos: 10 mL (400mg), VO, dose única (ou 1x/dia por 3 a 5 dias para Giardia).`; break;
-                case "nitazoxanida": t = `• Fármaco: Nitazoxanida / Annita (20 mg / mL)\n• Diretriz: 7,5 mg/kg/dose\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.375).toFixed(1)} mL, VO, de 12/12 horas por 3 dias.`; break;
-                case "ivermectina": t = `• Fármaco: Ivermectina (Comprimidos 6mg)\n• Diretriz: 200 mcg/kg (Apenas para > 15 kg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.max(0, Math.round(w*200/6000))} comprimido(s), VO, dose única.`; break;
-                case "secnidazol": t = `• Fármaco: Secnidazol Suspensão (30 mg / mL)\n• Diretriz: 30 mg/kg em dose única\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(1)} mL, VO, após o jantar em dose única.`; break;
-                case "metronidazol": t = `• Fármaco: Metronidazol Suspensão (40 mg / mL)\n• Diretriz Giardíase: 15 a 20 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*15/40/2).toFixed(1)} mL, VO, de 12/12 horas por 5 dias.`; break;
+                case "albendazol": t = `• Fármaco: Albendazol Suspensão (400 mg / 10 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nCrianças > 2 anos: 10 mL (400mg), VO, dose única.`; break;
+                case "nitazoxanida": t = `• Fármaco: Nitazoxanida / Annita (20 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.375).toFixed(1)} mL, VO, de 12/12 horas por 3 dias.`; break;
+                case "ivermectina": t = `• Fármaco: Ivermectina (Comprimidos 6mg)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.max(0, Math.round(w*200/6000))} comprimido(s), VO, dose única (> 15 kg).`; break;
+                case "secnidazol": t = `• Fármaco: Secnidazol Suspensão (30 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*1.0).toFixed(1)} mL, VO, após o jantar em dose única.`; break;
+                case "metronidazol": t = `• Fármaco: Metronidazol Suspensão (40 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*15/40/2).toFixed(1)} mL, VO, de 12/12 horas por 5 dias.`; break;
                 case "mebendazol": t = `• Fármaco: Mebendazol Suspensão (100 mg / 5 mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar 5 mL, VO, de 12/12 horas por 3 dias.`; break;
 
                 // Corticoides / Alergia
@@ -543,32 +646,32 @@
                 case "desloratadina": t = `• Fármaco: Desloratadina Xarope (0,5 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n6-11 meses: 2,0 mL, 1x/dia.\n1-5 anos: 2,5 mL, 1x/dia.\n6-11 anos: 5,0 mL, 1x/dia.`; break;
                 case "loratadina": t = `• Fármaco: Loratadina Xarope (1 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 30 kg: 5 mL, VO, 1x/dia.\n> 30 kg: 10 mL, VO, 1x/dia.`; break;
                 case "cetirizina": t = `• Fármaco: Cetirizina Xarope (1 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n2 a 5 anos: 2,5 mL, VO, 1x/dia.\n> 6 anos: 5 a 10 mL, VO, 1x/dia.`; break;
-                case "hidroxizina": t = `• Fármaco: Hidroxizina Xarope (2 mg / mL)\n• Diretriz: 2 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, VO, de 8/8 horas.`; break;
-                case "prednisolona": t = `• Fármaco: Prednisolona Solução Oral (3 mg / mL)\n• Diretriz: 1 a 2 mg/kg/dia\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, VO, 1x ao dia (manhã) por 3 a 5 dias.`; break;
-                case "dexametasona": t = `• Fármaco: Dexametasona (Sol. Oral 0,1 mg/mL ou Ampola 4 mg/mL)\n• Diretriz Crupe/Anti-inflamatório: 0,15 a 0,6 mg/kg em dose única\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.3).toFixed(1)} mg, VO, EV ou IM, em dose única (Máx 16mg).`; break;
-                case "hidrocortisona": t = `• Fármaco: Hidrocortisona Injetável\n• Ataque Asma: 10 mg/kg | Manutenção: 5 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAtaque: ${(w*10).toFixed(0)} mg, EV.\nManutenção: ${(w*5).toFixed(0)} mg, EV, de 6/6h.`; break;
+                case "hidroxizina": t = `• Fármaco: Hidroxizina Xarope (2 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/4).toFixed(1)} mL, VO, de 8/8 horas.`; break;
+                case "prednisolona": t = `• Fármaco: Prednisolona Solução Oral (3 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w/3).toFixed(1)} mL, VO, 1x ao dia (manhã) por 3 a 5 dias.`; break;
+                case "dexametasona": t = `• Fármaco: Dexametasona (Sol. Oral 0,1 mg/mL ou Ampola 4 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.3).toFixed(1)} mg, VO, EV ou IM, em dose única.`; break;
+                case "hidrocortisona": t = `• Fármaco: Hidrocortisona Injetável\n\n[DOSE CALCULADA PARA ${w} KG]\nAtaque: ${(w*10).toFixed(0)} mg, EV.\nManutenção: ${(w*5).toFixed(0)} mg, EV, de 6/6h.`; break;
 
                 // Respiratório e Adrenalina
-                case "salbutamol": t = `• Fármaco: Salbutamol Spray (100 mcg / jato)\n• Diretriz Asma: 1 jato a cada 3 a 4 kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.max(2, Math.min(10, Math.round(w/3)))} jatos via espaçador a cada 20 minutos na 1ª hora. (Mín 2, Máx 10).`; break;
-                case "atrovent": t = `• Fármaco: Brometo de Ipratrópio / Atrovent (0,25 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 10 kg: Nebulizar 10 gotas diluídas em 2 mL SF 0,9%.\n10 a 20 kg: Nebulizar 20 gotas diluídas em 2 mL SF.\n> 20 kg: Nebulizar 40 gotas.`; break;
-                case "sulfato_mg": t = `• Fármaco: Sulfato de Magnésio 50%\n• Diretriz Asma Grave: 50 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg, EV, infundidos em 20 min (Máx 2g).`; break;
-                case "adrenalina_nbz": t = `• Fármaco: Adrenalina (Ampola 1 mg / mL)\n• Diretriz Crupe Grave: 0,5 mL/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nNebulizar ${Math.min(5, (w/2)).toFixed(1)} mL puros (Máx 5mL).`; break;
-                case "adrenalina_im": t = `• Fármaco: Adrenalina (Ampola 1 mg / mL)\n• Diretriz Anafilaxia: 0,01 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAplicar ${Math.min(0.5, (w*0.01)).toFixed(2)} mL, IM, no vasto lateral da coxa.`; break;
+                case "salbutamol": t = `• Fármaco: Salbutamol Spray (100 mcg / jato)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.max(2, Math.min(10, Math.round(w/3)))} jatos via espaçador a cada 20 min na 1ª hora.`; break;
+                case "atrovent": t = `• Fármaco: Brometo de Ipratrópio / Atrovent (0,25 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 10 kg: Nebulizar 10 gotas diluídas em 2 mL SF.\n10 a 20 kg: 20 gotas em 2 mL SF.\n> 20 kg: 40 gotas em 2 mL SF.`; break;
+                case "sulfato_mg": t = `• Fármaco: Sulfato de Magnésio 50%\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*50).toFixed(0)} mg, EV, infundidos em 20 min (Máx 2g).`; break;
+                case "adrenalina_nbz": t = `• Fármaco: Adrenalina Nebulização (1 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nNebulizar ${Math.min(5, (w/2)).toFixed(1)} mL puros.`; break;
+                case "adrenalina_im": t = `• Fármaco: Adrenalina IM (1 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAplicar ${Math.min(0.5, (w*0.01)).toFixed(2)} mL, IM no vasto lateral da coxa.`; break;
 
                 // Neuro e Convulsão
-                case "midazolam_ev": t = `• Fármaco: Midazolam Injetável (Diluir 1mL ampola + 4mL AD = 1 mg/mL)\n• Diretriz: 0,1 a 0,2 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.2).toFixed(1)} mL da diluição (1mg/mL), EV lento.`; break;
-                case "midazolam_in": t = `• Fármaco: Midazolam Intranasal (Ampola pura 5 mg/mL)\n• Diretriz: 0,2 a 0,3 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(1.5, (w*0.05)).toFixed(2)} mL puros, fracionados entre as narinas.`; break;
-                case "fenobarbital": t = `• Fármaco: Fenobarbital (Diluir 1mL ampola + 9mL AD = 10 mg/mL)\n• Ataque: 20 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição, EV, em 10 minutos.`; break;
-                case "fenitoina": t = `• Fármaco: Fenitoína (Diluir 1mL ampola + 4mL SF 0.9% = 10 mg/mL)\n• Ataque: 20 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição, EV, em 20 minutos (Máx 50mg/min).`; break;
-                case "diazepam": t = `• Fármaco: Diazepam (Ampola 5mg/mL puro)\n• Diretriz: 0,1 a 0,3 mg/kg\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.2/5).toFixed(2)} mL, EV extremamente lento. (Não diluir).`; break;
+                case "midazolam_ev": t = `• Fármaco: Midazolam Injetável (Diluir p/ 1 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.2).toFixed(1)} mL da diluição (1mg/mL), EV lento.`; break;
+                case "midazolam_in": t = `• Fármaco: Midazolam Intranasal (Ampola pura 5 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${Math.min(1.5, (w*0.05)).toFixed(2)} mL puros, fracionados nas narinas.`; break;
+                case "fenobarbital": t = `• Fármaco: Fenobarbital (Diluir p/ 10 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição, EV, em 10 minutos.`; break;
+                case "fenitoina": t = `• Fármaco: Fenitoína (Diluir p/ 10 mg/mL)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*2.0).toFixed(1)} mL da diluição, EV, em 20 minutos.`; break;
+                case "diazepam": t = `• Fármaco: Diazepam (Ampola 5mg/mL puro)\n\n[DOSE CALCULADA PARA ${w} KG]\nAdministrar ${(w*0.2/5).toFixed(2)} mL, EV extremamente lento. (Não diluir).`; break;
 
                 // Suplementos e Diversos
-                case "sulfato_ferroso": t = `• Fármaco: Sulfato Ferroso Profilático (Gotas 25mg Fe/mL = 1,25mg Fe/gota)\n\n[DOSE CALCULADA PARA ${w} KG]\nProfilaxia (RNT): ${Math.round((w*1.0)/1.25)} gotas/dia (1 mg/kg/dia).\nProfilaxia (RNPT): ${Math.round((w*2.0)/1.25)} gotas/dia (2 mg/kg/dia).\nTratamento: ${Math.round((w*4.0)/1.25)} gotas/dia (3 a 6 mg/kg/dia).`; break;
+                case "sulfato_ferroso": t = `• Fármaco: Sulfato Ferroso (Gotas 25mg Fe/mL = 1,25mg Fe/gota)\n\n[DOSE CALCULADA PARA ${w} KG]\nProfilaxia (RNT): ${Math.round((w*1.0)/1.25)} gotas/dia (1 mg/kg/dia).\nTratamento: ${Math.round((w*4.0)/1.25)} gotas/dia (3 a 6 mg/kg/dia).`; break;
                 case "vitamina_d": t = `• Fármaco: Vitamina D3\n\n[DOSE CALCULADA PARA ${w} KG]\n< 1 ano: 400 UI/dia.\n> 1 ano: 600 UI/dia.`; break;
-                case "oseltamivir": t = `• Fármaco: Oseltamivir / Tamiflu Suspensão (15 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 1 ano: ${(w*0.2).toFixed(1)} mL (${(w*3).toFixed(0)}mg), VO, de 12/12h por 5 dias.\n> 1 ano (≤ 15kg): 30 mg (2 mL), VO, de 12/12h.\n> 1 ano (15-23kg): 45 mg (3 mL), VO, de 12/12h.`; break;
+                case "oseltamivir": t = `• Fármaco: Oseltamivir / Tamiflu Suspensão (15 mg / mL)\n\n[DOSE CALCULADA PARA ${w} KG]\n< 1 ano: ${(w*0.2).toFixed(1)} mL (${(w*3).toFixed(0)}mg), VO, de 12/12h por 5 dias.\n> 1 ano (≤ 15kg): 30 mg (2 mL), VO, de 12/12h.`; break;
                 case "nifedipina": t = `• Fármaco: Nifedipina / Hidralazina (Emergência HAS)\n\n[DOSE CALCULADA PARA ${w} KG]\nNifedipina: ${(w*0.25).toFixed(1)} mg/dose, VO, a cada 4-6h.\nHidralazina: ${(w*0.15).toFixed(1)} mg/dose, EV, a cada 4-6h.`; break;
 
-                default: t = "Por favor, selecione um fármaco válido na lista acima.";
+                default: t = "Selecione ou busque um fármaco acima.";
             }
             out.innerText = t;
         }
@@ -581,12 +684,7 @@
             if (n) { n.content += (n.content ? "\n\n" : "") + "--- CÁLCULO PEDIÁTRICO EXATO ---\n" + txt; saveNotes(); selectNote(activeNoteId); switchTab('tab-notes'); showToast("Cálculo inserido na evolução do paciente!"); }
         }
 
-        // --- ABA 3: PRESCRIÇÕES POR DOENÇA --- 
-        /* ==============================================================================
-           BANCO DE DADOS DE PRESCRIÇÕES.
-           Caso tenha faltado alguma, basta adicionar um novo bloco {} abaixo
-           seguindo o mesmo padrão: disease (Doença) e prescription (Prescrição).
-        ============================================================================== */
+        // ================= ABA 3: PRESCRIÇÕES POR DOENÇA ================= 
         const diseasesData = [
             // PEDIATRIA
             {
@@ -642,7 +740,7 @@
                 prescription: "USO ORAL\n\n1. SORO DE REIDRATAÇÃO ORAL (SRO) ---------------- 5 ENVELOPES\n   Diluir 1 envelope em 1 L de água. Oferecer 1/3 do volume hídrico diário.\n   (Cálculo Volume Diário Total: 50 a 100 mL/kg/dia).\n\n2. DIPIRONA GOTAS 500 MG/ML ----------------------- 1 FRASCO\n   Tomar 1 gota/kg, via oral, de 6/6h se febre ou dor. (NÃO USAR AINES)."
             },
 
-            // EMERGÊNCIAS (PEDIATRIA E ADULTO)
+            // EMERGÊNCIAS E ADULTO
             {
                 disease: "CRISE CONVULSIVA",
                 prescription: "USO ENDOVENOSO OU INTRANASAL\n\n1. MIDAZOLAM AMPOLA 5 MG/ML ------------------------ 1 AMPOLA\n   - Intranasal: 0,2 a 0,3 mg/kg da solução pura fracionado nas narinas (Máx 7,5mg).\n   - EV: 0,1 a 0,3 mg/kg (diluir 1mL ampola + 4mL AD = 1mg/mL), EV lento.\n\n2. FENOBARBITAL AMPOLA 100 MG/ML ------------------- 1 AMPOLA\n   Dose de Ataque: 20 mg/kg, EV, infundido em 10 minutos."
@@ -655,8 +753,6 @@
                 disease: "EMERGÊNCIA HIPERTENSIVA",
                 prescription: "USO ORAL E ENDOVENOSO\n\n1. NIFEDIPINA 10 MG COMPRIMIDOS -------------------- 1 CAIXA\n   Administrar 0,25 mg/kg/dose, VO, a cada 4 a 6 horas (Máximo 10 mg/dose).\n\n2. HIDRALAZINA INJETÁVEL 20 MG/ML ------------------ 1 AMPOLA\n   Administrar 0,1 a 0,2 mg/kg/dose, EV, a cada 4 a 6 horas (Máximo 20 mg/dose)."
             },
-
-            // CLÍNICA MÉDICA ADULTO
             {
                 disease: "SANGRAMENTO UTERINO ANORMAL (SUA)",
                 prescription: "USO ORAL\n\n1. NAPROXENO 550MG -------------------------------- 1 CAIXA\n   Tomar 1 comprimido, via oral, de 12/12h por 5 dias.\n\n2. ÁCIDO TRANEXÂMICO 250MG ----------------------- 2 CAIXAS\n   Tomar 2 comprimidos (500mg), via oral, de 8/8h por 3 a 5 dias durante fluxo intenso."
@@ -703,7 +799,7 @@
                         </div>
                         <div class="flex flex-wrap items-center gap-3">
                             <button onclick="copyDisease('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-slate-950 border border-slate-700 hover:bg-slate-800 text-slate-300 text-sm font-extrabold px-5 py-3 rounded-xl flex items-center gap-2 transition"><i class="fa-solid fa-copy text-cyan-400"></i> Copiar</button>
-                            <button onclick="sendDiseaseToNote('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm px-5 py-3 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition"><i class="fa-solid fa-file-import"></i> P/ Evolução</button>
+                            <button onclick="sendDiseaseToNote('${encodeURIComponent(i.disease)}', '${encodeURIComponent(i.prescription)}')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold text-sm px-5 py-3 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition"><i class="fa-solid fa-file-import"></i> Lançar na Evolução</button>
                         </div>
                     </div>
                     <pre class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-sm text-slate-300 font-code leading-relaxed whitespace-pre-wrap selection:bg-cyan-500/30">${i.prescription}</pre>
