@@ -16,8 +16,8 @@
 
     <!-- SCREEN 1: LOGIN MINIMALISTA -->
     <div id="screen-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-6">
-            <div class="text-center space-y-2">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-5">
+            <div class="text-center space-y-1.5">
                 <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center mx-auto text-cyan-400">
                     <i class="fa-solid fa-wave-square text-xl"></i>
                 </div>
@@ -57,28 +57,27 @@
     <!-- SCREEN 2: WORKSPACE PRINCIPAL -->
     <div id="screen-app" class="hidden flex-1 flex flex-col">
 
-        <!-- Top Header Minimalista -->
-        <header class="bg-slate-900 border-b border-slate-800">
-            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
-                        <i class="fa-solid fa-wave-square text-sm"></i>
+        <!-- Top Header Ajustado (Responsivo no Celular) -->
+        <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-20">
+            <div class="max-w-7xl mx-auto px-3 py-2.5 flex flex-wrap justify-between items-center gap-2">
+                <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-wave-square text-xs"></i>
                     </div>
-                    <span class="font-bold text-lg tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
+                    <span class="font-bold text-base tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
                 </div>
 
-                <div class="flex items-center gap-3">
-                    <!-- Trial Status Badge -->
-                    <div id="trial-badge" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                        <span id="trial-days-text">30 dias restantes</span>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                    <div id="trial-badge" class="bg-slate-950 border border-slate-800 text-slate-300 text-[10px] sm:text-xs px-2 py-1 rounded-lg flex items-center gap-1 whitespace-nowrap">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span id="trial-days-text">30d restantes</span>
                     </div>
 
-                    <button onclick="openUpgradeModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                    <button onclick="openUpgradeModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-[10px] sm:text-xs font-semibold px-2 py-1 rounded-lg transition flex items-center gap-1 whitespace-nowrap">
                         <i class="fa-solid fa-crown text-amber-400"></i> Pro (R$ 9,99/mês)
                     </button>
 
-                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-2 py-1">
+                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-1.5 py-1">
                         <i class="fa-solid fa-power-off"></i>
                     </button>
                 </div>
@@ -86,35 +85,35 @@
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="bg-slate-950 border-b border-slate-800 sticky top-0 z-10">
-            <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-xs font-semibold">
-                <button onclick="switchTab('tab-notes')" class="tab-btn py-3 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2" id="btn-notes">
+        <nav class="bg-slate-950 border-b border-slate-800 sticky top-[53px] z-10">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-4 text-xs font-semibold overflow-x-auto">
+                <button onclick="switchTab('tab-notes')" class="tab-btn py-2.5 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2 whitespace-nowrap" id="btn-notes">
                     <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas & Gatilhos
                 </button>
-                <button onclick="switchTab('tab-prescriptions')" class="tab-btn py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2" id="btn-prescriptions">
+                <button onclick="switchTab('tab-prescriptions')" class="tab-btn py-2.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap" id="btn-prescriptions">
                     <i class="fa-solid fa-bolt text-amber-400"></i> Prescrições Automáticas
                 </button>
             </div>
         </nav>
 
         <!-- Main Workspace -->
-        <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-4">
+        <main class="max-w-7xl mx-auto px-4 py-4 flex-1 w-full space-y-4">
 
             <!-- TAB 1: BLOCO DE NOTAS & GATILHOS -->
             <section id="tab-notes" class="space-y-4">
                 
                 <!-- Quick Trigger Bar -->
-                <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
                     <div class="flex items-center gap-2 text-slate-400">
                         <i class="fa-solid fa-terminal text-cyan-400"></i>
                         <span class="font-semibold text-slate-200">Gatilhos Rápidos:</span>
-                        <span>Digite o comando + Espaço na nota</span>
+                        <span class="text-[11px] hidden sm:inline">Digite o comando + Espaço</span>
                     </div>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="insertTrigger('/ef')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/EF <span class="text-slate-500 font-sans text-[10px]">(Exame Físico)</span></button>
-                        <button onclick="insertTrigger('/an')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/AN <span class="text-slate-500 font-sans text-[10px]">(Anamnese)</span></button>
-                        <button onclick="insertTrigger('/hd')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/HD <span class="text-slate-500 font-sans text-[10px]">(Hipótese)</span></button>
-                        <button onclick="insertTrigger('/pres')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/PRES <span class="text-slate-500 font-sans text-[10px]">(Prescrição)</span></button>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="insertTrigger('/ef')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/EF <span class="text-slate-500 font-sans text-[9px]">(Exame Físico)</span></button>
+                        <button onclick="insertTrigger('/an')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/AN <span class="text-slate-500 font-sans text-[9px]">(Anamnese)</span></button>
+                        <button onclick="insertTrigger('/hd')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/HD <span class="text-slate-500 font-sans text-[9px]">(Hipótese)</span></button>
+                        <button onclick="insertTrigger('/pres')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2 py-0.5 rounded text-[11px]">/PRES <span class="text-slate-500 font-sans text-[9px]">(Prescrição)</span></button>
                     </div>
                 </div>
 
@@ -128,7 +127,7 @@
                             </button>
                         </div>
                         <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar..." class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500">
-                        <div id="notes-list" class="space-y-1.5 max-h-[450px] overflow-y-auto"></div>
+                        <div id="notes-list" class="space-y-1.5 max-h-[300px] md:max-h-[450px] overflow-y-auto"></div>
                     </div>
 
                     <!-- Editor Workspace -->
@@ -138,7 +137,7 @@
                             <span id="save-status" class="text-[10px] text-slate-500 font-mono ml-2">Salvo</span>
                         </div>
                         
-                        <textarea id="note-content" oninput="handleTyping(this)" rows="14" placeholder="Comece a escrever ou digite um gatilho como /EF seguido de espaço..." class="bg-transparent text-xs text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
+                        <textarea id="note-content" oninput="handleTyping(this)" rows="12" placeholder="Comece a escrever ou digite um gatilho como /EF seguido de espaço..." class="bg-transparent text-xs text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
                         
                         <div class="flex justify-between items-center border-t border-slate-800 pt-3 text-xs">
                             <button onclick="copyCurrentNote()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded font-medium flex items-center gap-1.5">
@@ -154,12 +153,12 @@
 
             <!-- TAB 2: PRESCRIÇÕES AUTOMÁTICAS -->
             <section id="tab-prescriptions" class="hidden space-y-4">
-                <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-900 border border-slate-800 p-4 rounded-xl">
                     <div>
                         <h2 class="text-sm font-bold text-white">Prescrições Pré-Configuradas</h2>
                         <p class="text-xs text-slate-400">Copie ou envie direto para o seu bloco de notas.</p>
                     </div>
-                    <input type="text" id="search-prescriptions" onkeyup="renderPrescriptions()" placeholder="Filtrar..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-60">
+                    <input type="text" id="search-prescriptions" onkeyup="renderPrescriptions()" placeholder="Filtrar..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-full sm:w-60">
                 </div>
 
                 <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -167,7 +166,27 @@
         </main>
     </div>
 
-    <!-- MODAL PREMIUM / PRO (R$ 9,99/mês) -->
+    <!-- MODAL 1: AVISO POPUP DE DIAS, HORAS E MINUTOS RESTANTES DO TESTE -->
+    <div id="modal-trial-notice" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 text-center">
+            <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center mx-auto text-cyan-400 text-xl">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+            <div>
+                <h3 class="text-base font-bold text-white">Período de Teste Grátis Ativo</h3>
+                <p class="text-xs text-slate-400 mt-1">Você possui acesso completo aos recursos durante o período de testes de 30 dias.</p>
+            </div>
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl text-center">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">Tempo Restante de Teste:</span>
+                <span id="modal-trial-time" class="text-xs font-bold text-cyan-400 font-mono">30 dias, 0 horas e 0 minutos</span>
+            </div>
+            <button onclick="closeTrialModal()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition">
+                Continuar para o Workspace
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PREMIUM / PRO (R$ 9,99/mês) -->
     <div id="modal-pro" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
             <div class="flex justify-between items-center">
@@ -200,7 +219,6 @@
         let notes = [];
         let activeNoteId = null;
 
-        // Dicionário de Gatilhos
         const triggers = {
             '/ef': "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas.",
             '/an': "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos em uso: \n- Alergias: ",
@@ -218,6 +236,10 @@
             const savedUser = localStorage.getItem('doctype_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
+                if (!currentUser.createdAt || isNaN(currentUser.createdAt)) {
+                    currentUser.createdAt = Date.now();
+                    localStorage.setItem('doctype_user', JSON.stringify(currentUser));
+                }
                 showApp();
             } else {
                 document.getElementById('screen-login').classList.remove('hidden');
@@ -235,7 +257,7 @@
                     name: "Administrador",
                     email: "admin@doctype.ai",
                     role: "Médico Generalista",
-                    createdAt: Date.now() - (1000 * 60 * 60 * 24 * 2), // 2 dias de uso simulados
+                    createdAt: Date.now() - (1000 * 60 * 60 * 5), // Simula 5h de uso
                     isPro: false
                 };
             } else {
@@ -250,20 +272,43 @@
 
             localStorage.setItem('doctype_user', JSON.stringify(currentUser));
             showApp();
-            notifyTrialDays();
+            openTrialModal();
         }
 
-        function notifyTrialDays() {
-            const daysLeft = calculateTrialDays();
-            if (!currentUser.isPro) {
-                alert(`Bem-vindo ao Doctype! Você tem ${daysLeft} dias restantes de acesso experimental.`);
+        // Cálculo Exato de Dias, Horas e Minutos Faltantes (30 dias no total)
+        function calculateTrialTime() {
+            if (!currentUser || !currentUser.createdAt) {
+                return { isPro: false, text: "30 dias, 0 horas e 0 minutos", badge: "30d restantes" };
+            }
+            if (currentUser.isPro) {
+                return { isPro: true, text: "Plano Pro Ativo", badge: "Pro Ativo" };
+            }
+
+            const trialDurationMs = 30 * 24 * 60 * 60 * 1000;
+            const elapsedMs = Date.now() - currentUser.createdAt;
+            const remainingMs = Math.max(0, trialDurationMs - elapsedMs);
+
+            const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            return {
+                isPro: false,
+                text: `${days} dias, ${hours} horas e ${minutes} minutos`,
+                badge: `${days}d ${hours}h restantes`
+            };
+        }
+
+        function openTrialModal() {
+            const timeData = calculateTrialTime();
+            if (!timeData.isPro) {
+                document.getElementById('modal-trial-time').innerText = timeData.text;
+                document.getElementById('modal-trial-notice').classList.remove('hidden');
             }
         }
 
-        function calculateTrialDays() {
-            if (currentUser.isPro) return "Pro Ativo";
-            const diffDays = Math.floor((Date.now() - currentUser.createdAt) / (1000 * 60 * 60 * 24));
-            return Math.max(0, 30 - diffDays);
+        function closeTrialModal() {
+            document.getElementById('modal-trial-notice').classList.add('hidden');
         }
 
         function handleLogout() {
@@ -275,14 +320,14 @@
             document.getElementById('screen-login').classList.add('hidden');
             document.getElementById('screen-app').classList.remove('hidden');
             
-            const daysLeft = calculateTrialDays();
-            document.getElementById('trial-days-text').innerText = typeof daysLeft === 'number' ? `${daysLeft} dias de teste` : daysLeft;
+            const timeData = calculateTrialTime();
+            document.getElementById('trial-days-text').innerText = timeData.badge;
             
             loadNotes();
             renderPrescriptions();
         }
 
-        // Lógica de Digitação com Detecção de Gatilho (/EF, /AN, etc.)
+        // Digitação com Detecção de Gatilho (/EF, /AN, etc.)
         function handleTyping(textarea) {
             let val = textarea.value;
             for (let code in triggers) {
@@ -300,7 +345,6 @@
             autoSaveNote();
         }
 
-        // Bloco de Notas
         function loadNotes() {
             const savedNotes = localStorage.getItem('doctype_notes');
             notes = savedNotes ? JSON.parse(savedNotes) : [{ id: Date.now(), title: "Evolução Leito 02", content: triggers['/ef'] }];
@@ -361,7 +405,6 @@
             alert('Copiado para a área de transferência!');
         }
 
-        // Prescrições
         function renderPrescriptions() {
             const query = (document.getElementById('search-prescriptions')?.value || '').toLowerCase();
             const container = document.getElementById('prescriptions-list');
@@ -392,7 +435,6 @@
             }
         }
 
-        // Modais e Tabs
         function openUpgradeModal() { document.getElementById('modal-pro').classList.remove('hidden'); }
         function closeUpgradeModal() { document.getElementById('modal-pro').classList.add('hidden'); }
 
