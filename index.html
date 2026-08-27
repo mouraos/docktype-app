@@ -149,17 +149,17 @@
                 </div>
             </section>
 
-            <!-- TAB 2: PRESCRIÇÕES AUTOMÁTICAS (CARREGADAS DE PRESCRIÇÕES.TXT) -->
+            <!-- TAB 2: PRESCRIÇÕES AUTOMÁTICAS -->
             <section id="tab-prescriptions" class="hidden space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl">
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 class="text-sm font-bold text-white">Banco Pro de Prescrições</h2>
-                            <span id="prescriptions-count" class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-mono px-2 py-0.5 rounded">Carregando...</span>
+                            <h2 class="text-sm font-bold text-white">Banco Pro de Prescrições por Diagnóstico</h2>
+                            <span id="prescriptions-count" class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-mono px-2 py-0.5 rounded">Processando...</span>
                         </div>
-                        <p class="text-xs text-slate-400 mt-0.5">Sincronizado automaticamente com seu arquivo prescricoes.txt do GitHub.</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Diagnósticos e condutas organizados diretamente do seu prescricoes.txt.</p>
                     </div>
-                    <input type="text" id="search-prescriptions" onkeyup="renderLimit=30; renderPrescriptions();" placeholder="Pesquisar patologia ou medicação..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-full sm:w-72">
+                    <input type="text" id="search-prescriptions" onkeyup="renderLimit=30; renderPrescriptions();" placeholder="Pesquisar por patologia (ex: Gripal, GECA)..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-full sm:w-72">
                 </div>
 
                 <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -167,7 +167,7 @@
         </main>
     </div>
 
-    <!-- MODAL 1: AVISO POPUP DE TEMPO RESTANTE DO TESTE -->
+    <!-- MODAL 1: AVISO POPUP DE TEMPO RESTANTE -->
     <div id="modal-trial-notice" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 text-center">
             <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center mx-auto text-cyan-400 text-xl">
@@ -187,7 +187,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2: ASSINATURA PRO (R$ 9,99/mês) -->
+    <!-- MODAL 2: ASSINATURA PRO -->
     <div id="modal-pro" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
             <div class="flex justify-between items-center">
@@ -199,7 +199,7 @@
             </div>
 
             <p class="text-xs text-slate-300 leading-relaxed">
-                Acesso ilimitado ao banco corporativo de prescrições automáticas do seu arquivo, suporte a gatilhos personalizados e sincronização contínua.
+                Acesso ilimitado ao banco corporativo de prescrições automáticas, suporte a gatilhos personalizados e sincronização contínua.
             </p>
 
             <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center">
@@ -229,61 +229,150 @@
             '/pres': "PRESCRIÇÃO DE PLANTÃO:\n1. Dieta livre.\n2. Soro Fisiológico 0.9% 500ml IV de 8/8h.\n3. Dipirona 1g IV de 6/6h se dor ou febre.\n4. Ondansetrona 8mg IV de 8/8h se náuseas.\n5. Monitorização contínua de Sinais Vitais."
         };
 
-        // Carrega e Estrutura prescricoes.txt do GitHub
+        const subheaders = new Set([
+            'USO ORAL', 'USO PARENTERAL', 'USO VAGINAL', 'USO TOPICO', 'USO TÓPICO', 
+            'USO INALATORIO', 'USO INALATÓRIO', 'USO INTRAMUSCULAR', 'USO ENDOVENOSO',
+            'EXAME FISICO', 'EXAME FÍSICO', 'ANAMNESE', 'CONDUTA', 'ORIENTACOES', 'ORIENTAÇÕES',
+            'SINTOMATICOS', 'SINTOMÁTICOS', 'OBSERVACAO', 'OBSERVAÇÃO', 'CABECALHO', 'CABEÇALHO',
+            'COMORBIDADES', 'ALERGIAS', 'MEDICAMENTOS', 'PRESCRIÇÃO', 'PRESCRICAO', 'RECEITA',
+            'POSOLOGIA', 'ACOMPANHAMENTO', 'RETORNO', 'CUIDADOS', 'ATENCAO', 'ATENÇÃO',
+            'USO ADULTO', 'USO PEDIATRICO', 'USO PEDIÁTRICO', 'SINAIS DE ALARME'
+        ]);
+
+        const posologyKeywords = new Set([
+            'TOMAR', 'DILUIR', 'APLICAR', 'USAR', 'FAZER', 'PINGAR', 'INJETAR', 'BEBER', 'COLOCAR',
+            'COMPRIMIDO', 'COMPRIMIDOS', 'CPS', 'CP', 'CAIXA', 'CX', 'SACHE', 'SACHÊ', 'SACHES',
+            'FRASCO', 'AMP', 'AMPOLA', 'GOTAS', 'DRAGEAS', 'DRÁGEAS', 'MG', 'ML', 'VO', 'IV', 'IM', 'EV', 'IU',
+            'BISNAGA', 'CREME', 'POMADA', 'XAROPE', 'SUSPENSÃO', 'SUSPENSAO', 'ENVELOPE'
+        ]);
+
+        function cleanLineTitle(line) {
+            return line.replace(/^[=\-#>\*\s\[\]_]+|[=\-#>\*\s\[\]_:]+$/g, '').trim();
+        }
+
+        function isSubheader(text) {
+            const clean = text.replace(/^[=\-#>\*\s\[\]_]+|[=\-#>\*\s\[\]_:]+$/g, '').trim().toUpperCase();
+            return subheaders.has(clean);
+        }
+
+        function isTitleLine(line, prevEmpty) {
+            const trimmed = line.trim();
+            if (!trimmed) return { isTitle: false, title: null };
+
+            // 1. Linha com separadores: === CANDIDÍASE ===, --- GECA ---, ### DENGUE ###
+            if (/^[=\-#\*_]{3,}.+[=\-#\*_]{3,}$/.test(trimmed)) {
+                const title = cleanLineTitle(trimmed);
+                if (title && !isSubheader(title)) return { isTitle: true, title };
+            }
+
+            // 2. Inicia com >>>, >> ou > (Ex: >>> GECA COMUM)
+            if (/^>{1,3}\s*\w+/.test(trimmed)) {
+                const title = cleanLineTitle(trimmed);
+                if (title && !isSubheader(title)) return { isTitle: true, title };
+            }
+
+            // 3. Inicia com # ou [ mas NÃO é um subcabeçalho
+            if (/^[#\[]\s*\w+/.test(trimmed)) {
+                if (!isSubheader(trimmed)) {
+                    const title = cleanLineTitle(trimmed);
+                    if (title) return { isTitle: true, title };
+                }
+                return { isTitle: false, title: null };
+            }
+
+            // 4. Termina com : (Ex: GECA Invasiva :)
+            if (trimmed.endsWith(':') && !isSubheader(trimmed)) {
+                const title = cleanLineTitle(trimmed);
+                if (title && title.length > 2) return { isTitle: true, title };
+            }
+
+            // 5. Linha isolada que indica o diagnóstico (não contém posologia/números)
+            if (prevEmpty && trimmed.length < 80) {
+                const clean = cleanLineTitle(trimmed);
+                const words = clean.toUpperCase().split(/\s+/);
+                
+                const hasPosology = words.some(w => posologyKeywords.has(w));
+                const startsWithNum = /^\d+[\.\)]/.test(trimmed);
+                
+                if (clean && !isSubheader(clean) && !hasPosology && !startsWithNum && words.length <= 10) {
+                    return { isTitle: true, title: clean };
+                }
+            }
+
+            return { isTitle: false, title: null };
+        }
+
+        // Parser Inteligente para transformar o prescricoes.txt em cartões de diagnósticos
+        function parsePrescriptionsText(text) {
+            const lines = text.split(/\r?\n/);
+            const prescriptions = [];
+
+            let currentTitle = "Geral";
+            let currentLines = [];
+            let prevEmpty = true;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                if (!trimmed) {
+                    prevEmpty = true;
+                    if (currentLines.length > 0) {
+                        currentLines.push("");
+                    }
+                    continue;
+                }
+
+                const { isTitle, title } = isTitleLine(trimmed, prevEmpty);
+
+                if (isTitle) {
+                    if (currentLines.length > 0) {
+                        const content = currentLines.join('\n').trim();
+                        if (content.length > 5) {
+                            prescriptions.push({
+                                title: currentTitle,
+                                category: "Conduta / Receita",
+                                content: content
+                            });
+                        }
+                        currentLines = [];
+                    }
+                    currentTitle = title;
+                    prevEmpty = false;
+                } else {
+                    currentLines.push(line);
+                    prevEmpty = false;
+                }
+            }
+
+            if (currentLines.length > 0) {
+                const content = currentLines.join('\n').trim();
+                if (content.length > 5) {
+                    prescriptions.push({
+                        title: currentTitle,
+                        category: "Conduta / Receita",
+                        content: content
+                    });
+                }
+            }
+
+            return prescriptions;
+        }
+
         async function loadPrescriptionsFromGithub() {
             const countBadge = document.getElementById('prescriptions-count');
             try {
                 const response = await fetch('https://raw.githubusercontent.com/mouraos/docktype-app/main/prescricoes.txt');
-                if (!response.ok) throw new Error('Não foi possível ler o arquivo prescricoes.txt');
+                if (!response.ok) throw new Error('Não foi possível ler prescricoes.txt');
                 const rawText = await response.text();
                 
                 prescriptionsData = parsePrescriptionsText(rawText);
-                if (countBadge) countBadge.innerText = `${prescriptionsData.length} prescrições prontas`;
+                if (countBadge) countBadge.innerText = `${prescriptionsData.length} condutas encontradas`;
                 renderPrescriptions();
             } catch (error) {
                 console.error("Erro ao carregar prescrições:", error);
-                if (countBadge) countBadge.innerText = "Modo Padrão";
-                prescriptionsData = [
-                    { title: "Pneumonia Adquirida na Comunidade (PAC)", category: "Infectologia", content: "1. Amoxicilina + Clavulanato 875mg/125mg --- 1 cp VO de 12/12h por 7 dias.\n2. Azitromicina 500mg --- 1 cp VO 1x ao dia por 5 dias." },
-                    { title: "Infecção Urinária (ITU) Baixa", category: "Infectologia", content: "1. Nitrofurantoína 100mg --- 1 cp VO de 6/6h por 5 dias.\n2. Pyridium 200mg --- 1 cp VO de 8/8h por 2 dias." }
-                ];
-                renderPrescriptions();
+                if (countBadge) countBadge.innerText = "Erro na leitura";
             }
-        }
-
-        // Parser Inteligente para transformar o texto em Cards
-        function parsePrescriptionsText(text) {
-            const items = [];
-            const rawBlocks = text.split(/(?:={3,}|-{3,})/);
-            
-            let currentTitle = "";
-            let currentCategory = "Geral / Amb.";
-
-            for (let block of rawBlocks) {
-                const cleanBlock = block.trim();
-                if (!cleanBlock) continue;
-
-                const lines = cleanBlock.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-                if (lines.length === 0) continue;
-
-                if (lines.length === 1 && lines[0].length < 80) {
-                    currentTitle = lines[0].replace(/^[=\-#\s]+|[=\-#\s]+$/g, '');
-                    continue;
-                }
-
-                let title = currentTitle || lines[0].replace(/^[=\-#\s]+|[=\-#\s]+$/g, '');
-                let contentLines = currentTitle ? lines : lines.slice(1);
-
-                if (contentLines.length > 0) {
-                    items.push({
-                        title: title || "Prescrição Médica",
-                        category: currentCategory,
-                        content: contentLines.join('\n')
-                    });
-                }
-                currentTitle = "";
-            }
-            return items;
         }
 
         function checkSession() {
@@ -360,14 +449,8 @@
             }
         }
 
-        function closeTrialModal() {
-            document.getElementById('modal-trial-notice').classList.add('hidden');
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('doctype_user');
-            location.reload();
-        }
+        function closeTrialModal() { document.getElementById('modal-trial-notice').classList.add('hidden'); }
+        function handleLogout() { localStorage.removeItem('doctype_user'); location.reload(); }
 
         function showApp() {
             document.getElementById('screen-login').classList.add('hidden');
@@ -457,17 +540,22 @@
             alert('Copiado para a área de transferência!');
         }
 
+        function removeAccents(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
         function renderPrescriptions() {
-            const query = (document.getElementById('search-prescriptions')?.value || '').toLowerCase().trim();
+            const rawQuery = (document.getElementById('search-prescriptions')?.value || '').trim();
+            const query = removeAccents(rawQuery.toLowerCase());
             const container = document.getElementById('prescriptions-list');
 
             const filtered = prescriptionsData.filter(p => 
-                p.title.toLowerCase().includes(query) || 
-                p.content.toLowerCase().includes(query)
+                removeAccents(p.title.toLowerCase()).includes(query) || 
+                removeAccents(p.content.toLowerCase()).includes(query)
             );
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full bg-slate-900 border border-slate-800 p-8 rounded-xl text-center text-slate-500 text-xs">Nenhuma prescrição encontrada para "${query}".</div>`;
+                container.innerHTML = `<div class="col-span-full bg-slate-900 border border-slate-800 p-8 rounded-xl text-center text-slate-500 text-xs">Nenhum diagnóstico ou prescrição encontrada para "${rawQuery}".</div>`;
                 return;
             }
 
@@ -476,14 +564,14 @@
             container.innerHTML = visible.map((p, idx) => `
                 <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col justify-between space-y-3">
                     <div>
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-center mb-1">
                             <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-bold px-2 py-0.5 rounded">${p.category}</span>
-                            <button onclick="copyText('${encodeURIComponent(p.content)}')" class="text-slate-400 hover:text-cyan-400 text-xs">
+                            <button onclick="copyText('${encodeURIComponent(p.content)}')" class="text-slate-400 hover:text-cyan-400 text-xs flex items-center gap-1">
                                 <i class="fa-solid fa-copy"></i> Copiar
                             </button>
                         </div>
-                        <h3 class="font-bold text-white text-xs mt-2 mb-2">${p.title}</h3>
-                        <pre class="bg-slate-950 p-3 rounded border border-slate-800 text-[11px] text-slate-300 font-code leading-relaxed whitespace-pre-wrap max-h-52 overflow-y-auto">${p.content}</pre>
+                        <h3 class="font-bold text-white text-sm mt-1 mb-2 tracking-wide text-cyan-300">${p.title}</h3>
+                        <pre class="bg-slate-950 p-3 rounded border border-slate-800 text-[11px] text-slate-200 font-code leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">${p.content}</pre>
                     </div>
                     <button onclick="pasteToNoteText('${encodeURIComponent(p.title)}', '${encodeURIComponent(p.content)}')" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold py-2 rounded transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-arrow-right-to-city"></i> Enviar para o Bloco de Notas
@@ -504,7 +592,7 @@
 
         function copyText(encoded) {
             navigator.clipboard.writeText(decodeURIComponent(encoded));
-            alert('Prescrição copiada!');
+            alert('Prescrição copiada com sucesso!');
         }
 
         function pasteToNoteText(encodedTitle, encodedContent) {
