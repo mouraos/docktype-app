@@ -11,7 +11,7 @@
 
     <!-- SCREEN 1: LOGIN / AUTENTICAÇÃO -->
     <div id="screen-login" class="fixed inset-0 bg-indigo-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-6">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
             <div class="text-center">
                 <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                     <i class="fa-solid fa-user-doctor text-3xl text-white"></i>
@@ -20,14 +20,24 @@
                 <p class="text-xs text-slate-500 mt-1">Bloco de Notas Clínico & Prescrições Automáticas</p>
             </div>
 
-            <form onsubmit="handleLogin(event)" class="space-y-4">
+            <!-- Banner de Acesso Teste -->
+            <div class="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl text-xs space-y-1">
+                <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-key"></i> Acesso de Teste Rápido:</p>
+                <p>E-mail: <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">Admin</code> | Senha: <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">Admin</code></p>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-3">
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Seu Nome / Apelido</label>
-                    <input type="text" id="login-name" required placeholder="Ex: Dr. Matheus Mourão" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" id="login-name" placeholder="Ex: Dr. Alex Silva" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">E-mail</label>
-                    <input type="email" id="login-email" required placeholder="seu.email@exemplo.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">E-mail ou Usuário</label>
+                    <input type="text" id="login-email" required placeholder="Admin ou seu.email@exemplo.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Senha</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Cargo / Perfil</label>
@@ -38,7 +48,7 @@
                         <option value="Estudante de Medicina">Estudante de Medicina</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition text-sm">
                     Entrar no Doctype
                 </button>
             </form>
@@ -132,9 +142,7 @@
                     <input type="text" id="search-prescriptions" onkeyup="renderPrescriptions()" placeholder="Buscar por patologia ou remédio..." class="w-full md:w-80 px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
 
-                <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Populated dynamically via JS -->
-                </div>
+                <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
 
             <!-- TAB 3: SUPORTE -->
@@ -155,7 +163,6 @@
         let notes = [];
         let activeNoteId = null;
 
-        // Base de Dados de Prescrições Prontas
         const prescriptionsData = [
             {
                 title: "Pneumonia Adquirida na Comunidade (PAC)",
@@ -189,7 +196,6 @@
             }
         ];
 
-        // Autenticação
         function checkSession() {
             const savedUser = localStorage.getItem('doctype_user');
             if (savedUser) {
@@ -203,11 +209,26 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            currentUser = {
-                name: document.getElementById('login-name').value,
-                email: document.getElementById('login-email').value,
-                role: document.getElementById('login-role').value
-            };
+            const emailInput = document.getElementById('login-email').value.trim();
+            const passInput = document.getElementById('login-pass').value.trim();
+            const nameInput = document.getElementById('login-name').value.trim();
+            const roleInput = document.getElementById('login-role').value;
+
+            // Suporte ao Login de Teste "Admin / Admin"
+            if (emailInput.toLowerCase() === 'admin' && passInput.toLowerCase() === 'admin') {
+                currentUser = {
+                    name: "Administrador",
+                    email: "admin@doctype.com",
+                    role: "Médico Generalista"
+                };
+            } else {
+                currentUser = {
+                    name: nameInput || "Usuário Doctype",
+                    email: emailInput,
+                    role: roleInput
+                };
+            }
+
             localStorage.setItem('doctype_user', JSON.stringify(currentUser));
             showApp();
         }
@@ -226,13 +247,12 @@
             renderPrescriptions();
         }
 
-        // Bloco de Notas
         function loadNotes() {
             const savedNotes = localStorage.getItem('doctype_notes');
             if (savedNotes) {
                 notes = JSON.parse(savedNotes);
             } else {
-                notes = [{ id: Date.now(), title: "Plantão - Leito 01", content: "Paciente em bom estado geral, eupnéico, acianótico.\nConduta: Manter prescrição das prescrições automáticas.", updatedAt: new Date().toLocaleTimeString() }];
+                notes = [{ id: Date.now(), title: "Plantão - Leito 01", content: "Paciente em bom estado geral, eupnéico, acianótico.\nConduta: Manter prescrição e reavaliar à noite.", updatedAt: new Date().toLocaleTimeString() }];
                 saveNotesToStorage();
             }
 
@@ -307,7 +327,6 @@
             alert('Texto copiado com sucesso!');
         }
 
-        // Módulo de Prescrições Automáticas
         function renderPrescriptions() {
             const query = (document.getElementById('search-prescriptions')?.value || '').toLowerCase();
             const container = document.getElementById('prescriptions-list');
@@ -348,7 +367,6 @@
             }
         }
 
-        // Tab Switcher
         function switchTab(tabId) {
             ['tab-notes', 'tab-prescriptions', 'tab-support'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
@@ -367,9 +385,7 @@
             }
         }
 
-        // Init
         checkSession();
     </script>
 </body>
 </html>
-
