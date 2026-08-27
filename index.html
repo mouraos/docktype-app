@@ -1,131 +1,151 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full bg-slate-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctype - Bloco de Notas & Prescrições Automáticas</title>
+    <title>Doctype - Tech-Medical Workspace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-code { font-family: 'JetBrains Mono', monospace; }
+    </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-full flex flex-col antialiased">
 
-    <!-- SCREEN 1: LOGIN / AUTENTICAÇÃO -->
-    <div id="screen-login" class="fixed inset-0 bg-indigo-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                    <i class="fa-solid fa-user-doctor text-3xl text-white"></i>
+    <!-- SCREEN 1: LOGIN MINIMALISTA -->
+    <div id="screen-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-xl flex items-center justify-center mx-auto text-cyan-400">
+                    <i class="fa-solid fa-wave-square text-xl"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-900">Doctype</h2>
-                <p class="text-xs text-slate-500 mt-1">Bloco de Notas Clínico & Prescrições Automáticas</p>
+                <h2 class="text-2xl font-bold tracking-tight text-white">Doctype<span class="text-cyan-400">.ai</span></h2>
+                <p class="text-xs text-slate-400">Workspace Clínico & Automação</p>
             </div>
 
-            <!-- Banner de Acesso Teste -->
-            <div class="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl text-xs space-y-1">
-                <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-key"></i> Acesso de Teste Rápido:</p>
-                <p>E-mail: <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">Admin</code> | Senha: <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">Admin</code></p>
+            <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl text-xs space-y-1 text-slate-300">
+                <p class="font-semibold text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-terminal"></i> Acesso Teste:</p>
+                <p class="text-slate-400">Login: <span class="text-white font-mono">Admin</span> | Senha: <span class="text-white font-mono">Admin</span></p>
             </div>
 
             <form onsubmit="handleLogin(event)" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Seu Nome / Apelido</label>
-                    <input type="text" id="login-name" placeholder="Ex: Dr. Alex Silva" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">E-mail ou Usuário</label>
+                    <input type="text" id="login-email" required placeholder="Admin" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">E-mail ou Usuário</label>
-                    <input type="text" id="login-email" required placeholder="Admin ou seu.email@exemplo.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Senha</label>
+                    <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Senha</label>
-                    <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Cargo / Perfil</label>
-                    <select id="login-role" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Perfil Médico</label>
+                    <select id="login-role" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-white focus:border-cyan-500 outline-none">
                         <option value="Interno de Medicina">Interno de Medicina</option>
                         <option value="Residente Médico">Residente Médico</option>
                         <option value="Médico Generalista">Médico Generalista</option>
-                        <option value="Estudante de Medicina">Estudante de Medicina</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition text-sm">
-                    Entrar no Doctype
+                <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2.5 rounded-lg shadow-lg shadow-cyan-500/10 transition text-sm mt-2">
+                    Acessar Plataforma
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- SCREEN 2: APLICAÇÃO PRINCIPAL -->
+    <!-- SCREEN 2: WORKSPACE PRINCIPAL -->
     <div id="screen-app" class="hidden flex-1 flex flex-col">
 
-        <!-- Top Header -->
-        <header class="bg-indigo-900 text-white shadow-md">
-            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center gap-2">
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-user-doctor text-xl text-indigo-400"></i>
-                    <h1 class="text-lg font-bold">Doctype</h1>
+        <!-- Top Header Minimalista -->
+        <header class="bg-slate-900 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-cyan-500/10 border border-cyan-500/30 rounded-lg flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-wave-square text-sm"></i>
+                    </div>
+                    <span class="font-bold text-lg tracking-tight">Doctype<span class="text-cyan-400">.ai</span></span>
                 </div>
 
-                <div class="flex items-center gap-3 text-xs">
-                    <span id="header-user-info" class="hidden md:inline bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-700"></span>
-                    <button onclick="handleLogout()" class="bg-red-500/20 hover:bg-red-500/30 text-red-200 px-2.5 py-1.5 rounded-lg transition">
-                        <i class="fa-solid fa-right-from-bracket"></i> Sair
+                <div class="flex items-center gap-3">
+                    <!-- Trial Status Badge -->
+                    <div id="trial-badge" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span id="trial-days-text">30 dias restantes</span>
+                    </div>
+
+                    <button onclick="openUpgradeModal()" class="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Pro (R$ 9,99/mês)
+                    </button>
+
+                    <button onclick="handleLogout()" class="text-slate-400 hover:text-white text-xs px-2 py-1">
+                        <i class="fa-solid fa-power-off"></i>
                     </button>
                 </div>
             </div>
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
-            <div class="max-w-7xl mx-auto px-4 flex space-x-4 overflow-x-auto text-sm font-medium">
-                <button onclick="switchTab('tab-notes')" class="tab-btn py-3 border-b-2 border-indigo-600 text-indigo-600 flex items-center gap-2 whitespace-nowrap" id="btn-notes">
-                    <i class="fa-solid fa-note-sticky"></i> Bloco de Notas
+        <nav class="bg-slate-950 border-b border-slate-800 sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-xs font-semibold">
+                <button onclick="switchTab('tab-notes')" class="tab-btn py-3 border-b-2 border-cyan-400 text-cyan-400 flex items-center gap-2" id="btn-notes">
+                    <i class="fa-solid fa-pen-to-square"></i> Bloco de Notas & Gatilhos
                 </button>
-                <button onclick="switchTab('tab-prescriptions')" class="tab-btn py-3 border-b-2 border-transparent text-slate-600 hover:text-indigo-600 flex items-center gap-2 whitespace-nowrap" id="btn-prescriptions">
-                    <i class="fa-solid fa-file-prescription"></i> Prescrições Automáticas
-                </button>
-                <button onclick="switchTab('tab-support')" class="tab-btn py-3 border-b-2 border-transparent text-slate-600 hover:text-indigo-600 flex items-center gap-2 whitespace-nowrap" id="btn-support">
-                    <i class="fa-solid fa-headset"></i> Suporte
+                <button onclick="switchTab('tab-prescriptions')" class="tab-btn py-3 border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2" id="btn-prescriptions">
+                    <i class="fa-solid fa-bolt text-amber-400"></i> Prescrições Automáticas
                 </button>
             </div>
         </nav>
 
-        <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+        <!-- Main Workspace -->
+        <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full space-y-4">
 
-            <!-- TAB 1: BLOCO DE NOTAS ONLINE (PRINCIPAL) -->
+            <!-- TAB 1: BLOCO DE NOTAS & GATILHOS -->
             <section id="tab-notes" class="space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-900">Bloco de Notas Clínico</h2>
-                        <p class="text-xs text-slate-500">Anotações rápidas de plantão, evolução e lembretes médicos com salvamento automático.</p>
+                
+                <!-- Quick Trigger Bar -->
+                <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <i class="fa-solid fa-terminal text-cyan-400"></i>
+                        <span class="font-semibold text-slate-200">Gatilhos Rápidos:</span>
+                        <span>Digite o comando + Espaço na nota</span>
                     </div>
-                    <button onclick="createNewNote()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Nova Anotação
-                    </button>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="insertTrigger('/ef')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/EF <span class="text-slate-500 font-sans text-[10px]">(Exame Físico)</span></button>
+                        <button onclick="insertTrigger('/an')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/AN <span class="text-slate-500 font-sans text-[10px]">(Anamnese)</span></button>
+                        <button onclick="insertTrigger('/hd')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/HD <span class="text-slate-500 font-sans text-[10px]">(Hipótese)</span></button>
+                        <button onclick="insertTrigger('/pres')" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 font-mono px-2.5 py-1 rounded">/PRES <span class="text-slate-500 font-sans text-[10px]">(Prescrição)</span></button>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Sidebar Lista de Notas -->
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-3">
-                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar nas notas..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-indigo-500">
-                        <div id="notes-list" class="space-y-2 max-h-96 overflow-y-auto"></div>
+                    <!-- Sidebar List -->
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Anotações</span>
+                            <button onclick="createNewNote()" class="text-xs bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 px-2 py-1 rounded border border-cyan-500/30 font-semibold">
+                                + Nova
+                            </button>
+                        </div>
+                        <input type="text" id="search-notes" onkeyup="renderNotesList()" placeholder="Buscar..." class="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500">
+                        <div id="notes-list" class="space-y-1.5 max-h-[450px] overflow-y-auto"></div>
                     </div>
 
-                    <!-- Editor de Nota Ativa -->
-                    <div class="md:col-span-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col space-y-3">
-                        <div class="flex justify-between items-center border-b pb-2">
-                            <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título da Nota (Ex: Passagem de Plantão Leito 04)" class="w-full text-lg font-bold text-slate-900 outline-none border-none">
-                            <span id="save-status" class="text-xs text-slate-400 whitespace-nowrap ml-2">Salvo</span>
+                    <!-- Editor Workspace -->
+                    <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <input type="text" id="note-title" oninput="autoSaveNote()" placeholder="Título da Nota..." class="bg-transparent text-base font-bold text-white outline-none w-full">
+                            <span id="save-status" class="text-[10px] text-slate-500 font-mono ml-2">Salvo</span>
                         </div>
-                        <textarea id="note-content" oninput="autoSaveNote()" rows="12" placeholder="Escreva a evolução, conduta médica ou cole a prescrição aqui..." class="w-full text-sm text-slate-700 outline-none border-none resize-y font-mono"></textarea>
                         
-                        <div class="flex justify-between items-center border-t pt-3 text-xs">
-                            <button onclick="copyCurrentNote()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md font-medium">
-                                <i class="fa-solid fa-copy"></i> Copiar Texto
+                        <textarea id="note-content" oninput="handleTyping(this)" rows="14" placeholder="Comece a escrever ou digite um gatilho como /EF seguido de espaço..." class="bg-transparent text-xs text-slate-200 outline-none resize-y font-code leading-relaxed"></textarea>
+                        
+                        <div class="flex justify-between items-center border-t border-slate-800 pt-3 text-xs">
+                            <button onclick="copyCurrentNote()" class="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-3 py-1.5 rounded font-medium flex items-center gap-1.5">
+                                <i class="fa-solid fa-copy text-cyan-400"></i> Copiar Nota
                             </button>
-                            <button onclick="deleteCurrentNote()" class="text-red-600 hover:text-red-800 font-medium">
-                                <i class="fa-solid fa-trash"></i> Excluir Nota
+                            <button onclick="deleteCurrentNote()" class="text-red-400 hover:text-red-300 text-xs">
+                                <i class="fa-solid fa-trash"></i> Excluir
                             </button>
                         </div>
                     </div>
@@ -134,27 +154,44 @@
 
             <!-- TAB 2: PRESCRIÇÕES AUTOMÁTICAS -->
             <section id="tab-prescriptions" class="hidden space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-xl">
                     <div>
-                        <h2 class="text-xl font-bold text-slate-900">Prescrições Automáticas</h2>
-                        <p class="text-xs text-slate-500">Modelos de receitas para cópia rápida com posologias padrão.</p>
+                        <h2 class="text-sm font-bold text-white">Prescrições Pré-Configuradas</h2>
+                        <p class="text-xs text-slate-400">Copie ou envie direto para o seu bloco de notas.</p>
                     </div>
-                    <input type="text" id="search-prescriptions" onkeyup="renderPrescriptions()" placeholder="Buscar por patologia ou remédio..." class="w-full md:w-80 px-3 py-2 border border-slate-300 rounded-lg text-xs outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="search-prescriptions" onkeyup="renderPrescriptions()" placeholder="Filtrar..." class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded text-xs text-white outline-none focus:border-cyan-500 w-60">
                 </div>
 
                 <div id="prescriptions-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </section>
-
-            <!-- TAB 3: SUPORTE -->
-            <section id="tab-support" class="hidden space-y-4">
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm max-w-2xl">
-                    <h2 class="text-lg font-bold text-slate-900 mb-2">Central de Atendimento</h2>
-                    <p class="text-xs text-slate-600 mb-4">Mande sugestões de novos modelos de prescrição ou dúvidas.</p>
-                    <textarea placeholder="Sua mensagem..." class="w-full p-3 border border-slate-300 rounded-lg text-sm mb-3 outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                    <button onclick="alert('Mensagem enviada!')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700">Enviar Chamado</button>
-                </div>
-            </section>
         </main>
+    </div>
+
+    <!-- MODAL PREMIUM / PRO (R$ 9,99/mês) -->
+    <div id="modal-pro" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-crown text-amber-400 text-xl"></i>
+                    <h3 class="text-lg font-bold text-white">Doctype<span class="text-cyan-400"> Pro</span></h3>
+                </div>
+                <button onclick="closeUpgradeModal()" class="text-slate-500 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Acesse o pacote avançado com atalhos corporativos de gatilho, banco ilimitado de prescrições e sincronização sem restrições.
+            </p>
+
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center">
+                <span class="text-3xl font-extrabold text-white">R$ 9,99</span>
+                <span class="text-xs text-slate-400">/ mês</span>
+                <p class="text-[10px] text-cyan-400 mt-1">Cancele quando quiser. Sem fidelidade.</p>
+            </div>
+
+            <button onclick="simulateProPayment()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3 rounded-lg text-sm shadow-lg shadow-cyan-500/10">
+                Ativar Assinatura Pro
+            </button>
+        </div>
     </div>
 
     <!-- JAVASCRIPT APP LOGIC -->
@@ -163,37 +200,18 @@
         let notes = [];
         let activeNoteId = null;
 
+        // Dicionário de Gatilhos
+        const triggers = {
+            '/ef': "EXAME FÍSICO:\n- BEG, LOTE, eupnéico, acianótico, anictérico, afebril.\n- ACV: RCR 2T BNF sem sopros, FC: __ bpm, PA: __/__ mmHg.\n- AR: MVBD sem ruídos adventícios, SpO2: __% em AA.\n- ABD: Plano, flácido, indolor à palpação, RHA+.\n- EXT: Perfusão periférica preservada, sem edemas.",
+            '/an': "ANAMNESE:\n- QP: \n- HDA: \n- HMP: \n- Medicamentos em uso: \n- Alergias: ",
+            '/hd': "HIPÓTESE DIAGNÓSTICA:\n1. \n\nCONDUTA:\n1. ",
+            '/pres': "PRESCRIÇÃO DE PLANTÃO:\n1. Dieta livre.\n2. Soro Fisiológico 0.9% 500ml IV de 8/8h.\n3. Dipirona 1g IV de 6/6h se dor ou febre.\n4. Ondansetrona 8mg IV de 8/8h se náuseas.\n5. Monitorização contínua de Sinais Vitais."
+        };
+
         const prescriptionsData = [
-            {
-                title: "Pneumonia Adquirida na Comunidade (PAC)",
-                category: "Infectologia",
-                content: "1. Amoxicilina + Clavulanato 875mg/125mg --- 1 cp VO de 12/12h por 7 dias.\n2. Azitromicina 500mg --- 1 cp VO 1x ao dia por 5 dias.\n3. Dipirona 1g --- 1 cp VO de 6/6h se dor ou febre."
-            },
-            {
-                title: "Infecção Urinária (ITU) Baixa Não Complicada",
-                category: "Infectologia / Nefro",
-                content: "1. Nitrofurantoína 100mg --- 1 cp VO de 6/6h por 5 dias.\n2. Pyridium 200mg --- 1 cp VO de 8/8h por 2 dias (em caso de disúria intensa).\n3. Abundante ingestão hídrica."
-            },
-            {
-                title: "Amigdalite Bacteriana Aguda",
-                category: "Otorrinolaringologia",
-                content: "1. Amoxicilina 500mg --- 1 cp VO de 8/8h por 10 dias.\n2. Ibuprofeno 600mg --- 1 cp VO de 8/8h por 3 a 5 dias (após refeições).\n3. Dipirona 1g --- 1 cp VO de 6/6h se dor."
-            },
-            {
-                title: "Gastrite / Dispepsia / DRGE",
-                category: "Gastroenterologia",
-                content: "1. Omeprazol 20mg --- 1 cápsula VO em jejum, 30 minutos antes do café da manhã, por 28 dias.\n2. Hidróxido de Alumínio --- 1 colher de sopa VO 8/8h se dor."
-            },
-            {
-                title: "Crise de Enxaqueca / Cefaleia Vascular",
-                category: "Neurologia",
-                content: "1. Sumatriptana 50mg --- 1 cp VO no início da crise (pode repetir 1x após 2h se necessário).\n2. Cetoprofeno 100mg --- 1 cp VO de 12/12h por 3 dias.\n3. Vonau Flash (Ondansetrona) 8mg --- 1 cp sublingual de 8/8h se náuseas."
-            },
-            {
-                title: "Crise Hipertensiva Leve (Urgência Ambulatorial)",
-                category: "Cardiologia",
-                content: "1. Captopril 25mg --- 1 cp VO em dose única.\n2. Manter repouso por 30-60 minutos em ambiente calmo para reavaliação da PA."
-            }
+            { title: "Pneumonia Adquirida na Comunidade (PAC)", category: "Infectologia", content: "1. Amoxicilina + Clavulanato 875mg/125mg --- 1 cp VO de 12/12h por 7 dias.\n2. Azitromicina 500mg --- 1 cp VO 1x ao dia por 5 dias." },
+            { title: "Infecção Urinária (ITU) Baixa", category: "Infectologia", content: "1. Nitrofurantoína 100mg --- 1 cp VO de 6/6h por 5 dias.\n2. Pyridium 200mg --- 1 cp VO de 8/8h por 2 dias." },
+            { title: "Amigdalite Bacteriana Aguda", category: "Otorrino", content: "1. Amoxicilina 500mg --- 1 cp VO de 8/8h por 10 dias.\n2. Ibuprofeno 600mg --- 1 cp VO de 8/8h por 3 dias." }
         ];
 
         function checkSession() {
@@ -211,26 +229,41 @@
             e.preventDefault();
             const emailInput = document.getElementById('login-email').value.trim();
             const passInput = document.getElementById('login-pass').value.trim();
-            const nameInput = document.getElementById('login-name').value.trim();
-            const roleInput = document.getElementById('login-role').value;
 
-            // Suporte ao Login de Teste "Admin / Admin"
             if (emailInput.toLowerCase() === 'admin' && passInput.toLowerCase() === 'admin') {
                 currentUser = {
                     name: "Administrador",
-                    email: "admin@doctype.com",
-                    role: "Médico Generalista"
+                    email: "admin@doctype.ai",
+                    role: "Médico Generalista",
+                    createdAt: Date.now() - (1000 * 60 * 60 * 24 * 2), // 2 dias de uso simulados
+                    isPro: false
                 };
             } else {
                 currentUser = {
-                    name: nameInput || "Usuário Doctype",
+                    name: "Usuário Doctype",
                     email: emailInput,
-                    role: roleInput
+                    role: document.getElementById('login-role').value,
+                    createdAt: Date.now(),
+                    isPro: false
                 };
             }
 
             localStorage.setItem('doctype_user', JSON.stringify(currentUser));
             showApp();
+            notifyTrialDays();
+        }
+
+        function notifyTrialDays() {
+            const daysLeft = calculateTrialDays();
+            if (!currentUser.isPro) {
+                alert(`Bem-vindo ao Doctype! Você tem ${daysLeft} dias restantes de acesso experimental.`);
+            }
+        }
+
+        function calculateTrialDays() {
+            if (currentUser.isPro) return "Pro Ativo";
+            const diffDays = Math.floor((Date.now() - currentUser.createdAt) / (1000 * 60 * 60 * 24));
+            return Math.max(0, 30 - diffDays);
         }
 
         function handleLogout() {
@@ -241,43 +274,50 @@
         function showApp() {
             document.getElementById('screen-login').classList.add('hidden');
             document.getElementById('screen-app').classList.remove('hidden');
-            document.getElementById('header-user-info').innerText = `${currentUser.name} (${currentUser.role})`;
+            
+            const daysLeft = calculateTrialDays();
+            document.getElementById('trial-days-text').innerText = typeof daysLeft === 'number' ? `${daysLeft} dias de teste` : daysLeft;
             
             loadNotes();
             renderPrescriptions();
         }
 
+        // Lógica de Digitação com Detecção de Gatilho (/EF, /AN, etc.)
+        function handleTyping(textarea) {
+            let val = textarea.value;
+            for (let code in triggers) {
+                if (val.endsWith(code + ' ') || val.endsWith(code + '\n')) {
+                    textarea.value = val.slice(0, -code.length - 1) + triggers[code] + '\n';
+                    break;
+                }
+            }
+            autoSaveNote();
+        }
+
+        function insertTrigger(code) {
+            const textarea = document.getElementById('note-content');
+            textarea.value += (textarea.value ? "\n\n" : "") + triggers[code];
+            autoSaveNote();
+        }
+
+        // Bloco de Notas
         function loadNotes() {
             const savedNotes = localStorage.getItem('doctype_notes');
-            if (savedNotes) {
-                notes = JSON.parse(savedNotes);
-            } else {
-                notes = [{ id: Date.now(), title: "Plantão - Leito 01", content: "Paciente em bom estado geral, eupnéico, acianótico.\nConduta: Manter prescrição e reavaliar à noite.", updatedAt: new Date().toLocaleTimeString() }];
-                saveNotesToStorage();
-            }
-
+            notes = savedNotes ? JSON.parse(savedNotes) : [{ id: Date.now(), title: "Evolução Leito 02", content: triggers['/ef'] }];
             if (notes.length > 0) selectNote(notes[0].id);
             renderNotesList();
         }
 
-        function saveNotesToStorage() {
-            localStorage.setItem('doctype_notes', JSON.stringify(notes));
-        }
+        function saveNotesToStorage() { localStorage.setItem('doctype_notes', JSON.stringify(notes)); }
 
         function renderNotesList() {
             const query = document.getElementById('search-notes').value.toLowerCase();
             const container = document.getElementById('notes-list');
             const filtered = notes.filter(n => n.title.toLowerCase().includes(query) || n.content.toLowerCase().includes(query));
 
-            if (filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 italic">Nenhuma nota encontrada.</p>`;
-                return;
-            }
-
             container.innerHTML = filtered.map(n => `
-                <div onclick="selectNote(${n.id})" class="p-2.5 rounded-lg border text-left cursor-pointer transition ${n.id === activeNoteId ? 'bg-indigo-50 border-indigo-400' : 'bg-slate-50 border-slate-200 hover:bg-slate-100'}">
-                    <h4 class="font-bold text-xs text-slate-800 truncate">${n.title || 'Sem título'}</h4>
-                    <p class="text-[10px] text-slate-500 truncate mt-0.5">${n.content || 'Sem conteúdo...'}</p>
+                <div onclick="selectNote(${n.id})" class="p-2 rounded border text-left cursor-pointer transition ${n.id === activeNoteId ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:bg-slate-800'}">
+                    <h4 class="font-bold text-xs truncate">${n.title || 'Sem título'}</h4>
                 </div>
             `).join('');
         }
@@ -293,7 +333,7 @@
         }
 
         function createNewNote() {
-            const newNote = { id: Date.now(), title: "Nova Anotação", content: "", updatedAt: new Date().toLocaleTimeString() };
+            const newNote = { id: Date.now(), title: "Nova Anotação", content: "" };
             notes.unshift(newNote);
             saveNotesToStorage();
             selectNote(newNote.id);
@@ -306,83 +346,67 @@
                 note.title = document.getElementById('note-title').value;
                 note.content = document.getElementById('note-content').value;
                 saveNotesToStorage();
-                
-                const status = document.getElementById('save-status');
-                status.innerText = "Salvando...";
-                setTimeout(() => { status.innerText = "Salvo"; }, 400);
                 renderNotesList();
             }
         }
 
         function deleteCurrentNote() {
-            if (!activeNoteId) return;
             notes = notes.filter(n => n.id !== activeNoteId);
             saveNotesToStorage();
             if (notes.length > 0) selectNote(notes[0].id); else createNewNote();
         }
 
         function copyCurrentNote() {
-            const content = document.getElementById('note-content').value;
-            navigator.clipboard.writeText(content);
-            alert('Texto copiado com sucesso!');
+            navigator.clipboard.writeText(document.getElementById('note-content').value);
+            alert('Copiado para a área de transferência!');
         }
 
+        // Prescrições
         function renderPrescriptions() {
             const query = (document.getElementById('search-prescriptions')?.value || '').toLowerCase();
             const container = document.getElementById('prescriptions-list');
-            const filtered = prescriptionsData.filter(p => p.title.toLowerCase().includes(query) || p.content.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            const filtered = prescriptionsData.filter(p => p.title.toLowerCase().includes(query));
 
             container.innerHTML = filtered.map((p, idx) => `
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
                     <div>
-                        <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded">${p.category}</span>
-                        <h3 class="font-bold text-slate-900 text-sm mt-2 mb-2">${p.title}</h3>
-                        <pre class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-700 whitespace-pre-wrap font-mono">${p.content}</pre>
+                        <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] font-bold px-2 py-0.5 rounded">${p.category}</span>
+                        <h3 class="font-bold text-white text-xs mt-2 mb-2">${p.title}</h3>
+                        <pre class="bg-slate-950 p-3 rounded border border-slate-800 text-[11px] text-slate-300 font-code leading-relaxed">${p.content}</pre>
                     </div>
-                    <div class="flex gap-2 mt-4">
-                        <button onclick="copyPrescription(${idx})" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 rounded-lg transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-copy"></i> Copiar Prescrição
-                        </button>
-                        <button onclick="pasteToNote(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center justify-center gap-1.5" title="Enviar para o Bloco de Notas">
-                            <i class="fa-solid fa-arrow-right-to-city"></i> Enviar p/ Notas
-                        </button>
-                    </div>
+                    <button onclick="pasteToNote(${idx})" class="mt-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold py-2 rounded transition">
+                        Enviar para o Bloco de Notas
+                    </button>
                 </div>
             `).join('');
-        }
-
-        function copyPrescription(idx) {
-            navigator.clipboard.writeText(prescriptionsData[idx].content);
-            alert('Prescrição copiada para a área de transferência!');
         }
 
         function pasteToNote(idx) {
             if (!activeNoteId) createNewNote();
             const note = notes.find(n => n.id === activeNoteId);
             if (note) {
-                note.content += (note.content ? "\n\n" : "") + `--- PRESCRIÇÃO: ${prescriptionsData[idx].title} ---\n` + prescriptionsData[idx].content;
+                note.content += (note.content ? "\n\n" : "") + prescriptionsData[idx].content;
                 saveNotesToStorage();
                 selectNote(activeNoteId);
                 switchTab('tab-notes');
             }
         }
 
-        function switchTab(tabId) {
-            ['tab-notes', 'tab-prescriptions', 'tab-support'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(tabId).classList.remove('hidden');
+        // Modais e Tabs
+        function openUpgradeModal() { document.getElementById('modal-pro').classList.remove('hidden'); }
+        function closeUpgradeModal() { document.getElementById('modal-pro').classList.add('hidden'); }
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('border-indigo-600', 'text-indigo-600');
-                btn.classList.add('border-transparent', 'text-slate-600');
-            });
-            
-            const activeBtn = document.getElementById('btn-' + tabId.replace('tab-', ''));
-            if (activeBtn) {
-                activeBtn.classList.remove('border-transparent', 'text-slate-600');
-                activeBtn.classList.add('border-indigo-600', 'text-indigo-600');
-            }
+        function simulateProPayment() {
+            currentUser.isPro = true;
+            localStorage.setItem('doctype_user', JSON.stringify(currentUser));
+            document.getElementById('trial-days-text').innerText = "Pro Ativo";
+            closeUpgradeModal();
+            alert('Plano Pro ativado com sucesso!');
+        }
+
+        function switchTab(tabId) {
+            ['tab-notes', 'tab-prescriptions'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
         }
 
         checkSession();
